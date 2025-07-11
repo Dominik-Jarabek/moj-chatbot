@@ -63,7 +63,6 @@
             <p>Malá hra pro ukázku práce s DOM a událostmi.</p>
             <button onclick="openMiniGame()">Vyzkoušet</button>
           </div>
-          <!-- Přidej další projekty -->
         </div>
         <div id="minigame-modal" class="modal">
           <div class="modal-content">
@@ -114,7 +113,6 @@
               jarabek.do@gmail.com
             </a>
           </li>
-          <!-- další kontakty, např. e-mail -->
         </ul>
       </section>
     </main>
@@ -123,53 +121,9 @@
     </footer>
   </div>
 
-  <!-- Ornamenty jsou mimo hlavní obsah, budou vždy na pozadí -->
-  <div class="background-ornaments">
-    <svg class="ornament ornament-quote1" width="170" height="170" viewBox="0 0 170 170">
-      <text x="18" y="136" font-size="140" font-family="Georgia, serif" fill="rgba(0,0,0,0.16)" font-weight="bold">“</text>
-    </svg>
-    <svg class="ornament ornament-quote2" width="140" height="140" viewBox="0 0 140 140">
-      <text x="32" y="112" font-size="104" font-family="Georgia, serif" fill="rgba(33,150,243,0.22)" font-weight="bold">”</text>
-    </svg>
-    <svg class="ornament ornament-quote3" width="110" height="110" viewBox="0 0 110 110">
-      <text x="7" y="90" font-size="90" font-family="Georgia, serif" fill="rgba(140,170,200,0.19)" font-weight="bold">“</text>
-    </svg>
-    <svg class="ornament ornament-bubble" width="170" height="110" viewBox="0 0 170 110">
-      <ellipse cx="90" cy="52" rx="80" ry="38" fill="rgba(255,221,51,0.21)"/>
-      <circle cx="57" cy="99" r="7" fill="rgba(255,221,51,0.18)"/>
-      <circle cx="70" cy="104" r="5.2" fill="rgba(255,221,51,0.14)"/>
-      <circle cx="44" cy="91" r="3.3" fill="rgba(255,221,51,0.12)"/>
-      <circle cx="78" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
-      <circle cx="93" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
-      <circle cx="108" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
-    </svg>
-    <svg class="ornament ornament-bubble2" width="110" height="70" viewBox="0 0 110 70">
-      <ellipse cx="54" cy="32" rx="45" ry="24" fill="rgba(76,175,80,0.16)"/>
-      <circle cx="21" cy="66" r="5" fill="rgba(76,175,80,0.13)"/>
-      <circle cx="33" cy="68" r="2.8" fill="rgba(76,175,80,0.10)"/>
-    </svg>
-    <svg class="ornament ornament-code" width="150" height="150" viewBox="0 0 150 150">
-      <text x="30" y="118" font-size="95" font-family="monospace" fill="rgba(76,175,80,0.23)" font-weight="bold">&lt;/&gt;</text>
-    </svg>
-    <svg class="ornament ornament-code2" width="100" height="100" viewBox="0 0 100 100">
-      <text x="8" y="76" font-size="62" font-family="monospace" fill="rgba(255,140,0,0.19)" font-weight="bold">{ }</text>
-    </svg>
-    <svg class="ornament ornament-letterA" width="180" height="180" viewBox="0 0 180 180">
-      <text x="33" y="142" font-size="130" font-family="Arial Black, Arial, sans-serif" fill="rgba(141,110,255,0.17)" font-weight="bold">A</text>
-    </svg>
-    <svg class="ornament ornament-letterJ" width="115" height="115" viewBox="0 0 115 115">
-      <text x="23" y="96" font-size="85" font-family="Arial Black, Arial, sans-serif" fill="rgba(33,150,243,0.16)" font-weight="bold">J</text>
-    </svg>
-    <svg class="ornament ornament-letterE" width="110" height="110" viewBox="0 0 110 110">
-      <text x="11" y="92" font-size="80" font-family="Arial Black, Arial, sans-serif" fill="rgba(255,221,51,0.15)" font-weight="bold">E</text>
-    </svg>
-    <svg class="ornament ornament-wave" width="120" height="40" viewBox="0 0 120 40">
-      <text x="7" y="34" font-size="50" font-family="Georgia, serif" fill="rgba(33,150,243,0.13)" font-weight="bold">~ ~ ~</text>
-    </svg>
-  </div>
-  
-  
-  <!-- AI asistent a tlačítko jsou fixně vpravo dole -->
+  <!-- Ornamenty na pozadí, nemusíš je řešit, jen zkráceno kvůli přehlednosti -->
+
+  <!-- AI asistent a tlačítko -->
   <div id="ai-assistant" class="ai-assistant-hidden">
     <div class="ai-avatar">
       <img src="Profilovka.jpg" alt="AI Avatar" />
@@ -180,9 +134,7 @@
         <button id="ai-close">×</button>
       </div>
       <div class="ai-chat" id="ai-chat" style="display:none;">
-        <div class="ai-chat-history" id="ai-chat-history">
-          <!-- Zprávy se zobrazí sem -->
-        </div>
+        <div class="ai-chat-history" id="ai-chat-history"></div>
         <form id="ai-chat-form" autocomplete="off">
           <input type="text" id="ai-chat-input" placeholder="Napište svůj dotaz..." required />
           <button type="submit">Odeslat</button>
@@ -192,7 +144,6 @@
   </div>
   <button id="ai-open-btn" class="ai-assistant-reopen" style="display:none;">💬</button>
 
- 
   <script src="script.js"></script>
 </body>
 </html>

@@ -773,10 +773,26 @@ body {
     color: #007bff;
   }
   
- @media (max-width: 650px) {
-  .avatar { width: 68px; height: 68px;}
-  .modal-content { width: 95vw; max-width: 99vw; padding: 12px 2vw; left: 50%; top: 50%; transform: translate(-50%, -50%); position: absolute;}
-  main { max-width: 98vw; padding: 0 4vw;}
+ /* --- Responzivita pro mobilní zařízení --- */
+@media (max-width: 650px) {
+  .avatar { 
+    width: 68px; 
+    height: 68px; 
+  }
+  .modal-content { 
+    width: 95vw; 
+    max-width: 99vw;
+    padding: 12px 2vw; 
+    left: 50%; 
+    top: 50%; 
+    transform: translate(-50%, -50%); 
+    position: absolute; 
+  }
+  main { 
+    max-width: 98vw; 
+    padding: 0 4vw; 
+  }
+  /* Navigace z vodorovné na svislou POUZE pro mobil! */
   .main-nav {
     flex-direction: column;
     gap: 14px;
@@ -791,6 +807,7 @@ body {
     border-radius: 12px;
     text-align: center;
   }
+  /* AI asistent na 98vw */
   #ai-assistant, .ai-panel, .ai-panel.ai-expanded {
     max-width: 98vw !important;
     width: 98vw !important;
