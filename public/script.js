@@ -85,7 +85,7 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     history.scrollTop = history.scrollHeight;
 
     try {
-        const response = await fetch('http://localhost:3333/api/chat', {
+        const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -365,4 +365,4 @@ function checkCrazyRecord(newScore) {
     alert('Gratuluji, jsi v TOP 5!');
   }
 }
-
+ 
