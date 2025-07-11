@@ -86,15 +86,15 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
 
     try {
         const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                messages: [
-                    {
-                        role: "system",
-                        content: `
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+        messages: [
+            {
+                role: "system",
+                content: `
 Nejčastější otázky a odpovědi na pohovoru (Junior JavaScript Developer):
 Představ se nám. Proč chceš být programátor?
 Jmenuji se Dominik Jarábek, je mi 31 let a baví mě technologie. Dlouho jsem pracoval v jiných oborech, ale programování mě vždy lákalo, protože rád tvořím a řeším problémy. Mám za sebou několik vlastních projektů v JavaScriptu a věřím, že v IT najdu uplatnění, které mě bude naplňovat a dál rozvíjet.
