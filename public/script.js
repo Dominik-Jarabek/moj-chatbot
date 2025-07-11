@@ -1,18 +1,5 @@
-function shakeAiPanel() {
-  const panel = document.querySelector('.ai-panel');
-  if (!panel) return;
-  panel.classList.remove('shake');
-  // Reset animace, aby šla spustit víckrát za sebou
-  void panel.offsetWidth;
-  panel.classList.add('shake');
 
-  // Zvukový efekt
-  const audio = document.getElementById('shake-sound');
-  if (audio) {
-    audio.currentTime = 0;
-    audio.play();
-  }
-}
+
 
 
 // === Minihra ===
@@ -67,13 +54,7 @@ document.getElementById('ai-open-btn').onclick = function() {
     document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
     document.getElementById('ai-open-btn').style.display = "none";
 };
-window.addEventListener("DOMContentLoaded", function() {
-    setTimeout(function() {
-        document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
-        // Přidá efekt klepnutí a zvuku
-        shakeAiPanel();
-    }, 1200);
-});
+
 document.getElementById('ai-panel').addEventListener('click', function(e){
     if(e.target.id === "ai-close") return;
     this.classList.add('ai-expanded');
@@ -385,4 +366,67 @@ function checkCrazyRecord(newScore) {
     alert('Gratuluji, jsi v TOP 5!');
   }
 }
- 
+// === AI Asistent: zobrazí až po prvním kliknutí a přehraje zvuk ===
+
+function shakeAiPanel() {
+  const panel = document.querySelector('.ai-panel');
+  if (!panel) return;
+  panel.classList.remove('shake');
+  void panel.offsetWidth;
+  panel.classList.add('shake');
+
+  
+}
+const zvuk = new Audio('pop.mp3');
+
+function prehrajZvukJednou() {
+  zvuk.play();
+  window.removeEventListener('click', prehrajZvukJednou);
+}
+
+window.addEventListener('click', prehrajZvukJednou);
+
+function showBotOnFirstInteraction(e) {
+  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
+  const audio = document.getElementById('shake-sound');
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0; 
+    audio.play().catch(() => {});
+  }
+  const panel = document.querySelector('.ai-panel');
+  if (panel) {
+    panel.classList.remove('shake');
+    void panel.offsetWidth;
+    panel.classList.add('shake');
+  }
+  document.body.removeEventListener('click', showBotOnFirstInteraction);
+  document.body.removeEventListener('touchstart', showBotOnFirstInteraction);
+}
+document.body.addEventListener('click', showBotOnFirstInteraction);
+document.body.addEventListener('touchstart', showBotOnFirstInteraction);
+
+
+// === OSTATNÍ KÓD BOTA (např. zavření, rozkliknutí atd.) ===
+
+document.getElementById('ai-close').onclick = function(e) {
+  e.stopPropagation();
+  document.getElementById('ai-assistant').classList.add('ai-assistant-hidden');
+  document.getElementById('ai-open-btn').style.display = "flex";
+  document.getElementById('ai-panel').classList.remove('ai-expanded');
+  document.getElementById('ai-chat').style.display = "none";
+};
+
+document.getElementById('ai-open-btn').onclick = function() {
+  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
+  document.getElementById('ai-open-btn').style.display = "none";
+};
+
+document.getElementById('ai-panel').addEventListener('click', function(e){
+  if(e.target.id === "ai-close") return;
+  this.classList.add('ai-expanded');
+  document.getElementById('ai-chat').style.display = "flex";
+  document.getElementById('ai-chat-input').focus();
+});
+
+
