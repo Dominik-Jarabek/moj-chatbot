@@ -1,3 +1,20 @@
+function shakeAiPanel() {
+  const panel = document.querySelector('.ai-panel');
+  if (!panel) return;
+  panel.classList.remove('shake');
+  // Reset animace, aby šla spustit víckrát za sebou
+  void panel.offsetWidth;
+  panel.classList.add('shake');
+
+  // Zvukový efekt
+  const audio = document.getElementById('shake-sound');
+  if (audio) {
+    audio.currentTime = 0;
+    audio.play();
+  }
+}
+
+
 // === Minihra ===
 function openMiniGame() {
     document.getElementById('minigame-modal').style.display = "block";
@@ -53,6 +70,8 @@ document.getElementById('ai-open-btn').onclick = function() {
 window.addEventListener("DOMContentLoaded", function() {
     setTimeout(function() {
         document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
+        // Přidá efekt klepnutí a zvuku
+        shakeAiPanel();
     }, 1200);
 });
 document.getElementById('ai-panel').addEventListener('click', function(e){
@@ -60,6 +79,7 @@ document.getElementById('ai-panel').addEventListener('click', function(e){
     this.classList.add('ai-expanded');
     document.getElementById('ai-chat').style.display = "flex";
     document.getElementById('ai-chat-input').focus();
+    
 });
 
 // === CHATBOT ===
