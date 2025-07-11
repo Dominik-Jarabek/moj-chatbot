@@ -58,21 +58,47 @@
             <a href="#" target="_blank">Zobrazit demo</a> | 
             <a href="#" target="_blank">GitHub</a>
           </div>
-          <div class="project-card">
-            <h3>Mini JS hra</h3>
-            <p>Malá hra pro ukázku práce s DOM a událostmi.</p>
-            <button onclick="openMiniGame()">Vyzkoušet</button>
-          </div>
-        </div>
-        <div id="minigame-modal" class="modal">
-          <div class="modal-content">
-            <span class="close" onclick="closeMiniGame()">&times;</span>
-            <h4>Minihra: Klikni co nejvíc!</h4>
-            <p>Za 5 sekund klikni na tlačítko co nejvíckrát.</p>
-            <button id="gameBtn">Start</button>
-            <p id="gameScore"></p>
-          </div>
-        </div>
+          
+            
+<div class="project-card">
+  <p>
+    <h2>Mini JS hra</h2>
+            <h3>Prstomlet 2000</h3>
+            <br>
+    <b>Upozornění pro hráče:</b><br>
+    Tato aplikace slouží výhradně k testování rychlosti tvých reflexů a klikacích dovedností.<br>
+    Hraní Prstomletu 2000 může být návykové.
+  </p>
+  <ul>
+    <li>Autor nenese žádnou odpovědnost za případné poškození myši, klávesnice, displeje ani prstů způsobené intenzivním používáním této hry.</li>
+    <li>Pamatuj, že účastí na této hře se můžeš vystavit riziku vzniku neovladatelné touhy zvyšovat své skóre.</li>
+    <li>Hraj s rozumem a v případě podezření na závislost opusť tuto stránku a projdi se venku.</li>
+  </ul>
+  
+           <button onclick="openCrazyClickGame()">Spustit minihru</button>
+</div>
+
+          
+         
+        
+        <!-- Minihra: Klikací šílenství -->
+<div id="crazyClickGame-modal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeCrazyClickGame()">&times;</span>
+    <h4>Minihra: Klikací šílenství 🐒</h4>
+    <p>Zkus kliknout na tlačítko co nejvíc během 7 sekund!</p>
+    <button id="crazyStartBtn">Začít</button>
+    <button id="crazyClickBtn" style="display:none;">Klikni!</button>
+    <p id="crazyTimer"></p>
+    <p id="crazyScore"></p>
+    <div id="crazyRecord" style="margin-top:18px;">
+      <h5>TOP 5 rekordů:</h5>
+      <ol id="crazyLeaderboard"></ol>
+    </div>
+  </div>
+</div>
+</div>
+
       </section>
       <section id="cv">
         <h2 class="section-title">Životopis</h2>

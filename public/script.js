@@ -284,3 +284,85 @@ window.addEventListener('keydown', function(event) {
         modal.style.display = 'none';
     }
 });
+// --- Minihra: Klikací šílenství --- //
+let crazyGameTimer = null;
+let crazyGameTime = 7;
+let crazyClicks = 0;
+
+function openCrazyClickGame() {
+  document.getElementById('crazyClickGame-modal').style.display = 'block';
+  document.getElementById('crazyStartBtn').style.display = '';
+  document.getElementById('crazyClickBtn').style.display = 'none';
+  document.getElementById('crazyScore').textContent = '';
+  document.getElementById('crazyTimer').textContent = '';
+  renderCrazyLeaderboard();
+}
+
+function closeCrazyClickGame() {
+  document.getElementById('crazyClickGame-modal').style.display = 'none';
+  if (crazyGameTimer) clearInterval(crazyGameTimer);
+}
+
+document.getElementById('crazyStartBtn').onclick = function() {
+  crazyClicks = 0;
+  let timeLeft = crazyGameTime;
+  document.getElementById('crazyScore').textContent = '';
+  document.getElementById('crazyStartBtn').style.display = 'none';
+  document.getElementById('crazyClickBtn').style.display = '';
+  document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
+  crazyGameTimer = setInterval(function() {
+    timeLeft--;
+    document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(crazyGameTimer);
+      endCrazyGame();
+    }
+  }, 1000);
+};
+
+document.getElementById('crazyClickBtn').onclick = function() {
+  crazyClicks++;
+  document.getElementById('crazyScore').textContent = `Skóre: ${crazyClicks}`;
+};
+
+function endCrazyGame() {
+  document.getElementById('crazyClickBtn').style.display = 'none';
+  document.getElementById('crazyScore').textContent = `Výsledek: ${crazyClicks} kliků!`;
+  checkCrazyRecord(crazyClicks);
+  document.getElementById('crazyStartBtn').style.display = '';
+  document.getElementById('crazyTimer').textContent = '';
+  renderCrazyLeaderboard();
+}
+
+// --- Leaderboard do localStorage ---
+function getCrazyLeaderboard() {
+  return JSON.parse(localStorage.getItem('crazyLeaderboard') || '[]');
+}
+function setCrazyLeaderboard(lb) {
+  localStorage.setItem('crazyLeaderboard', JSON.stringify(lb));
+}
+function renderCrazyLeaderboard() {
+  const lb = getCrazyLeaderboard();
+  const ol = document.getElementById('crazyLeaderboard');
+  ol.innerHTML = '';
+  lb.forEach(({name, score}) => {
+    let emoji = score >= 50 ? '🔥' : score >= 30 ? '💪' : '';
+    ol.innerHTML += `<li>${name}: <b>${score}</b> kliků ${emoji}</li>`;
+  });
+  if (lb.length === 0) ol.innerHTML = '<li>Zatím nikdo nezapsán!</li>';
+}
+
+function checkCrazyRecord(newScore) {
+  let lb = getCrazyLeaderboard();
+  // Najdi místo pro nový rekord
+  let min = lb[lb.length - 1]?.score || 0;
+  if (lb.length < 5 || newScore > min) {
+    let name = prompt('Nový rekord! Zadej svou přezdívku:','Anonym');
+    if (!name) name = 'Anonym';
+    lb.push({name, score: newScore});
+    lb = lb.sort((a,b) => b.score - a.score).slice(0,5);
+    setCrazyLeaderboard(lb);
+    alert('Gratuluji, jsi v TOP 5!');
+  }
+}
+
