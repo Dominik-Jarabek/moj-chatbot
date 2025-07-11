@@ -382,9 +382,11 @@ const zvuk = new Audio('pop.mp3');
 function prehrajZvukJednou() {
   zvuk.play();
   window.removeEventListener('click', prehrajZvukJednou);
+  window.removeEventListener('touchstart', prehrajZvukJednou);
 }
 
 window.addEventListener('click', prehrajZvukJednou);
+window.addEventListener('touchstart', prehrajZvukJednou);
 
 function showBotOnFirstInteraction(e) {
   document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
