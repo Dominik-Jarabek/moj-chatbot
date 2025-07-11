@@ -792,6 +792,10 @@ body {
     max-width: 98vw; 
     padding: 0 4vw; 
   }
+   main > section:first-of-type {
+    margin-top: 275px; /* Přidá větší mezeru pod horní panel JEN na mobilu */
+  }
+
   /* Navigace z vodorovné na svislou POUZE pro mobil! */
   .main-nav {
     flex-direction: column;
