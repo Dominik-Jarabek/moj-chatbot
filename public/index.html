@@ -24,19 +24,18 @@
     <main>
       <section id="about">
         <h2 class="section-title">O mně</h2>
-        <p>Jmenuji se Dominik a je mi 31 let. Hledám novou výzvu v programování – oboru, ke kterému mě to vždy táhlo.
-          Vystudoval jsem IT na střední škole a po studiu jsem několik let pracoval v Německu, kde jsem působil jako vedoucí směny ve výrobě a měl na starost tým osmi lidí. Tahle zkušenost mě naučila nést zodpovědnost, vést tým a řešit různé situace pod tlakem. <br>
-          <br>
+        <p>
+          Jmenuji se Dominik a je mi 31 let. Hledám novou výzvu v programování – oboru, ke kterému mě to vždy táhlo.
+          Vystudoval jsem IT na střední škole a po studiu jsem několik let pracoval v Německu, kde jsem působil jako vedoucí směny ve výrobě a měl na starost tým osmi lidí. Tahle zkušenost mě naučila nést zodpovědnost, vést tým a řešit různé situace pod tlakem.<br><br>
           Později jsem se rozhodl předávat znalosti dál, a několik let jsem učil na střední škole německý jazyk, výpočetní techniku, tělesnou výchovu a somatologii.
-          Kromě programování mě baví i grafika – rád tvořím v Adobe Photoshopu a Illustratoru, proto mě nadchla možnost vytvářet moderní weby. <br>
-          <br>
+          Kromě programování mě baví i grafika – rád tvořím v Adobe Photoshopu a Illustratoru, proto mě nadchla možnost vytvářet moderní weby.<br><br>
           Jsem cílevědomý, rád se učím novým věcem a dotahuji věci do detailu. Díky letům stráveným u fotbalu jsem týmový hráč, ale dokážu pracovat i samostatně. Perfekcionismus někdy beru jako svou výzvu, ale věřím, že i jako přednost.
         </p>
       </section>
       
       <section id="skills">
         <h2 class="section-title">Dovednosti</h2>
-        <p>Dovednosti stále rozšiřuji – aktuálně se nejvíce zaměřuji na JavaScript a tvorbu moderních webových stránek. Všechny technologie, které zde uvádím, jsem si prakticky vyzkoušel(a) a rád(a) se učím další nové věci.</p>
+        <p>Dovednosti stále rozšiřuji – aktuálně se nejvíce zaměřuji na JavaScript a tvorbu moderních webových stránek. Všechny technologie, které zde uvádím, jsem si prakticky vyzkoušel a rád se učím další nové věci.</p>
         <ul class="skills-list">
           <li><b>HTML5 &amp; CSS3</b> &mdash; tvorba moderních a responzivních webových stránek</li>
           <li><b>JavaScript (ES6+)</b> &mdash; základní interaktivita, jednoduché animace</li>
@@ -74,11 +73,11 @@
           </div>
         </div>
       </section>
+
       <section id="cv">
         <h2 class="section-title">Životopis</h2>
-    
         <div class="cv-buttons" style="margin-top: 10px;">
-            <button id="showCvBtn">Zobrazit životopis</button>
+          <button id="showCvBtn">Zobrazit životopis</button>
           <a href="Jarabek_CV.pdf" download>
             <button>Stáhnout životopis</button>
           </a>
@@ -90,6 +89,7 @@
           <embed src="Jarabek_CV.pdf" type="application/pdf" width="100%" height="600px" />
         </div>
       </div>
+
       <section id="contact">
         <h2 class="section-title">Kontakt</h2>
         <ul class="contact-list">
@@ -104,7 +104,7 @@
             </a>
           </li>
           <li>
-            <a href="mailto:tvoje@email.cz" class="contact-email">
+            <a href="mailto:jarabek.do@gmail.com" class="contact-email">
               <svg viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
                 <circle cx="16" cy="16" r="16" fill="#2196f3"/>
                 <path d="M8 12.7l8 6.2 8-6.2V22a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" fill="#fff"/>
@@ -121,9 +121,12 @@
     </footer>
   </div>
 
-  <!-- Ornamenty na pozadí, nemusíš je řešit, jen zkráceno kvůli přehlednosti -->
-
-  <!-- AI asistent a tlačítko -->
+  <!-- Ornamenty a další prvky ... -->
+  <div class="background-ornaments">
+    <!-- Ornamenty SVG zde zkopíruj dle původního souboru -->
+  </div>
+  
+  <!-- AI asistent a tlačítko jsou fixně vpravo dole -->
   <div id="ai-assistant" class="ai-assistant-hidden">
     <div class="ai-avatar">
       <img src="Profilovka.jpg" alt="AI Avatar" />
@@ -134,7 +137,9 @@
         <button id="ai-close">×</button>
       </div>
       <div class="ai-chat" id="ai-chat" style="display:none;">
-        <div class="ai-chat-history" id="ai-chat-history"></div>
+        <div class="ai-chat-history" id="ai-chat-history">
+          <!-- Zprávy se zobrazí sem -->
+        </div>
         <form id="ai-chat-form" autocomplete="off">
           <input type="text" id="ai-chat-input" placeholder="Napište svůj dotaz..." required />
           <button type="submit">Odeslat</button>
