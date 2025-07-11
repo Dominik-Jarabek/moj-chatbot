@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>JavaScript</title>
+</head>
+<body>
+  <div class="site-wrap">
+    <header id="main-header">
+      <img src="Profilovka.jpg" alt="Dominik - profilová fotka" class="avatar" id="avatar-img">
+      <h1 id="main-title">Dominik Jarábek</h1>
+      <p class="subtitle">„Budu váš nový JavaScript programátor!“</p>
+      <nav class="main-nav">
+        <a href="#about">O mně</a>
+        <a href="#skills">Dovednosti</a>
+        <a href="#projects">Projekty</a>
+        <a href="#cv">Životopis</a>
+        <a href="#contact">Kontakt</a>
+      </nav>
+    </header>
+
+    <main>
+      <section id="about">
+        <h2 class="section-title">O mně</h2>
+        <p>Jmenuji se Dominik a je mi 31 let. Hledám novou výzvu v programování – oboru, ke kterému mě to vždy táhlo.
+          Vystudoval jsem IT na střední škole a po studiu jsem několik let pracoval v Německu, kde jsem působil jako vedoucí směny ve výrobě a měl na starost tým osmi lidí. Tahle zkušenost mě naučila nést zodpovědnost, vést tým a řešit různé situace pod tlakem. <br>
+          <br>
+          Později jsem se rozhodl předávat znalosti dál, a několik let jsem učil na střední škole německý jazyk, výpočetní techniku, tělesnou výchovu a somatologii.
+          Kromě programování mě baví i grafika – rád tvořím v Adobe Photoshopu a Illustratoru, proto mě nadchla možnost vytvářet moderní weby. <br>
+          <br>
+          Jsem cílevědomý, rád se učím novým věcem a dotahuji věci do detailu. Díky letům stráveným u fotbalu jsem týmový hráč, ale dokážu pracovat i samostatně. Perfekcionismus někdy beru jako svou výzvu, ale věřím, že i jako přednost.
+        </p>
+      </section>
+      
+      <section id="skills">
+        <h2 class="section-title">Dovednosti</h2>
+        <p>Dovednosti stále rozšiřuji – aktuálně se nejvíce zaměřuji na JavaScript a tvorbu moderních webových stránek. Všechny technologie, které zde uvádím, jsem si prakticky vyzkoušel(a) a rád(a) se učím další nové věci.</p>
+        <ul class="skills-list">
+          <li><b>HTML5 &amp; CSS3</b> &mdash; tvorba moderních a responzivních webových stránek</li>
+          <li><b>JavaScript (ES6+)</b> &mdash; základní interaktivita, jednoduché animace</li>
+          <li><b>Git</b> &mdash; správa verzí projektů</li>
+          <li><b>Adobe Photoshop &amp; Illustrator</b> &mdash; úprava obrázků, jednoduchá grafika</li>
+          <li>Navrhuji, kóduji a testuji menší webové aplikace (včetně tohoto portfolia)</li>
+          <li>Rychle se učím nové technologie a nebojím se výzev</li>
+          <li>Týmová spolupráce i samostatná práce</li>
+          <li>Pečlivost a smysl pro detail</li>
+        </ul>
+      </section>
+
+      <section id="projects">
+        <h2 class="section-title">Projekty</h2>
+        <div class="projects-list">
+          <div class="project-card">
+            <h3>Jazykový mazlíček</h3>
+            <p>Interaktivní aplikace na procvičování angličtiny s virtuálním mazlíčkem.</p>
+            <a href="#" target="_blank">Zobrazit demo</a> | 
+            <a href="#" target="_blank">GitHub</a>
+          </div>
+          <div class="project-card">
+            <h3>Mini JS hra</h3>
+            <p>Malá hra pro ukázku práce s DOM a událostmi.</p>
+            <button onclick="openMiniGame()">Vyzkoušet</button>
+          </div>
+          <!-- Přidej další projekty -->
+        </div>
+        <div id="minigame-modal" class="modal">
+          <div class="modal-content">
+            <span class="close" onclick="closeMiniGame()">&times;</span>
+            <h4>Minihra: Klikni co nejvíc!</h4>
+            <p>Za 5 sekund klikni na tlačítko co nejvíckrát.</p>
+            <button id="gameBtn">Start</button>
+            <p id="gameScore"></p>
+          </div>
+        </div>
+      </section>
+      <section id="cv">
+        <h2 class="section-title">Životopis</h2>
+    
+        <div class="cv-buttons" style="margin-top: 10px;">
+            <button id="showCvBtn">Zobrazit životopis</button>
+          <a href="Jarabek_CV.pdf" download>
+            <button>Stáhnout životopis</button>
+          </a>
+        </div>
+      </section>
+      <div id="cvModal" class="CvModal" style="display:none;">
+        <div class="modal-content">
+          <span class="close" id="closeCvModal">&times;</span>
+          <embed src="Jarabek_CV.pdf" type="application/pdf" width="100%" height="600px" />
+        </div>
+      </div>
+      <section id="contact">
+        <h2 class="section-title">Kontakt</h2>
+        <ul class="contact-list">
+          <li>
+            <a href="https://www.linkedin.com/in/dominik-jarábek-64b239374" 
+              target="_blank" rel="noopener" class="contact-linkedin">
+              <svg viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
+                <circle cx="16" cy="16" r="16" fill="#0A66C2"/>
+                <path d="M12.7 23V14.2H9.7V23h3zm-1.5-10.1a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zm12.1 10.1v-4.4c0-2.4-1.3-3.5-3-3.5-1.4 0-2.1.8-2.5 1.4V14.2h-3c.04.8 0 8.8 0 8.8h3v-4.9c0-.3 0-.7.1-.9.2-.7.7-1.4 1.5-1.4 1.1 0 1.6.9 1.6 2.1V23h3z" fill="#fff"/>
+              </svg>
+              Můj LinkedIn
+            </a>
+          </li>
+          <li>
+            <a href="mailto:tvoje@email.cz" class="contact-email">
+              <svg viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
+                <circle cx="16" cy="16" r="16" fill="#2196f3"/>
+                <path d="M8 12.7l8 6.2 8-6.2V22a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" fill="#fff"/>
+                <path d="M24 10a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2l8 6 8-6z" fill="#fff"/>
+              </svg>
+              jarabek.do@gmail.com
+            </a>
+          </li>
+          <!-- další kontakty, např. e-mail -->
+        </ul>
+      </section>
+    </main>
+    <footer>
+      &copy; 2025 Dominik Jarábek &mdash; Vytvořeno v JavaScriptu <span style="font-size:1.3em">🖥️</span>
+    </footer>
+  </div>
+
+  <!-- Ornamenty jsou mimo hlavní obsah, budou vždy na pozadí -->
+  <div class="background-ornaments">
+    <svg class="ornament ornament-quote1" width="170" height="170" viewBox="0 0 170 170">
+      <text x="18" y="136" font-size="140" font-family="Georgia, serif" fill="rgba(0,0,0,0.16)" font-weight="bold">“</text>
+    </svg>
+    <svg class="ornament ornament-quote2" width="140" height="140" viewBox="0 0 140 140">
+      <text x="32" y="112" font-size="104" font-family="Georgia, serif" fill="rgba(33,150,243,0.22)" font-weight="bold">”</text>
+    </svg>
+    <svg class="ornament ornament-quote3" width="110" height="110" viewBox="0 0 110 110">
+      <text x="7" y="90" font-size="90" font-family="Georgia, serif" fill="rgba(140,170,200,0.19)" font-weight="bold">“</text>
+    </svg>
+    <svg class="ornament ornament-bubble" width="170" height="110" viewBox="0 0 170 110">
+      <ellipse cx="90" cy="52" rx="80" ry="38" fill="rgba(255,221,51,0.21)"/>
+      <circle cx="57" cy="99" r="7" fill="rgba(255,221,51,0.18)"/>
+      <circle cx="70" cy="104" r="5.2" fill="rgba(255,221,51,0.14)"/>
+      <circle cx="44" cy="91" r="3.3" fill="rgba(255,221,51,0.12)"/>
+      <circle cx="78" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
+      <circle cx="93" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
+      <circle cx="108" cy="63" r="4.7" fill="rgba(33,150,243,0.21)"/>
+    </svg>
+    <svg class="ornament ornament-bubble2" width="110" height="70" viewBox="0 0 110 70">
+      <ellipse cx="54" cy="32" rx="45" ry="24" fill="rgba(76,175,80,0.16)"/>
+      <circle cx="21" cy="66" r="5" fill="rgba(76,175,80,0.13)"/>
+      <circle cx="33" cy="68" r="2.8" fill="rgba(76,175,80,0.10)"/>
+    </svg>
+    <svg class="ornament ornament-code" width="150" height="150" viewBox="0 0 150 150">
+      <text x="30" y="118" font-size="95" font-family="monospace" fill="rgba(76,175,80,0.23)" font-weight="bold">&lt;/&gt;</text>
+    </svg>
+    <svg class="ornament ornament-code2" width="100" height="100" viewBox="0 0 100 100">
+      <text x="8" y="76" font-size="62" font-family="monospace" fill="rgba(255,140,0,0.19)" font-weight="bold">{ }</text>
+    </svg>
+    <svg class="ornament ornament-letterA" width="180" height="180" viewBox="0 0 180 180">
+      <text x="33" y="142" font-size="130" font-family="Arial Black, Arial, sans-serif" fill="rgba(141,110,255,0.17)" font-weight="bold">A</text>
+    </svg>
+    <svg class="ornament ornament-letterJ" width="115" height="115" viewBox="0 0 115 115">
+      <text x="23" y="96" font-size="85" font-family="Arial Black, Arial, sans-serif" fill="rgba(33,150,243,0.16)" font-weight="bold">J</text>
+    </svg>
+    <svg class="ornament ornament-letterE" width="110" height="110" viewBox="0 0 110 110">
+      <text x="11" y="92" font-size="80" font-family="Arial Black, Arial, sans-serif" fill="rgba(255,221,51,0.15)" font-weight="bold">E</text>
+    </svg>
+    <svg class="ornament ornament-wave" width="120" height="40" viewBox="0 0 120 40">
+      <text x="7" y="34" font-size="50" font-family="Georgia, serif" fill="rgba(33,150,243,0.13)" font-weight="bold">~ ~ ~</text>
+    </svg>
+  </div>
+  
+  
+  <!-- AI asistent a tlačítko jsou fixně vpravo dole -->
+  <div id="ai-assistant" class="ai-assistant-hidden">
+    <div class="ai-avatar">
+      <img src="Profilovka.jpg" alt="AI Avatar" />
+    </div>
+    <div class="ai-panel" id="ai-panel">
+      <div class="ai-message" id="ai-message">
+        <span>Jak vám mohu pomoci?</span>
+        <button id="ai-close">×</button>
+      </div>
+      <div class="ai-chat" id="ai-chat" style="display:none;">
+        <div class="ai-chat-history" id="ai-chat-history">
+          <!-- Zprávy se zobrazí sem -->
+        </div>
+        <form id="ai-chat-form" autocomplete="off">
+          <input type="text" id="ai-chat-input" placeholder="Napište svůj dotaz..." required />
+          <button type="submit">Odeslat</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <button id="ai-open-btn" class="ai-assistant-reopen" style="display:none;">💬</button>
+
+ 
+  <script src="script.js"></script>
+</body>
+</html>
