@@ -71,19 +71,22 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     const msg = input.value.trim();
     if(!msg) return;
 
-    // Uživatelská zpráva
-    const userMsg = document.createElement('div');
-    userMsg.className = "ai-chat-msg user";
-    userMsg.textContent = msg;
-    history.appendChild(userMsg);
-    input.value = "";
+  // Uživatelská zpráva
+const userMsg = document.createElement('div');
+userMsg.className = "ai-chat-msg user";
+userMsg.textContent = msg;
+history.appendChild(userMsg);
+input.value = "";
 
-    // "Přemýšlím..." loading
-    const aiMsg = document.createElement('div');
-    aiMsg.className = "ai-chat-msg ai";
-    aiMsg.textContent = "Přemýšlím...";
-    history.appendChild(aiMsg);
-    history.scrollTop = history.scrollHeight;
+// "Přemýšlím..." loading (AI zpráva s avatarem)
+const aiMsg = document.createElement('div');
+aiMsg.className = "ai-chat-msg ai";
+aiMsg.innerHTML = `
+  <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+  <span>Přemýšlím...</span>
+`;
+history.appendChild(aiMsg);
+history.scrollTop = history.scrollHeight;
 
     try {
         const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
@@ -232,19 +235,25 @@ tohle cele dej jako text                    `
             })
         });
 
-        if (!response.ok) {
-            aiMsg.textContent = "Omlouvám se, něco se pokazilo na serveru 😕";
-        } else {
-            const data = await response.json();
-            // Pro { reply: "..."} nebo OpenAI strukturu
-            if (data.reply) {
-                aiMsg.textContent = data.reply;
-            } else if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
-                aiMsg.textContent = data.choices[0].message.content;
-            } else {
-                aiMsg.textContent = "Odpověď nebyla nalezena.";
-            }
-        }
+       if (!response.ok) {
+    aiMsg.innerHTML = `
+      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+      <span>Omlouvám se, něco se pokazilo na serveru 😕</span>
+    `;
+} else {
+    const data = await response.json();
+    let odpoved = "Odpověď nebyla nalezena.";
+    if (data.reply) {
+        odpoved = data.reply;
+    } else if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+        odpoved = data.choices[0].message.content;
+    }
+    aiMsg.innerHTML = `
+      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+      <span>${odpoved}</span>
+    `;
+}
+
     } catch (error) {
         aiMsg.textContent = "Nepodařilo se spojit se serverem. Zkontroluj, že máš spuštěný backend (openai-proxy.js).";
     }
