@@ -94,3 +94,32 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+document.addEventListener('DOMContentLoaded', function() {
+  var btn = document.getElementById('showContactsBtn');
+  var dropdown = document.getElementById('contacts-dropdown');
+
+  if (btn && dropdown) {
+    btn.addEventListener('click', function(e) {
+      e.stopPropagation();
+      dropdown.classList.toggle('active');
+      if (dropdown.classList.contains('active')) {
+        btn.textContent = "Skrýt kontakty";
+      } else {
+        btn.textContent = "Zobrazit kontakty";
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (window.innerWidth <= 700) {
+        if (
+          dropdown.classList.contains('active') &&
+          !dropdown.contains(e.target) &&
+          e.target !== btn
+        ) {
+          dropdown.classList.remove('active');
+          btn.textContent = "Zobrazit kontakty";
+        }
+      }
+    });
+  }
+});

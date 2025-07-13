@@ -600,3 +600,43 @@ h2 {
 @media (max-width: 400px) {
   .show-contacts-btn { font-size: 0.91rem; }
 }
+.show-contacts-btn {
+  display: none;
+}
+
+/* Zobrazí tlačítko a schová kontakty na mobilech */
+@media (max-width: 700px) {
+  .show-contacts-btn {
+    display: inline-block;
+    width: 100%;
+    margin: 0.38rem auto 0.64rem auto;
+    padding: 0.44rem 1.1rem;
+    border-radius: 14px;
+    border: none;
+    background: #A7C7E7;
+    color: #2C3A47;
+    font-weight: bold;
+    font-size: 1.01rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #A7C7E744;
+    transition: background 0.18s;
+    text-align: center;
+    max-width: 400px;
+  }
+  .contacts-dropdown {
+    display: none !important;
+    position: static !important;
+    opacity: 1 !important;
+    pointer-events: auto !important;
+    transform: none !important;
+    margin-bottom: 0.6rem !important;
+    z-index: 22 !important;
+    width: 100% !important;
+    justify-content: center !important;
+  }
+  .contacts-dropdown.active {
+    display: flex !important;
+  }
+}
+
+/* Volitelně - na desktopu se tlačítko nezobrazuje a kontakty můžeš mít stále viditelné nebo přes hover */
