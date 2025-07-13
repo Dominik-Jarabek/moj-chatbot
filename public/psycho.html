@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+  <title>Okamžitá psychická pomoc</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="psycho.css">
+</head>
+<body>
+  <!-- HORNÍ PANEL -->
+  <section class="psycho-panel" id="top-panel" tabindex="0">
+    <div class="panel-img-text">
+      <img src="logo_psycho.png" alt="Podpůrná ilustrace" class="hero-img">
+      <div>
+        <h1>Nejsi v tom sám/a!</h1>
+        <p class="subtitle">„Ve středu tvé temnoty dřímá nezdolná síla — jsi víc než tvé bolesti a každý krok, který uděláš, je tichým vítězstvím, i když to teď necítíš.“</p>
+      </div>
+    </div>
+    <button class="show-contacts-btn" aria-controls="contacts-dropdown" aria-expanded="false">
+      Zobrazit kontakty
+    </button>
+   
+    
+    <hr class="panel-divider">
+    <nav class="panel-nav">
+      <button class="nav-btn" data-target="feelings-section">Co právě cítíš?</button>
+      <button class="nav-btn" data-target="techniques-section">Krátké techniky</button>
+      <button class="nav-btn" data-target="support-section">Povzbuzení</button>
+      <button class="nav-btn" data-target="more-help-section">Kam se obrátit</button>
+    </nav>
+
+    <!-- Kontakty budou vyjíždět zde -->
+    <div class="contacts-dropdown" id="contacts-dropdown">
+      <div class="contacts-list">
+        <a href="tel:116111" class="contact-btn">📞 Linka bezpečí 116 111</a>
+        <a href="https://www.linkabezpeci.cz/napis-nam" target="_blank" class="contact-btn">💬 Chat Linka bezpečí</a>
+        <a href="tel:116123" class="contact-btn">📞 Linka psychické pomoci 116 123</a>
+        <a href="tel:284016666" class="contact-btn">📞 Linka důvěry 284 016 666</a>
+        <a href="https://www.krize.cz/chat/" target="_blank" class="contact-btn">💬 Chat Krize.cz</a>
+        <a href="mailto:pomoc@krize.cz" class="contact-btn">✉️ E-mail Krize.cz</a>
+        <a href="https://www.stop-sebevrazdam.cz/napiste-nam/" target="_blank" class="contact-btn">💬 Chat Stop-sebevrazdam.cz</a>
+        <a href="tel:800567567" class="contact-btn">📞 Stop sebevraždám 800 567 567</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- DOLNÍ PANEL -->
+  <section class="lower-panel">
+    <section id="feelings-section" class="section-card">
+  <h2>Co právě cítíš?</h2>
+  <div class="feelings-buttons">
+    <button class="expand-btn" data-expand="anxious">Mám úzkost nebo paniku</button>
+    <div class="expand-section" id="anxious">
+      <p>Když se cítíš úzkostně nebo máš panickou ataku, je důležité zaměřit se na svůj dech a prostředí:</p>
+      <ul>
+        <li>Najdi si klidné místo, kde můžeš být chvíli sám/sama.</li>
+        <li>Zaměř se na pomalé a hluboké dýchání – například technika 5-4-3-2-1 (viz níže).</li>
+        <li>Uvědom si své okolí – pojmenuj si nahlas 5 věcí, které vidíš, 4 věci, kterých se můžeš dotknout, 3 zvuky, které slyšíš, 2 vůně, které cítíš, a 1 věc, kterou můžeš ochutnat.</li>
+        <li>Pokud můžeš, pohybuj se pomalu a vědomě – procházka, jemné protáhnutí.</li>
+      </ul>
+      <p>Věř, že tato nepříjemná chvíle pomine. Pomoc je dostupná, nejsi v tom sám/sama.</p>
+    </div>
+
+    <button class="expand-btn" data-expand="hopeless">Cítím beznaděj nebo myšlenky na ublížení</button>
+    <div class="expand-section" id="hopeless">
+      <p>Pokud prožíváš beznaděj, je důležité si uvědomit, že tyto pocity nejsou trvalé:</p>
+      <ul>
+        <li>Vyhledej podporu – můžeš zavolat nebo napsat na některou z uvedených krizových linek.</li>
+        <li>Zkus si napsat své myšlenky – to může pomoci dát věcem jasnější podobu.</li>
+        <li>Pokud máš možnost, vyhledej někoho blízkého, komu můžeš důvěřovat a komu se svěřit.</li>
+        <li>Vyzkoušej jednoduché fyzické techniky, jako držení ledu v ruce, studená sprcha nebo pomalé dýchání.</li>
+      </ul>
+      <p>Vždy je cesta ven, i když ji teď nevidíš. Každý život má smysl a pomoc je blíž, než si myslíš.</p>
+    </div>
+
+    <button class="expand-btn" data-expand="confused">Jsem zmatený/á nebo přetížený/á</button>
+    <div class="expand-section" id="confused">
+      <p>Pokud se cítíš zmatený/á, přetížený/á nebo nevíš, co dál:</p>
+      <ul>
+        <li>Zkus si napsat, co tě nejvíc trápí nebo co potřebuješ řešit.</li>
+        <li>Rozděl si problémy na menší části a postupuj krok za krokem.</li>
+        <li>Věnuj čas odpočinku a aktivitám, které tě dobíjejí.</li>
+        <li>Nezapomínej na to, že není slabost požádat o pomoc profesionála.</li>
+      </ul>
+    </div>
+
+    <button class="expand-btn" data-expand="tired">Cítím se vyčerpaný/á nebo bez energie</button>
+    <div class="expand-section" id="tired">
+      <p>Když se cítíš unavený/á nebo bez energie:</p>
+      <ul>
+        <li>Zaměř se na pravidelný spánek a odpočinek.</li>
+        <li>Pokud je to možné, choď na krátké procházky nebo jemné cvičení.</li>
+        <li>Snaž se udržovat zdravou stravu a pitný režim.</li>
+        <li>Dej si čas pro sebe a neboj se zpomalit tempo.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+    <section id="techniques-section" class="section-card">
+  <h2>Krátké techniky zklidnění</h2>
+  <div class="techniques">
+    <button class="expand-btn" data-expand="fivefourthree">Technika 5-4-3-2-1</button>
+    <div class="expand-section" id="fivefourthree">
+      <p>Tato technika pomáhá přesměrovat pozornost na přítomný okamžik a uklidnit úzkost:</p>
+      <ol>
+        <li><strong>5 věcí</strong>, které vidíš kolem sebe (pojmenuj je nahlas nebo v duchu)</li>
+        <li><strong>4 věci</strong>, kterých se můžeš dotknout (všímej si jejich textury a pocitu)</li>
+        <li><strong>3 věci</strong>, které slyšíš (zaznamenej různé zvuky v okolí)</li>
+        <li><strong>2 věci</strong>, které cítíš nosem (vůně nebo vzduch)</li>
+        <li><strong>1 věc</strong>, kterou můžeš ochutnat (pokud možno, např. chuť slin nebo nápoje)</li>
+      </ol>
+      <p>Opakuj tento cyklus podle potřeby, pomůže ti znovu se uzemnit a získat kontrolu nad stresem.</p>
+    </div>
+
+    <button class="expand-btn" data-expand="breathing">Dechová technika 4-7-8</button>
+    <div class="expand-section" id="breathing">
+      <p>Nadechni se na 4 vteřiny, zadrž dech na 7 vteřin a vydechuj pomalu na 8 vteřin. Opakuj 3–5x.</p>
+    </div>
+    <button class="expand-btn" data-expand="progressive">Postupné uvolňování těla</button>
+    <div class="expand-section" id="progressive">
+      <p>Napínej jednotlivé části těla (ruce, nohy, ramena…) a s výdechem je uvolňuj.</p>
+    </div>
+  </div>
+</section>
+
+    <section id="support-section" class="section-card">
+  <h2>Povzbuzení</h2>
+  <div class="support-messages">
+    <blockquote>
+      I když je situace těžká, vždy existuje naděje na zlepšení.<br>
+      Každý malý krok je vítězství.
+    </blockquote>
+    <blockquote>
+      Požádat o pomoc není slabost, ale odvaha.
+    </blockquote>
+    <blockquote>
+      Dej si čas, všechno nemusíš zvládnout sám/sama.
+    </blockquote>
+    <blockquote>
+      Síla není v tom, že se nikdy nezhroutíš, ale v tom, že vždy znovu vstaneš.
+    </blockquote>
+    <blockquote>
+      Tvé pocity jsou platné, a ty jsi důležitý/á.
+    </blockquote>
+    <blockquote>
+      V těžkých chvílích si připomeň: jsi víc než své bolesti.
+    </blockquote>
+    <blockquote>
+      Každý den je novou příležitostí najít klid a světlo v sobě.
+    </blockquote>
+    <blockquote>
+      I nejdelší cesta začíná prvním krokem — dovol si udělat ho dnes.
+    </blockquote>
+    <blockquote>
+      Tvoje hodnota nezávisí na tvých bojích, ale na tom, kdo jsi uvnitř.
+    </blockquote>
+    <blockquote>
+      Přijetí sebe sama je prvním krokem ke skutečné svobodě.
+    </blockquote>
+    <blockquote>
+      Největší síla je schopnost být k sobě laskavý/á v nejtěžších chvílích.
+    </blockquote>
+    <blockquote>
+      I po nejtemnější noci přichází nový den plný naděje.
+    </blockquote>
+    <blockquote>
+      Nikdy nejsi sám/sama — pomoc a porozumění jsou vždy na dosah.
+    </blockquote>
+  </div>
+</section>
+
+
+    <section id="more-help-section" class="section-card more-help">
+      <h2>Kam se obrátit</h2>
+      <ul class="help-list">
+        <li><a href="https://www.linkabezpeci.cz/" target="_blank">Linka bezpečí</a> – pomoc dětem a mladým lidem, anonymně, zdarma</li>
+        <li><a href="https://www.krize.cz/" target="_blank">Linka důvěry</a> – anonymní telefonická pomoc pro dospělé</li>
+        <li><a href="https://www.stop-sebevrazdam.cz/" target="_blank">Stop sebevraždám</a> – prevence a anonymní online poradna</li>
+        <li><a href="https://nevypustdusi.cz/" target="_blank">Nevypusť duši</a> – informace o duševním zdraví a prevence</li>
+      </ul>
+    </section>
+
+    <button class="panic-btn" onclick="quickExit()">Rychle odejít ze stránky</button>
+  </section>
+
+  <footer class="footer">
+    © 2025 Dominik Jarábek &nbsp;|&nbsp; Vytvořeno s úctou a porozuměním pro všechny, kdo procházejí úzkostmi, panickými atakami nebo bojují s těžkými myšlenkami.<br>
+    <span class="footer-support">Najdi podporu. Nejsi na to sám/sama.</span>
+</footer>
+
+  <script src="psycho.js"></script>
+</body>
+</html>

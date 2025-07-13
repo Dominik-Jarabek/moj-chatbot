@@ -1,0 +1,431 @@
+body {
+  position: relative;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: linear-gradient(135deg, #A7C7E7 0%, #E2F0CB 100%);
+  overflow-x: hidden;
+  z-index: 1;
+}
+
+body::before {
+  content: "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   " 
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   " 
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   " 
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   " 
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   " 
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   "
+           "SEBELÁSKA   NADĚJE   PODPORA   OTEVŘENOST   DŮVĚRA   SÍLA   MENTÁLNÍ ZDRAVÍ   JSI DŮLEŽITÝ/Á   LÁSKA   ROZHOVOR   PŘÁTELSTVÍ   ZKLIDNĚNÍ   ";
+           
+  position: fixed;
+  top: -15vh;
+  left: -25vw;
+  width: 160vw;
+  height: 160vh;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  letter-spacing: 0.22em;
+  line-height: 4.5rem;
+  color: rgba(0, 0, 0, 0.07);
+  white-space: pre-wrap;
+  user-select: none;
+  pointer-events: none;
+  z-index: 0;
+  transform: rotate(-12deg);
+  filter: blur(1.2px);
+}
+
+
+/* HLAVNÍ PANEL */
+.psycho-panel {
+  max-width: 660px;
+  max-height: 280px;
+  margin: 40px auto 0 auto;
+  background: rgba(255,255,255,0.98);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #A7C7E744;
+  box-sizing: border-box;
+  position: relative;
+  padding: 2.1rem 1.2rem 2.2rem 1.2rem;
+  z-index: 10;
+}
+.lower-panel {
+  max-width: 660px;
+  margin: 40px auto 0 auto;
+  background: rgba(255,255,255,0.98);
+  border-radius: 22px;
+  box-shadow: 0 8px 32px #A7C7E744;
+  box-sizing: border-box;
+  position: relative;
+  padding: 2.1rem 1.2rem 2.2rem 1.2rem;
+  margin-top: 34px;
+  padding-top: 2.1rem;
+  z-index: 1;
+
+}
+
+/* Obrázek, titulek, podtitulek */
+.panel-img-text {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+  justify-content: center;
+  margin-bottom: 0.5rem;
+  max-height: 150px;
+}
+.hero-img {
+  margin-top: -10px;
+  max-width: 150px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px #a7c7e75c;
+  flex-shrink: 0;
+}
+.panel-img-text h1 {
+  margin-top: -10px;
+ font-size: 2.5rem;
+  font-weight: 600;
+  color: #4a6fa5; /* jemná modrá */
+  text-align: center;
+  letter-spacing: 0.02em;
+  margin-bottom: 1rem;
+  text-shadow: 0 2px 6px rgba(167, 199, 231, 0.4);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+.panel-img-text .subtitle {
+    margin-top: 14px;
+    font-size: 1.15rem;
+    color: #58806b;
+    font-weight: 500;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    letter-spacing: 0.5px;
+    text-align: center;
+    opacity: 0.8;
+    max-width: 450px;   /* tady nastavíš maximální šířku sloganu */
+    width: 100%;  
+}
+
+/* Oddělovací čára */
+.panel-divider {
+  border: none;
+  border-top: 1.5px solid #e2eafc;
+  margin: 1.7rem 0 1.1rem 0;
+  width: 100%;
+  opacity: 0.85;
+}
+
+/* Navigační tlačítka */
+.panel-nav {
+  margin: 0.3rem auto 1.3rem auto;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+}
+.nav-btn {
+  padding: 0.45rem 1.1rem;
+  border: none;
+  border-radius: 16px;
+  background: #A7C7E7;
+  color: #1E2022;
+  font-size: 0.97rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #A7C7E744;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.nav-btn:hover, .nav-btn:focus {
+  background: #B1E5D3;
+  transform: scale(1.03);
+  box-shadow: 0 4px 16px #B1E5D366;
+}
+
+/* Úvodní seznam sekcí pod čárou */
+.panel-section-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.62rem;
+  margin-top: 1.1rem;
+  margin-bottom: 0.6rem;
+}
+.panel-section-link {
+  background: #F2FAF6;
+  color: #3A4750;
+  border-radius: 13px;
+  box-shadow: 0 1px 5px #C3AED633;
+  padding: 0.65rem 1.2rem;
+  font-size: 1.08rem;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+/* VYJÍŽDĚCÍ KONTAKTY – PŘES DRUHÝ PANEL */
+.contacts-dropdown {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(-12px) scaleY(0.88);
+  transition: opacity 0.36s cubic-bezier(.7,.2,.24,1), transform 0.36s cubic-bezier(.7,.2,.24,1);
+  z-index: 100;
+}
+.psycho-panel:hover .contacts-dropdown,
+.psycho-panel:focus-within .contacts-dropdown,
+.contacts-dropdown.dropdown-visible {
+  opacity: 1;
+  pointer-events: auto;
+  /* TADY ZVYŠ HODNOTU */
+  transform: translateY(120px) scaleY(1);
+}
+
+
+.contacts-list {
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem 0.7rem;
+  background: rgba(255,255,255,0.98);
+  border-radius: 16px;
+  box-shadow: 0 7px 28px #B1E5D366;
+  padding: 0.68rem 1rem;
+  justify-content: center;
+  min-width: 240px;
+  max-width: 98vw;
+}
+.contact-btn {
+  background: #B1E5D3;
+  color: #2C3A47;
+  padding: 0.16rem 0.7rem;
+  border-radius: 13px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.96rem;
+  box-shadow: 0 1px 4px #A7C7E755;
+  border: none;
+  outline: none;
+  display: inline-block;
+  min-width: 0;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  transition: background 0.18s;
+  text-align: center;
+}
+.contact-btn:hover, .contact-btn:focus {
+  background: #A7C7E7;
+}
+
+/* TIP na kontakty */
+.show-contacts-btn {
+  display: none;
+  margin-left: 0.7rem;
+  padding: 0.46rem 1.4rem;
+  border-radius: 17px;
+  border: none;
+  background: #A7C7E7;
+  color: #2C3A47;
+  font-weight: bold;
+  font-size: 1.06rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #A7C7E744;
+  transition: background 0.18s;
+}
+.show-contacts-btn:active,
+.show-contacts-btn:focus {
+  background: #B1E5D3;
+}
+.show-contacts-tip {
+  text-align: center;
+  margin: 0.7rem auto 0.2rem auto;
+  font-size: 1rem;
+  color: #90A4AE;
+  opacity: 0.85;
+  user-select: none;
+  font-style: italic;
+  pointer-events: none;
+}
+
+/* OBSAH SEKCE V DOLNÍM PANELU */
+.section-card {
+  margin-bottom: 1.6rem;
+}
+h2 {
+  margin-top: 1rem;
+  color: #537188;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+.feelings-buttons, .techniques {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+.expand-btn {
+  padding: 0.62rem 1.1rem;
+  border: none;
+  border-radius: 20px;
+  background: #A7C7E7;
+  color: #1E2022;
+  font-size: 1.04rem;
+  cursor: pointer;
+  font-weight: 600;
+  box-shadow: 0 2px 8px #A7C7E744;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.expand-btn:hover, .expand-btn:focus {
+  background: #B1E5D3;
+  transform: scale(1.04);
+  box-shadow: 0 4px 16px #B1E5D366;
+}
+.expand-section {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-bottom: 0;
+  transition: max-height 0.5s cubic-bezier(.41,.27,.38,.99), opacity 0.3s ease;
+  background: #E2F0CBcc;
+  border-radius: 18px;
+  margin-top: 0.18rem;
+  padding: 0 1rem;
+  box-shadow: 0 1px 8px #B1E5D344;
+}
+.expand-section.active {
+  max-height: 300px;
+  opacity: 1;
+  margin-bottom: 1.05rem;
+  padding: 1rem;
+}
+.support-messages {
+  background: #A7C7E799;
+  padding: 1.5rem 1.8rem;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(163, 174, 194, 0.5);
+  max-width: 650px;
+  margin: 0 auto;
+  font-style: italic;
+  color: #2C3A47;
+  line-height: 1.6;
+  font-size: 1.08rem;
+  user-select: text;
+}
+
+.support-messages blockquote {
+  margin: 1rem 0;
+  padding-left: 1.3rem;
+  border-left: 4px solid #A7C7E7;
+}
+
+.support-messages blockquote:last-child {
+  margin-bottom: 0;
+}
+
+.more-help {
+  background: #E2F0CB66;
+  padding: 1.4rem 1rem;
+  border-radius: 18px;
+  box-shadow: 0 1px 8px #B1E5D344;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.more-help h2 {
+  color: #3A4750;
+  font-size: 1.1rem;
+  margin-bottom: 0.8rem;
+}
+.help-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.help-list li {
+  margin-bottom: 0.6rem;
+  font-size: 1rem;
+}
+.help-list a {
+  color: #2C3A47;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.2s;
+}
+.help-list a:hover {
+  color: #009688;
+}
+.panic-btn {
+  display: block;
+  margin: 2rem auto 0 auto;
+  background: #ff6b6b;
+  color: #fff;
+  padding: 0.62rem 2.1rem;
+  border: none;
+  border-radius: 25px;
+  font-weight: bold;
+  font-size: 1.05rem;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #B1E5D399;
+  transition: background 0.2s, box-shadow 0.2s;
+  letter-spacing: 0.4px;
+}
+.panic-btn:hover, .panic-btn:focus {
+  background: #ff3b3b;
+  box-shadow: 0 4px 18px #ff6b6b66;
+}
+
+.footer {
+    margin-top: 40px;
+    padding: 18px 0 12px 0;
+    text-align: center;
+    font-size: 1rem;
+    color: #7a8b91;
+    background: #f7fafd;
+    letter-spacing: 0.18px;
+    border-top: 1px solid #e5ecee;
+    font-family: 'Segoe UI', Arial, sans-serif;
+}
+
+.footer-support {
+    display: block;
+    margin-top: 6px;
+    font-size: 0.97rem;
+    color: #b5bfc6;
+    letter-spacing: 0.06em;
+}
+
+
+/* --- Responzivita --- */
+@media (max-width: 700px) {
+  .psycho-panel {
+    max-width: 99vw;
+    padding: 1rem 0.3rem 1.1rem 0.3rem;
+    border-radius: 13px;
+  }
+  .panel-img-text { flex-direction: column; gap: 0.6rem; }
+  .hero-img { max-width: 44px !important; }
+  .contacts-list { padding: 0.38rem 0.2rem; }
+  .panel-nav { gap: 0.3rem; }
+  .contacts-dropdown { bottom: -14px; }
+  .panel-section-link { font-size: 1.02rem; padding: 0.46rem 0.7rem; }
+}
+@media (max-width: 900px) {
+  .show-contacts-btn { display: inline-block; }
+}
