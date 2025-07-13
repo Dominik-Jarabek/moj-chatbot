@@ -413,21 +413,69 @@ h2 {
 
 
 /* --- Responzivita --- */
+@media (max-width: 1200px) {
+  .psycho-panel { max-width: 920px; }
+  .panel-img-text { gap: 1.2rem; }
+  .panel-section-link { font-size: 1.06rem; }
+}
+
+@media (max-width: 900px) {
+  .psycho-panel { max-width: 99vw; }
+  .panel-img-text { gap: 1rem; }
+  .panel-section-link { font-size: 1.04rem; }
+  .show-contacts-btn { display: inline-block; }
+}
+
 @media (max-width: 700px) {
   .psycho-panel {
     max-width: 99vw;
     padding: 1rem 0.3rem 1.1rem 0.3rem;
     border-radius: 13px;
   }
-  .panel-img-text { flex-direction: column; gap: 0.6rem; }
-  .hero-img { max-width: 44px !important; }
-  .contacts-list { padding: 0.38rem 0.2rem; }
-  .panel-nav { gap: 0.3rem; }
-  .contacts-dropdown { bottom: -14px; }
-  .panel-section-link { font-size: 1.02rem; padding: 0.46rem 0.7rem; }
+  .panel-img-text {
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+  }
+  .hero-img {
+    max-width: 44px !important;
+    height: auto;
+  }
+  .contacts-list {
+    padding: 0.38rem 0.2rem;
+  }
+  .panel-nav {
+    gap: 0.3rem;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .contacts-dropdown {
+    bottom: -14px;
+  }
+  .panel-section-link {
+    font-size: 1.02rem;
+    padding: 0.46rem 0.7rem;
+  }
 }
-@media (max-width: 900px) {
-  .show-contacts-btn { display: inline-block; }
+
+@media (max-width: 480px) {
+  .psycho-panel {
+    padding: 0.7rem 0.07rem 0.7rem 0.07rem;
+    border-radius: 9px;
+  }
+  .panel-img-text {
+    gap: 0.3rem;
+  }
+  .hero-img {
+    max-width: 36px !important;
+  }
+  .panel-section-link {
+    font-size: 0.99rem;
+    padding: 0.36rem 0.6rem;
+  }
+  .panel-nav {
+    gap: 0.16rem;
+  }
 }
 
 .music-player {
