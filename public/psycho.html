@@ -7,6 +7,10 @@
   <link rel="stylesheet" href="psycho.css">
 </head>
 <body>
+    <div class="music-player">
+    <button id="music-toggle">▶️ Spustit hudbu</button>
+    <audio id="relax-music" src="relaxing_music.mp3" loop></audio>
+</div>
   <!-- HORNÍ PANEL -->
   <section class="psycho-panel" id="top-panel" tabindex="0">
     <div class="panel-img-text">
@@ -189,6 +193,23 @@
     <span class="footer-support">Najdi podporu. Nejsi na to sám/sama.</span>
 </footer>
 
+<script>
+const audio = document.getElementById('relax-music');
+const btn = document.getElementById('music-toggle');
+let isPlaying = false;
+
+
+btn.addEventListener('click', () => {
+    if (isPlaying) {
+        audio.pause();
+        btn.textContent = '▶️ Spustit hudbu';
+    } else {
+        audio.play();
+        btn.textContent = '⏸️ Pozastavit hudbu';
+    }
+    isPlaying = !isPlaying;
+});
+</script>
   <script src="psycho.js"></script>
 </body>
 </html>

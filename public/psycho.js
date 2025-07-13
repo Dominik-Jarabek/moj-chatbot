@@ -64,3 +64,4 @@ function hideContacts() {
 function quickExit() {
   window.location.href = "https://www.google.com";
 }
+

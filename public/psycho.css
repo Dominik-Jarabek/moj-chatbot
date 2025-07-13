@@ -429,3 +429,23 @@ h2 {
 @media (max-width: 900px) {
   .show-contacts-btn { display: inline-block; }
 }
+
+.music-player {
+    text-align: center;
+    margin: 16px 0 0 0;
+}
+
+#music-toggle {
+    padding: 8px 20px;
+    border-radius: 22px;
+    border: none;
+    background: #d3e8df;
+    color: #305147;
+    font-size: 1.08rem;
+    cursor: pointer;
+    box-shadow: 0 1px 8px #eee;
+    transition: background 0.2s;
+}
+#music-toggle:hover {
+    background: #bfe3d1;
+}
