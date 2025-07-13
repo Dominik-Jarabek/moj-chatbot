@@ -552,3 +552,51 @@ h2 {
 #music-toggle:hover {
     background: #bfe3d1;
 }
+/* --- ZOBRAZENÍ TLAČÍTKA POUZE NA MOBILECH --- */
+.show-contacts-btn {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .show-contacts-btn {
+    display: inline-block;
+    margin: 0.38rem auto 0.64rem auto;
+    padding: 0.44rem 1.1rem;
+    border-radius: 14px;
+    border: none;
+    background: #A7C7E7;
+    color: #2C3A47;
+    font-weight: bold;
+    font-size: 1.01rem;
+    cursor: pointer;
+    box-shadow: 0 2px 8px #A7C7E744;
+    transition: background 0.18s;
+    text-align: center;
+    width: 100%;
+    max-width: 380px;
+  }
+  .show-contacts-btn:active,
+  .show-contacts-btn:focus {
+    background: #B1E5D3;
+  }
+  /* Kontakty v mobilním menu */
+  .contacts-dropdown {
+    display: none;
+    position: static;
+    opacity: 1;
+    pointer-events: auto;
+    transform: none;
+    margin-bottom: 0.6rem;
+    z-index: 22;
+    width: 100%;
+    justify-content: center;
+  }
+  .contacts-dropdown.active {
+    display: flex !important;
+  }
+}
+
+/* Pokud chceš extra responsivitu pro úplně nejmenší telefony: */
+@media (max-width: 400px) {
+  .show-contacts-btn { font-size: 0.91rem; }
+}
