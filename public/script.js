@@ -225,7 +225,7 @@ Jak vypadá zaškolení/junior support ve vašem týmu?
 Jak vypadá proces code review a práce s Gitem?
 
 Jak často je prostor pro další vzdělávání?
-tohle cele dej jako text                    `
+                  `
                     },
                     {
                         role: "user",
