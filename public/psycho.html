@@ -206,6 +206,24 @@
       </div>
     </div>
   </div>
+
+<script>
+const audio = document.getElementById('relax-music');
+const btn = document.getElementById('music-toggle');
+let isPlaying = false;
+
+
+btn.addEventListener('click', () => {
+    if (isPlaying) {
+        audio.pause();
+        btn.textContent = '▶️ Spustit hudbu';
+    } else {
+        audio.play();
+        btn.textContent = '⏸️ Pozastavit hudbu';
+    }
+    isPlaying = !isPlaying;
+});
+</script>
   <!-- VŠECHNY SCRIPTY JEN V EXTERNÍM SOUBORU! -->
   <script src="psycho.js"></script>
 </body>
