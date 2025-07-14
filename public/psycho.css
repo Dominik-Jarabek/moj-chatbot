@@ -412,183 +412,40 @@ h2 {
 }
 
 
-/* --- HUDOBNÍ TLAČÍTKO --- */
+/* --- Responzivita --- */
+@media (max-width: 700px) {
+  .psycho-panel {
+    max-width: 99vw;
+    padding: 1rem 0.3rem 1.1rem 0.3rem;
+    border-radius: 13px;
+  }
+  .panel-img-text { flex-direction: column; gap: 0.6rem; }
+  .hero-img { max-width: 44px !important; }
+  .contacts-list { padding: 0.38rem 0.2rem; }
+  .panel-nav { gap: 0.3rem; }
+  .contacts-dropdown { bottom: -14px; }
+  .panel-section-link { font-size: 1.02rem; padding: 0.46rem 0.7rem; }
+}
+@media (max-width: 900px) {
+  .show-contacts-btn { display: inline-block; }
+}
+
 .music-player {
     text-align: center;
-    margin: 24px 0 10px 0;
-    width: 100%;
+    margin: 16px 0 0 0;
 }
+
 #music-toggle {
-    padding: 10px 28px;
+    padding: 8px 20px;
     border-radius: 22px;
     border: none;
     background: #d3e8df;
     color: #305147;
-    font-size: 1.11rem;
-    font-weight: 500;
+    font-size: 1.08rem;
     cursor: pointer;
     box-shadow: 0 1px 8px #eee;
     transition: background 0.2s;
-    margin: 0 auto;
-    display: inline-block;
 }
 #music-toggle:hover {
     background: #bfe3d1;
-}
-
-/* --- DROPDOWN KONTAKTY --- */
-.contacts-dropdown {
-    display: none;
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: calc(100% + 10px);
-    min-width: 230px;
-    max-width: 96vw;
-    background: #fafffd;
-    border: 1.5px solid #cbe8dd;
-    border-radius: 14px;
-    box-shadow: 0 3px 32px #0003;
-    padding: 1.05rem 0.8rem;
-    z-index: 1001;
-    flex-direction: column;
-    gap: 0.5rem;
-    align-items: stretch;
-    text-align: left;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.18s;
-}
-.contacts-dropdown.active,
-.contacts-dropdown.dropdown-visible {
-    display: flex;
-    opacity: 1;
-    pointer-events: auto;
-}
-
-/* Položky v dropdownu (kontaktech) */
-.contacts-dropdown > * {
-    font-size: 1.08rem;
-    padding: 0.49em 0.7em;
-    margin-bottom: 0.34em;
-    border-radius: 9px;
-    background: #d8f7ec;
-    box-shadow: 0 1px 6px #b7d6ca44;
-    text-align: left;
-    word-break: break-word;
-}
-.contacts-dropdown > *:last-child {
-    margin-bottom: 0;
-}
-
-/* --- SHOW CONTACTS BUTTON --- */
-.show-contacts-btn,
-#showContactsBtn {
-    padding: 0.6rem 1.2rem;
-    font-size: 1.06rem;
-    border-radius: 22px;
-    font-weight: 600;
-    background: #b5dbe0;
-    color: #234;
-    border: none;
-    margin: 0.18rem auto;
-    display: block;
-    cursor: pointer;
-    box-shadow: 0 1px 8px #eef2f2;
-    transition: background 0.2s;
-    min-width: 160px;
-    max-width: 99vw;
-    text-align: center;
-    white-space: normal;
-}
-.show-contacts-btn:hover,
-#showContactsBtn:hover {
-    background: #a2ccda;
-}
-
-/* --- RESPONSIVITA DROPDOWNU --- */
-@media (max-width: 700px) {
-  .contacts-dropdown {
-      min-width: 160px;
-      max-width: 97vw;
-      padding: 1rem 0.34rem;
-      font-size: 1.01rem;
-      left: 50% !important;
-      transform: translateX(-50%) !important;
-      top: calc(100% + 8px);
-      border-radius: 14px !important;
-  }
-  .contacts-dropdown > * {
-      font-size: 0.98rem;
-      padding: 0.37em 0.5em;
-  }
-  .show-contacts-btn,
-  #showContactsBtn {
-      padding: 0.46rem 0.6rem;
-      font-size: 0.99rem;
-      min-width: 110px;
-      max-width: 96vw;
-  }
-  .music-player {
-      margin: 14px 0 6px 0;
-  }
-}
-@media (max-width: 420px) {
-  .psycho-panel {
-    padding: 0.38rem 0.04rem 0.7rem 0.04rem;
-    font-size: 0.95rem;
-  }
-  .hero-img,
-  .logo-img-sebelaska {
-    max-width: 26px !important;
-    margin-bottom: 0.23rem;
-    margin-top: 0.12rem;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-  }
-  .main-title,
-  h1 {
-    font-size: 1.28rem !important;
-    line-height: 1.13;
-    margin-top: 0.16rem;
-    margin-bottom: 0.2rem;
-    text-align: center;
-    word-break: break-word;
-    padding: 0 0.06em;
-  }
-  .subtitle,
-  .panel-section-link,
-  .show-contacts-btn {
-    font-size: 0.93rem !important;
-    padding: 0.25rem 0.36rem !important;
-    min-width: 80vw;
-    max-width: 99vw;
-    margin: 0.07rem auto;
-  }
-  .panel-nav {
-    margin-top: -5px;
-    flex-wrap: wrap;
-    gap: 0.05rem;
-    justify-content: center;
-  }
-  .music-player {
-    margin-top: 0.1rem;
-    margin-bottom: 0.09rem;
-  }
-  .contacts-dropdown {
-    font-size: 0.91rem;
-    padding: 0.39rem 0.07rem !important;
-  }
-}
-
-.show-contacts-btn {
-  display: none;
-}
-
-/* Na mobilu (do 700px) tlačítko viditelné */
-@media (max-width: 700px) {
-  .show-contacts-btn {
-    display: block;
-  }
 }
