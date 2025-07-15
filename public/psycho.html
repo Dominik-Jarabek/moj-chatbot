@@ -12,6 +12,10 @@
     <button id="music-toggle">▶️ Spustit hudbu</button>
     <audio id="relax-music" src="relaxing_music.mp3" loop></audio>
 </div>
+<!--HUDBY-->
+
+<audio id="bubble-music" src="ralaxing_for_game.mp3" preload="auto" loop></audio>
+
 
   <!-- HORNÍ PANEL -->
   <section class="psycho-panel" id="top-panel" tabindex="0">
@@ -192,20 +196,95 @@
   </footer>
 
   <!-- TERAPEUTICKÝ CHATBOT VPRAVO DOLE -->
-  <div id="chatbot-widget">
-    <button id="chatbot-fab" title="Otevřít chat">💬</button>
-    <div id="chatbot-window" style="display:none;">
-      <div id="chatbot-header">
-        <span>Terapeutický chat</span>
-        <button id="chatbot-close">&times;</button>
-      </div>
-      <div id="chatbot-messages"></div>
-      <div id="chatbot-input-row">
-        <input id="chatbot-input" type="text" placeholder="Napiš mi..." autocomplete="off">
-        <button id="chatbot-send">➤</button>
-      </div>
+<div id="chatbot-widget">
+  <button id="chatbot-fab" title="Otevřít chat">💬</button>
+  <div id="chatbot-window" style="display:none;">
+    <div id="chatbot-header">
+      <span>Terapeutický chat</span>
+      <button id="chatbot-close">&times;</button>
+    </div>
+    <div id="chatbot-messages"></div>
+    <div id="chatbot-input-row">
+      <input id="chatbot-input" type="text" placeholder="Napiš mi..." autocomplete="off">
+      <button id="chatbot-send">➤</button>
     </div>
   </div>
+</div>
+
+<!-- Klikací antistres hra – fullscreen -->
+<div id="bubble-game-modal" class="bubble-modal">
+  <div class="bubble-modal-content">
+    <button id="bubble-close">&times;</button>
+    <h2>🫧 Klikací antistres</h2>
+    <div class="bubble-info">Klikni na co nejvíc bublin během 15 sekund!</div>
+    <div class="bubble-status">
+      <span>Body: <b id="bubble-score">0</b></span>
+      <span>Čas: <b id="bubble-timer">15</b> s</span>
+    </div>
+    <!-- Výběr nálady -->
+<div id="bubble-mood-select">
+  <h3>Jak se právě cítíš?</h3>
+  <div class="bubble-mood-options">
+    <button class="bubble-mood" data-mood="1">😭</button>
+    <button class="bubble-mood" data-mood="2">😢</button>
+    <button class="bubble-mood" data-mood="3">😐</button>
+    <button class="bubble-mood" data-mood="4">🙂</button>
+    <button class="bubble-mood" data-mood="5">😃</button>
+  </div>
+</div>
+    <button id="bubble-start">Začít hru</button>
+    <div id="bubble-end-message" style="display:none;">
+      <h3>Hotovo!</h3>
+      <p>Získal/a jsi <span id="bubble-final-score">0</span> bodů. Zkus to znovu pro lepší výsledek!</p>
+    </div>
+    <!-- Herní plocha je na celé obrazovce, ale .bubble-game-overlay je absolutní -->
+    <div id="bubble-game-overlay"></div>
+  </div>
+</div>
+<button id="bubble-game-btn" class="bubble-fab" title="Spustit antistresovou hru">🫧 Hra</button>
+
+
+<!-- SOS tlačítko -->
+<button id="sos-btn" class="sos-floating">🆘 Pomoc</button>
+
+<!-- Modal První psychologické pomoci -->
+<div class="sos-modal" id="sos-modal">
+  <div class="sos-modal-content">
+    <button class="sos-close" id="sos-close">&times;</button>
+    <div id="sos-step-1" class="sos-step">
+      <h2>🆘 První psychologická pomoc</h2>
+      <p>Co právě cítíš? Vyber jednu z možností:</p>
+      <div class="sos-choices">
+        <button class="sos-choice" data-feeling="stres">😰 Stres / napětí</button>
+        <button class="sos-choice" data-feeling="uzkost">😟 Úzkost / panika</button>
+        <button class="sos-choice" data-feeling="smutek">😢 Smutek</button>
+        <button class="sos-choice" data-feeling="nevim">🤯 Nevím, jen mi není dobře</button>
+        <button class="sos-choice" data-feeling="krize">🚨 Jsem v krizi, potřebuji pomoc hned</button>
+      </div>
+    </div>
+    <div id="sos-step-2" class="sos-step" style="display:none;"></div>
+  </div>
+</div>
+
+<!-- Dechové kolečko (miniapp) – můžeš přesunout jinam -->
+<div id="breath-app" class="breath-app" style="display:none;">
+  <div class="breath-panel">
+    <h2>🫁 Dechové cvičení</h2>
+    <p>Zklidni mysl pomocí dechu. <span id="breath-desc">Klikni na start!</span></p>
+    <div class="breath-circle-container">
+      <svg class="breath-circle" viewBox="0 0 120 120">
+        <circle cx="60" cy="60" r="44" fill="#e3f3fd" />
+        <circle id="progress" cx="60" cy="60" r="44" fill="none" stroke="#2196f3" stroke-width="7" stroke-linecap="round"
+        stroke-dasharray="276" stroke-dashoffset="276"/>
+      </svg>
+      <div class="breath-inhale-exhale" id="breath-phase">Připraven?</div>
+    </div>
+    <button class="breath-btn" id="breath-start">Start</button>
+    <button class="breath-btn breath-stop" id="breath-stop" style="display:none;">Zastavit</button>
+    <div class="breath-progress-info" id="breath-progress-info"></div>
+    <button class="breath-btn" id="breath-exit" style="margin-top:15px; background:#f2f2f2; color:#1976d2; display:none;">Ukončit cvičení</button>
+  </div>
+</div>
 
 <script>
 const audio = document.getElementById('relax-music');
