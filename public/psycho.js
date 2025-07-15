@@ -371,7 +371,7 @@ function resetBubbleGame() {
   bubbleTimer.textContent = '15';
   bubbleEnd.style.display = 'none';
   bubbleStart.style.display = 'inline-block';
-  score = 0; timeLeft = 15; playing = false;
+  score = 0; timeLeft = 16; playing = false;
   clearInterval(bubbleInterval);
   // Reset nálady na výběr
   currentMood = 1; moodProgress = 1; moodClicks = 0;
