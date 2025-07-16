@@ -125,6 +125,28 @@ Vzkaz: ${message}
 
     await transporter.sendMail(mailOptions);
 
+     // Druhý e-mail přijde uživateli (potvrzení pro něj)
+    const userMail = {
+      from: 'jarabek.do@gmail.com',
+      to: email, // POZOR: jeho e-mail!
+      subject: 'Potvrzení odeslání žádosti o schůzku',
+      text: `
+Dobrý den ${name},
+
+potvrzuji, že jsme obdrželi vaši žádost o schůzku.
+
+Termín: ${datetime}
+Vzkaz: ${message}
+
+Ozvu se vám co nejdříve.
+
+S pozdravem,
+Dominik Jarábek
+      `.trim()
+    };
+
+    await transporter.sendMail(userMail); // ← TADY JE TO NAVÍC!
+
     res.json({ success: true, message: "Schůzka byla domluvena! Očekávej potvrzení v e-mailu." });
   } catch (err) {
     console.error("Chyba při odesílání e-mailu:", err);
