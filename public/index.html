@@ -123,6 +123,23 @@
       <section id="contact">
         <h2 class="section-title">Kontakt</h2>
         <ul class="contact-list">
+          <!-- Modální formulář na schůzku -->
+<div id="meetingModal" class="CvModal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" onclick="closeMeetingModal()">&times;</span>
+    <h3>Domluvit schůzku/pohovor</h3>
+    <form id="meetingForm">
+      <input type="text" name="name" placeholder="Vaše jméno" required><br><br>
+      <input type="email" name="email" placeholder="Váš e-mail" required><br><br>
+      <input type="datetime-local" name="datetime" required><br><br>
+      <textarea name="message" placeholder="Vzkaz, otázka, preferovaný čas..." rows="3"></textarea><br><br>
+      <button type="submit">Odeslat</button>
+    </form>
+    <div id="meetingSuccess" style="color:green; margin-top:14px;"></div>
+  </div>
+</div>
+<button onclick="openMeetingModal()">Domluvit schůzku</button>
+
           <li>
             <a href="https://www.linkedin.com/in/dominik-jarábek-64b239374" 
               target="_blank" rel="noopener" class="contact-linkedin">

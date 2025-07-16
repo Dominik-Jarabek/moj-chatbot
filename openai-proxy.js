@@ -90,3 +90,44 @@ const PORT = process.env.PORT || 3333;
 app.listen(PORT, () => {
   console.log(`Proxy běží na http://localhost:${PORT}`);
 });
+
+//Domluva schuzky
+
+const nodemailer = require('nodemailer');
+
+// ... existující kód (Express, axios atd.)
+
+// Endpoint pro domluvení schůzky
+app.post('/api/meeting', async (req, res) => {
+  try {
+    const { name, email, datetime, message } = req.body;
+
+    // Nodemailer transporter (Gmail, bezpečnější je použít heslo aplikace)
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: 'jarabek.do@gmail.com',
+        pass: process.env.GMAIL_APP_PASSWORD, // nastav do .env!
+      },
+    });
+
+    const mailOptions = {
+      from: 'jarabek.do@gmail.com',
+      to: 'jarabek.do@gmail.com', // přijde na tebe
+      subject: `Nová žádost o schůzku od ${name}`,
+      text: `
+Jméno: ${name}
+E-mail: ${email}
+Termín: ${datetime}
+Vzkaz: ${message}
+      `.trim()
+    };
+
+    await transporter.sendMail(mailOptions);
+
+    res.json({ success: true, message: "Schůzka byla domluvena! Očekávej potvrzení v e-mailu." });
+  } catch (err) {
+    console.error("Chyba při odesílání e-mailu:", err);
+    res.status(500).json({ success: false, error: err.toString() });
+  }
+});

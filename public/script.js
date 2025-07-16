@@ -1,7 +1,3 @@
-
-
-
-
 // === Minihra ===
 function openMiniGame() {
     document.getElementById('minigame-modal').style.display = "block";
@@ -42,6 +38,13 @@ function closeMiniGame() {
     document.getElementById('minigame-modal').style.display = "none";
 }
 
+// === Domlouvání schůzky - nový flow ===
+let meetingFlow = {
+  active: false,
+  step: 0,
+  data: {}
+};
+
 // === AI ASISTENT ===
 document.getElementById('ai-close').onclick = function(e) {
     e.stopPropagation();
@@ -71,22 +74,29 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     const msg = input.value.trim();
     if(!msg) return;
 
-  // Uživatelská zpráva
-const userMsg = document.createElement('div');
-userMsg.className = "ai-chat-msg user";
-userMsg.textContent = msg;
-history.appendChild(userMsg);
-input.value = "";
+    // Uživatelská zpráva
+    const userMsg = document.createElement('div');
+    userMsg.className = "ai-chat-msg user";
+    userMsg.textContent = msg;
+    history.appendChild(userMsg);
+    input.value = "";
 
-// "Přemýšlím..." loading (AI zpráva s avatarem)
-const aiMsg = document.createElement('div');
-aiMsg.className = "ai-chat-msg ai";
-aiMsg.innerHTML = `
-  <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-  <span>Přemýšlím...</span>
-`;
-history.appendChild(aiMsg);
-history.scrollTop = history.scrollHeight;
+    // ======= MEETING FLOW =======
+    if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
+      handleMeetingFlow(msg, history, input);
+      return;
+    }
+    // ======= /MEETING FLOW =======
+
+    // "Přemýšlím..." loading (AI zpráva s avatarem)
+    const aiMsg = document.createElement('div');
+    aiMsg.className = "ai-chat-msg ai";
+    aiMsg.innerHTML = `
+      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+      <span>Přemýšlím...</span>
+    `;
+    history.appendChild(aiMsg);
+    history.scrollTop = history.scrollHeight;
 
     try {
         const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
@@ -140,7 +150,6 @@ c(); // 2
 Co je to callback funkce?
 Je to funkce předaná jiné funkci jako argument, která je zavolána až po dokončení určité akce.
 
-
 function greeting(name, callback) {
   callback(Ahoj, ${name}!);
 }
@@ -162,7 +171,6 @@ Event loop je mechanismus v JavaScriptu, který umožňuje spouštět asynchronn
 Jak fungují Promise?
 Promise reprezentuje hodnotu, která může být dostupná teď, později, nebo nikdy. Má tři stavy: pending, fulfilled, rejected.
 
-
 let p = new Promise((resolve, reject) => {
   setTimeout(() => resolve("Hotovo!"), 1000);
 });
@@ -181,7 +189,6 @@ Nebo pomocí knihovny axios.
 Co je destrukturalizace?
 Rychlý způsob, jak „rozbalit“ hodnoty z pole nebo objektu do proměnných.
 
-
 const user = {name: "Dominik", age: 31};
 const {name, age} = user; // name = "Dominik", age = 31
 Co je DOM?
@@ -189,7 +196,6 @@ DOM je Document Object Model – stromová struktura HTML stránky, kterou můž
 
 Jak změníš obsah elementu přes JS?
 Například:
-
 
 document.getElementById('id').textContent = "Nový text";
 Co uděláš, když si nevíš rady s úkolem?
@@ -226,13 +232,13 @@ Jak vypadá proces code review a práce s Gitem?
 
 Jak často je prostor pro další vzdělávání?
                   `
-                    },
-                    {
-                        role: "user",
-                        content: msg
-                    }
-                ]
-            })
+            },
+            {
+                role: "user",
+                content: msg
+            }
+        ]
+    })
         });
 
        if (!response.ok) {
@@ -259,6 +265,85 @@ Jak často je prostor pro další vzdělávání?
     }
     history.scrollTop = history.scrollHeight;
 };
+
+// ====== DOMLOUVÁNÍ SCHŮZKY - FUNKCE ======
+async function handleMeetingFlow(msg, history, input) {
+  // Konec flow na "konec"
+  if (msg.trim().toLowerCase() === "konec") {
+    appendAiMsg("Schůzka zrušena. Kdykoliv napište 'schůzku', a začneme znovu.");
+    meetingFlow.active = false; meetingFlow.step = 0; meetingFlow.data = {};
+    return;
+  }
+  // Začátek domlouvání
+  if (!meetingFlow.active) {
+    meetingFlow.active = true;
+    meetingFlow.step = 0;
+    meetingFlow.data = {};
+    appendAiMsg("Skvěle! Rád domluvím schůzku. Jak se jmenujete?");
+    return;
+  }
+  // Kroky: jméno
+  if (meetingFlow.step === 0) {
+    meetingFlow.data.name = msg;
+    appendAiMsg("Děkuji! Jaký je váš e-mail?");
+    meetingFlow.step = 1;
+    return;
+  }
+  // Kroky: email
+  if (meetingFlow.step === 1) {
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(msg)) {
+      appendAiMsg("Zadejte prosím platný e-mail:");
+      return;
+    }
+    meetingFlow.data.email = msg;
+    appendAiMsg("Kdy by vám schůzka vyhovovala? (napište datum a čas, např. 18.7. 10:30)");
+    meetingFlow.step = 2;
+    return;
+  }
+  // Kroky: termín
+  if (meetingFlow.step === 2) {
+    meetingFlow.data.datetime = msg;
+    appendAiMsg("Chcete něco vzkázat? (nebo napište jen '-')");
+    meetingFlow.step = 3;
+    return;
+  }
+  // Kroky: vzkaz, odeslání
+  if (meetingFlow.step === 3) {
+    meetingFlow.data.message = msg;
+    appendAiMsg("Odesílám žádost...");
+
+    try {
+     const res = await fetch('https://moj-chatbot.onrender.com/api/meeting', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify(meetingFlow.data)
+});
+      const result = await res.json();
+      if (result.success) {
+        appendAiMsg("Schůzka byla úspěšně domluvena! Brzy vám přijde potvrzení na e-mail. Díky 🙂");
+      } else {
+        appendAiMsg("Něco se pokazilo při odeslání: " + (result.error || ""));
+      }
+    } catch (err) {
+      appendAiMsg("Chyba spojení: " + err.toString());
+    }
+    meetingFlow.active = false;
+    meetingFlow.step = 0;
+    meetingFlow.data = {};
+    return;
+  }
+}
+function appendAiMsg(text) {
+  const history = document.getElementById('ai-chat-history');
+  const aiMsg = document.createElement('div');
+  aiMsg.className = "ai-chat-msg ai";
+  aiMsg.innerHTML = `
+    <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+    <span>${text}</span>
+  `;
+  history.appendChild(aiMsg);
+  history.scrollTop = history.scrollHeight;
+}
 
 // === SCROLL header ===
 window.addEventListener('scroll', function() {
@@ -344,7 +429,7 @@ function endCrazyGame() {
   renderCrazyLeaderboard();
 }
 
-// --- Leaderboard do localStorage ---
+// --- Leaderboard do localStorage --- 
 function getCrazyLeaderboard() {
   return JSON.parse(localStorage.getItem('crazyLeaderboard') || '[]');
 }
@@ -383,8 +468,6 @@ function shakeAiPanel() {
   panel.classList.remove('shake');
   void panel.offsetWidth;
   panel.classList.add('shake');
-
-  
 }
 const zvuk = new Audio('pop.mp3');
 
@@ -417,7 +500,6 @@ function showBotOnFirstInteraction(e) {
 document.body.addEventListener('click', showBotOnFirstInteraction);
 document.body.addEventListener('touchstart', showBotOnFirstInteraction);
 
-
 // === OSTATNÍ KÓD BOTA (např. zavření, rozkliknutí atd.) ===
 
 document.getElementById('ai-close').onclick = function(e) {
@@ -439,5 +521,3 @@ document.getElementById('ai-panel').addEventListener('click', function(e){
   document.getElementById('ai-chat').style.display = "flex";
   document.getElementById('ai-chat-input').focus();
 });
-
-
