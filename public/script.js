@@ -73,13 +73,22 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     const history = document.getElementById('ai-chat-history');
     const msg = input.value.trim();
     if(!msg) return;
+    input.value = ""; // ← VYMAŽ POLE HNED TADY
 
     // Uživatelská zpráva
     const userMsg = document.createElement('div');
     userMsg.className = "ai-chat-msg user";
     userMsg.textContent = msg;
     history.appendChild(userMsg);
-    input.value = "";
+
+    // === CV DETEKCE ===
+    if (/(cv|životopis|curriculum|pošli životopis|chci životopis|pdf)/i.test(msg)) {
+      appendAiMsg(`Tady je můj aktuální životopis:<br>
+        <a href="Jarabek_CV.pdf" download target="_blank" style="color:#1976d2;font-weight:bold;">Stáhnout životopis (PDF)</a>
+        <br><small>Otevře se v nové záložce, případně se stáhne do vašeho počítače.</small>`);
+      return;
+    }
+    
 
     // ======= MEETING FLOW =======
     if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
@@ -88,15 +97,28 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     }
     // ======= /MEETING FLOW =======
 
-    // "Přemýšlím..." loading (AI zpráva s avatarem)
-    const aiMsg = document.createElement('div');
-    aiMsg.className = "ai-chat-msg ai";
-    aiMsg.innerHTML = `
-      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-      <span>Přemýšlím...</span>
-    `;
-    history.appendChild(aiMsg);
-    history.scrollTop = history.scrollHeight;
+ const aiMsg = document.createElement('div');
+aiMsg.className = "ai-chat-msg ai";
+const loaderTexts = [
+  "Odpovídám",
+  "Vybírám ta správná slova",
+  "Chvilka napětí",
+  "Mozkové závity v pohybu"
+];
+const randomText = loaderTexts[Math.floor(Math.random() * loaderTexts.length)];
+aiMsg.innerHTML = `
+  <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+  <span class="loader-dots">
+    <span class="loader-text">${randomText}</span>
+    <span class="dot">.</span>
+    <span class="dot">.</span>
+    <span class="dot">.</span>
+  </span>
+`;
+
+
+history.appendChild(aiMsg);
+history.scrollTop = history.scrollHeight;
 
     try {
         const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
@@ -113,7 +135,7 @@ Nejčastější otázky a odpovědi na pohovoru (Junior JavaScript Developer):
 Představ se nám. Proč chceš být programátor?
 Jmenuji se Dominik Jarábek, je mi 31 let a baví mě technologie. Dlouho jsem pracoval v jiných oborech, ale programování mě vždy lákalo, protože rád tvořím a řeším problémy. Mám za sebou několik vlastních projektů v JavaScriptu a věřím, že v IT najdu uplatnění, které mě bude naplňovat a dál rozvíjet.
 Jsem Dominik Jarábek, je mi 31 let. Bydlím v Lipové u Šluknova. V současnosti studuji Speciální pedagogiku na Univerzitě J. E. Purkyně v Ústí nad Labem (od roku 2024). Maturitu mám z oboru Informační a komunikační technologie na VOŠ a SŠ ve Varnsdorfu. Od roku 2022 pracuji jako učitel německého jazyka na Střední lesnické škole ve Šluknově. Předtím jsem byl několik let seřizovačem a vedoucím směny ve firmě Pulp-Tec GmbH v Německu, kde jsem měl pod sebou tým osmi lidí. Krátce jsem také pracoval jako dělník v Oppacher Mineralquellen v Německu a v BeA CS v Lobendavě, kde jsem využíval MS Excel. Mám zkušenost i jako instruktor dětské sportovní přípravky a vedoucí na letních táborech. Co se týče IT dovedností, jsem expert na Microsoft Office, pokročile ovládám Adobe Photoshop, Lightroom a Illustrator, stejně tak AutoCAD. Umím základy webového vývoje (HTML, CSS, JavaScript). Mezi mé silné stránky patří učenlivost, samostatnost, týmová práce, řešení konfliktů a flexibilita. Mám několik certifikátů, například Mezinárodní cenu vévody z Edinburghu, školení Nevypusť duši (duševní zdravověda pro učitele), správu TikTok a základy umělé inteligence. Mluvím plynule německy (úroveň B2, certifikát Goethe Institut), anglicky na úrovni začátečníka. Mezi mé zájmy patří sport, tvorba webových stránek a grafiky, četba, osobní rozvoj a cestování. narodil jsem se 30.5.1994. můj představovaný plat je 50-60 000 Kč. Jsem ochotný se přestěhovat kamkoli, pokud to bude potřeba. Preferuji přestěhování za prací, ale když bude možnost pracovat z domu a občas do firmy dojet, budu také spokojen.
-V JavaScriptuu se teprve učím, ale dokážu si vždy poradit.  Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.
+V JavaScriptuu se teprve učím, ale dokážu si vždy poradit. Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.
 
 Proč JavaScript?
 JavaScript mě zaujal tím, že je všestranný – mohu s ním tvořit weby, aplikace i backend. Je to nejpoužívanější jazyk na webu, má velkou komunitu a spoustu nástrojů. Líbí se mi, že mohu rychle vidět výsledky své práce.
@@ -515,9 +537,17 @@ document.getElementById('ai-open-btn').onclick = function() {
   document.getElementById('ai-open-btn').style.display = "none";
 };
 
+let aiWelcomeShown = false; // přidat do globálního scope
+
 document.getElementById('ai-panel').addEventListener('click', function(e){
-  if(e.target.id === "ai-close") return;
-  this.classList.add('ai-expanded');
-  document.getElementById('ai-chat').style.display = "flex";
-  document.getElementById('ai-chat-input').focus();
+    if(e.target.id === "ai-close") return;
+    this.classList.add('ai-expanded');
+    document.getElementById('ai-chat').style.display = "flex";
+    document.getElementById('ai-chat-input').focus();
+
+    // --- ÚVODNÍ ZPRÁVA ---
+    if (!aiWelcomeShown) {
+      appendAiMsg("👋 Vítejte!<br>Skrze mě si můžete snadno domluvit schůzku, zjistit více informací o mně, nebo získat životopis. Napište mi, s čím mohu pomoci!");
+      aiWelcomeShown = true;
+    }
 });

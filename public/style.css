@@ -313,10 +313,12 @@ header.shrink #main-title { font-size: 1.1em; }
   border: 2.5px solid #60a8f5;
 }
 .ai-panel {
-
- background: rgb(183, 220, 252);
- border-radius: 22px 22px 22px 7px;
-  box-shadow: 0 4px 26px rgba(60,80,140,0.12);
+  background: linear-gradient(90deg,
+    rgba(187, 233, 249, 0.75) 0%,
+    rgba(208, 255, 232, 0.75) 100%);
+  backdrop-filter: blur(6px);
+  border-radius: 22px 22px 22px 7px;
+  box-shadow: 0 4px 26px rgba(40, 120, 180, 0.08);
   padding: 9px 16px 9px 13px;
   font-size: 0.98rem;
   min-width: 100px; min-height: 35px; max-width: 190px;
@@ -327,19 +329,33 @@ header.shrink #main-title { font-size: 1.1em; }
   cursor: pointer;
   transition: all 0.32s cubic-bezier(.77,.2,.28,1.02);
 }
+
 .ai-panel.ai-expanded {
   min-height: 355px; max-width: 260px; width: 340px;
   padding: 26px 42px 26px 27px;
   font-size: 1.18rem; cursor: default;
 }
 .ai-message {
-  flex: 1; font-size: 1em; min-height: 21px;
-  font-family: inherit; color: #1a202c;
-  position: relative; min-height: 21px;
-  display: flex; align-items: center; justify-content: flex-start;
-  font-weight: bold; text-align: left; padding-right: 48px;
+  flex: 1; 
+  font-size: 1.15em;
+  min-height: 32px;
+  font-family: inherit;
+  color: #197a73;               /* ladí s pastel UI */
+  position: relative;
+  display: flex; 
+  align-items: center; 
+  justify-content: flex-start;  /* text vlevo, ale podle potřeby lze dát center */
+  font-weight: 600;
+  text-align: left;
+  padding: 0 40px 0 10px;       /* prostor pro zavírací tlačítko vpravo */
   word-break: break-word;
+  border-radius: 13px 13px 5px 13px;
+
+  margin-bottom: 10px;
+  box-shadow: 0 1.5px 6px #baf3e320;
+  letter-spacing: 0.02em;
 }
+
 #ai-close {
   position: absolute;
   top: 6.6px; left: 250px;
@@ -361,7 +377,7 @@ header.shrink #main-title { font-size: 1.1em; }
   to   { opacity:1; transform:translateY(0);}
 }
 .ai-chat-history {
-  background: rgb(243, 243, 243);
+ background: linear-gradient(120deg, #f8faff 0%, #f5f0ff 100%);
   min-height: 250px;
   max-height: 100px;
   overflow-y: auto;
@@ -373,17 +389,30 @@ header.shrink #main-title { font-size: 1.1em; }
   margin-left: -27px;           /* PROTAŽ DO CELE ŠÍŘKY PANELU */
   box-sizing: border-box;
   position: relative;
+  
+  display: flex;
+  flex-direction: column;
+  /* ostatní styly zachovej */
 }
+
+
 .ai-chat-msg { margin-bottom: 7px; line-height: 1.6; }
-.ai-chat-msg.ai { color: #ffffff;background: linear-gradient(90deg, #8e9afe 0%, #d10e0e 100%);
- /* barva rámečku mrazivě bílá */
-  padding: 4px 8px; /* mezera od textu k rámečku */
-  border-radius: 15px;
-display: inline-block}
-.ai-chat-msg.user {  color: #ffffff; background: linear-gradient(90deg, #2986cc 0%, #5ee2ff 100%); /* barva rámečku mrazivě bílá */
-  padding: 4px 8px; /* mezera od textu k rámečku */
-  border-radius: 15px; 
-  float: right;
+
+
+
+.ai-chat-msg.user {
+  background: linear-gradient(90deg, #baf3e3 0%, #d2ffe8 100%);
+  color: #16524d;
+  font-weight: 500;
+  border-radius: 18px 18px 4px 18px;
+  box-shadow: 0 2px 14px 0 #8ce7c322;
+  padding: 11px 18px;
+  margin: 6px 0;
+  max-width: 75%;
+  word-break: break-word;
+  text-align: right;
+  align-self: flex-end; 
+  display: inline-block;
 }
 #ai-chat-form {
   display: flex; gap: 9px; align-items: center; 
@@ -391,21 +420,34 @@ display: inline-block}
 #ai-chat-input {
   width: 160px;
   border-radius: 9px;
-  border: 1px solid rgb(45, 74, 99);
+  border: 1.5px solid #8fd3f4;
   font-size: 1.07rem;
   padding: 6px 11px;
   outline: none;
-  background-color: rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.19);
+  transition: border-color 0.22s, background-color 0.22s;
 }
-#ai-chat-form button {
-  border: none;
-  background: linear-gradient(120deg,#0a67c2 75%,#0a67c2 110%);
-  color:rgb(240, 248, 255);border-radius: 8px; font-size: 1.07rem;
-  padding: 6px 15px; cursor: pointer; font-weight: bold;
-  transition: background 0.2s;
+#ai-chat-input:focus {
+  border-color: #197a73;
+  background-color: rgba(255,255,255,0.35);
 }
 
-#ai-chat-form button:hover { background: #fdc52e; color: #0a67c2; }
+#ai-chat-form button {
+  border: 1.5px solid transparent;  /* <- přidáno */
+  background: linear-gradient(120deg,#0a67c2 75%,#0a67c2 110%);
+  color: rgb(240, 248, 255);
+  border-radius: 8px; font-size: 1.07rem;
+  padding: 6px 15px; cursor: pointer; font-weight: bold;
+  transition: background 0.2s, border 0.2s, color 0.2s;
+}
+
+
+#ai-chat-form button:hover {
+  background: linear-gradient(90deg, #baf3e3 0%, #bae1ff 100%);
+  color: #197a73;
+  border: 1.5px solid #baf3e3;
+}
+
 .ai-assistant-reopen {
   position: fixed; right: 36px; bottom: 32px;
   width: 49px; height: 49px;
@@ -477,29 +519,32 @@ display: inline-block}
   list-style: decimal inside;
   margin-bottom: 3px;
 }
-.ai-chat-msg.ai {
-  background: linear-gradient(90deg, #8e9afe 0%, #f7a1ff 100%);
-  color: #fff;
-  padding: 9px 14px 9px 56px;
-  border-radius: 15px;
-  max-width: 360px;
-  margin-bottom: 10px;
-  position: relative;
-  text-align: left;
-  min-height: 36px;
-  word-break: break-word;
-  margin-left: 30px;     /* <<< Tohle přidá mezery zleva! */
-  margin-right: auto;    /* Zajistí, že se bublina netlačí doprava */
-  padding-left: 5px;
-}
+
 
   
-  
+.ai-chat-msg.ai {
+background: linear-gradient(90deg, #b6e0fe 0%, #e3f6fd 100%);
+color: #226c73;
+
+  font-weight: 500;
+  border-radius: 18px 18px 18px 4px;
+  box-shadow: 0 1px 10px 0 #e4f0ff2a;
+  padding: 11px 18px;
+  margin: 6px 0;
+  display: inline-block;
+  max-width: 75%;
+  word-break: break-word;
+  text-align: left;
+  align-self: flex-start;
+    margin-left: 30px;   /* posune od levého okraje */
+  margin-right: 0;
+}
+
 
 .ai-message-avatar {
   float: left;
-  margin-left: -42px; /* Avatar bude lehce "přes okraj" bubliny */
-  margin-top: -8px;
+  margin-left: -55px; /* Avatar bude lehce "přes okraj" bubliny */
+  margin-top: -11px;
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -507,11 +552,21 @@ display: inline-block}
   shape-outside: circle(50%);
   box-shadow: 0 2px 8px rgba(0,0,0,0.11);
 }
-.ai-chat-msg.ai span {
+.ai-chat-msg.ai > span {
   display: block;
   line-height: 1.6;
-  /* Není potřeba další padding */
 }
+.ai-chat-msg.ai .loader-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  margin-left: 4px;
+}
+.ai-chat-msg.ai .loader-dots span {
+  display: inline-block;
+  line-height: 1.2;
+}
+
 
 /* --- Responzivita pro mobilní zařízení --- */
 @media (max-width: 650px) {
@@ -640,4 +695,24 @@ display: inline-block}
 }
 .ai-panel.shake {
   animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* Animace v chatbotovi */
+
+.loader-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+}
+.loader-dots .dot {
+  display: inline-block;
+  opacity: 0.3;
+  animation: blink 1s infinite alternate;
+}
+.loader-dots .dot:nth-child(2) { animation-delay: 0s; }
+.loader-dots .dot:nth-child(3) { animation-delay: 0.2s; }
+.loader-dots .dot:nth-child(4) { animation-delay: 0.4s; }
+
+@keyframes blink {
+  100% { opacity: 1; }
 }
