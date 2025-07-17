@@ -203,23 +203,26 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
   const input = document.getElementById('ai-chat-input');
   const msg = input.value.trim();
   if(!msg) return;
-   input.value = "";
+  input.value = "";
 
   // --- Odpověď na CV ---
   if (/cv|životopis|curriculum/i.test(msg)) {
+    appendUserMsg(msg);
     appendAiMsg(`Samozřejmě! Zde si můžete stáhnout můj životopis:<br>
       <a href="Jarabek_CV.pdf" download target="_blank" style="color:#1976d2;font-weight:bold;">Stáhnout životopis (PDF)</a>
       <br><small>Otevře se v nové záložce, případně se stáhne do vašeho počítače.</small>`);
     return;
   }
 
-  appendUserMsg(msg);
-
   // --- DOMLOUVÁNÍ SCHŮZKY ---
   if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
+    appendUserMsg(msg);
     handleMeetingFlow(msg);
     return;
   }
+
+  // --- Bublina uživatele ---
+  appendUserMsg(msg);
 
   // --- Loader zpráva od bota ---
   const history = document.getElementById('ai-chat-history');
@@ -394,20 +397,15 @@ Jak často je prostor pro další vzdělávání?
       } else if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
         odpoved = data.choices[0].message.content;
       }
-      aiMsg.innerHTML = `
-        <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-        <span>${odpoved}</span>
-      `;
+      aiMsg.remove();
+      appendAiMsg(odpoved);
     }
   } catch (error) {
-    aiMsg.innerHTML = `
-      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-      <span>Nepodařilo se spojit se serverem. Zkontroluj, že máš spuštěný backend (openai-proxy.js).</span>
-    `;
+    aiMsg.remove();
+    appendAiMsg("Nepodařilo se spojit se serverem. Zkontroluj, že máš spuštěný backend (openai-proxy.js).");
   }
   history.scrollTop = history.scrollHeight;
   saveChatHistoryArray();
-  input.value = "";
 };
 
 // =============== MEETING FLOW FUNKCE ===============
@@ -499,6 +497,7 @@ function appendAiMsg(text, save = true) {
   history.scrollTop = history.scrollHeight;
   if (save !== false) saveChatHistoryArray();
 }
+
 function appendUserMsg(text, save = true) {
   const history = document.getElementById('ai-chat-history');
   const userMsg = document.createElement('div');
@@ -545,22 +544,6 @@ function clearChatHistoryArray() {
   localStorage.removeItem('aiChatHistoryArr');
   document.getElementById('ai-chat-history').innerHTML = '';
 }
-function loadChatHistoryArray() {
-  const saved = localStorage.getItem('aiChatHistoryArr');
-  if (saved) {
-    const messages = JSON.parse(saved);
-    const history = document.getElementById('ai-chat-history');
-    history.innerHTML = '';
-    messages.forEach(msg => {
-      if (msg.role === 'ai') {
-        appendAiMsg(msg.content, false);
-      } else {
-        appendUserMsg(msg.content, false);
-      }
-    });
-  }
-}
-
 
 // Načti historii při startu stránky
 window.addEventListener('DOMContentLoaded', function() {
