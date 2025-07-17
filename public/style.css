@@ -469,7 +469,8 @@ header.shrink #main-title { font-size: 1.1em; }
   to   { opacity:1; transform:translateY(0);}
 }
 .ai-chat-history {
-  background: linear-gradient(120deg, #f8faff 0%, #f5f0ff 100%);
+ background: #e3f0ff !important;  /* nebo si zvol pastelovou, která se ti líbí */
+
   min-height: 250px;
   max-height: 100px;
   overflow-y: auto;
@@ -581,7 +582,7 @@ body.dark .ai-panel {
   box-shadow: 0 4px 34px #0a273d44;
 }
 body.dark .ai-chat-history {
-  background: linear-gradient(120deg, #232744 0%, #1d2331 100%);
+   background: linear-gradient(120deg, #232744 0%, #1d2331 100%) !important;
   color: #f3f8fd;
   box-shadow: 0 2px 10px #16294222;
 }
@@ -609,6 +610,24 @@ body.dark #ai-chat-form button:hover {
   border: 1.5px solid #267e78;
 }
 
+/* Styl scrollbarU v dark režimu */
+body.dark #ai-chat-history::-webkit-scrollbar {
+  background: #232744;
+}
+body.dark #ai-chat-history::-webkit-scrollbar-thumb {
+  background: #3c4863;
+  border-radius: 8px;
+  border: 2px solid #232744;
+}
+
+/* Firefox */
+#ai-chat-history {
+  scrollbar-color: #a4caff #e3f0ff;
+  scrollbar-width: thin;
+}
+body.dark #ai-chat-history {
+  scrollbar-color: #3c4863 #232744;
+}
 /* === CHAT BUBLINY === */
 .ai-chat-msg.user {
   background: linear-gradient(90deg, #baf3e3 0%, #d2ffe8 100%);
@@ -989,6 +1008,17 @@ body.dark #ai-chat-form button:hover {
     padding: 18px 2vw;
   }
 }
+/* Styl scrollbarU ve světlém režimu (pastelová modrá) */
+#ai-chat-history::-webkit-scrollbar {
+  width: 10px;
+  background: #e3f0ff;
+  border-radius: 8px;
+}
+#ai-chat-history::-webkit-scrollbar-thumb {
+  background: #a4caff;
+  border-radius: 8px;
+  border: 2px solid #e3f0ff;
+}
 /* Pro opravdu malé obrazovky (malé telefony) */
 @media (max-width: 400px) {
   body { font-size: 14px;}
@@ -1042,15 +1072,29 @@ body.dark #ai-chat-form button:hover {
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.15em;
-  margin-left: 6px;
-  opacity: 0.75;
-  transition: opacity .2s;
+  padding: 2px 2px 2px 4px;
+  border-radius: 50%;
+  transition: background 0.15s;
   vertical-align: middle;
+  outline: none;
+  margin-left: 6px;
 }
-.speak-btn:hover {
-  opacity: 1;
-  color: #1976d2;
+.speak-btn:hover,
+.speak-btn.recording {
+  background: #e3f2fd;
+}
+.icon-speaker {
+  vertical-align: middle;
+  display: inline-block;
+  transition: filter 0.2s, transform 0.2s;
+}
+.speak-btn:hover .icon-speaker {
+  filter: drop-shadow(0 0 2px #1976d2);
+  transform: scale(1.15) rotate(-5deg);
+}
+.speak-btn.recording .icon-speaker path {
+  stroke: #d32f2f;
+  filter: drop-shadow(0 0 2px #d32f2f);
 }
 .ai-chat-msg {
   display: flex;

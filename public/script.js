@@ -487,7 +487,13 @@ function appendAiMsg(text, save = true) {
   aiMsg.innerHTML = `
     <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
     <span>${text}</span>
-    <button class="speak-btn" title="Přehrát zprávu">🔊</button>
+   <button class="speak-btn" title="Přehrát zprávu">
+  <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
   `;
   history.appendChild(aiMsg);
   aiMsg.querySelector('.speak-btn').onclick = function(e) {
@@ -504,7 +510,13 @@ function appendUserMsg(text, save = true) {
   userMsg.className = "ai-chat-msg user";
   userMsg.innerHTML = `
     <span>${text}</span>
-    <button class="speak-btn" title="Přehrát zprávu">🔊</button>
+ <button class="speak-btn" title="Přehrát zprávu">
+  <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  </svg>
+</button>
   `;
   history.appendChild(userMsg);
   userMsg.querySelector('.speak-btn').onclick = function(e) {
