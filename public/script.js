@@ -1,10 +1,9 @@
-// === Minihra ===
+// =============== MINIHRY ===============
 function openMiniGame() {
     document.getElementById('minigame-modal').style.display = "block";
     const btn = document.getElementById('gameBtn');
     const scoreP = document.getElementById('gameScore');
-    let score = 0;
-    let started = false;
+    let score = 0, started = false;
     btn.textContent = "Start";
     scoreP.textContent = "";
 
@@ -38,104 +37,224 @@ function closeMiniGame() {
     document.getElementById('minigame-modal').style.display = "none";
 }
 
-// === Domlouvání schůzky - nový flow ===
-let meetingFlow = {
-  active: false,
-  step: 0,
-  data: {}
-};
+// --- Klikací šílenství ---
+let crazyGameTimer = null;
+let crazyGameTime = 7;
+let crazyClicks = 0;
 
-// === AI ASISTENT ===
+function openCrazyClickGame() {
+  document.getElementById('crazyClickGame-modal').style.display = 'block';
+  document.getElementById('crazyStartBtn').style.display = '';
+  document.getElementById('crazyClickBtn').style.display = 'none';
+  document.getElementById('crazyScore').textContent = '';
+  document.getElementById('crazyTimer').textContent = '';
+  renderCrazyLeaderboard();
+}
+function closeCrazyClickGame() {
+  document.getElementById('crazyClickGame-modal').style.display = 'none';
+  if (crazyGameTimer) clearInterval(crazyGameTimer);
+}
+document.getElementById('crazyStartBtn').onclick = function() {
+  crazyClicks = 0;
+  let timeLeft = crazyGameTime;
+  document.getElementById('crazyScore').textContent = '';
+  document.getElementById('crazyStartBtn').style.display = 'none';
+  document.getElementById('crazyClickBtn').style.display = '';
+  document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
+  crazyGameTimer = setInterval(function() {
+    timeLeft--;
+    document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
+    if (timeLeft <= 0) {
+      clearInterval(crazyGameTimer);
+      endCrazyGame();
+    }
+  }, 1000);
+};
+document.getElementById('crazyClickBtn').onclick = function() {
+  crazyClicks++;
+  document.getElementById('crazyScore').textContent = `Skóre: ${crazyClicks}`;
+};
+function endCrazyGame() {
+  document.getElementById('crazyClickBtn').style.display = 'none';
+  document.getElementById('crazyScore').textContent = `Výsledek: ${crazyClicks} kliků!`;
+  checkCrazyRecord(crazyClicks);
+  document.getElementById('crazyStartBtn').style.display = '';
+  document.getElementById('crazyTimer').textContent = '';
+  renderCrazyLeaderboard();
+}
+function getCrazyLeaderboard() {
+  return JSON.parse(localStorage.getItem('crazyLeaderboard') || '[]');
+}
+function setCrazyLeaderboard(lb) {
+  localStorage.setItem('crazyLeaderboard', JSON.stringify(lb));
+}
+function renderCrazyLeaderboard() {
+  const lb = getCrazyLeaderboard();
+  const ol = document.getElementById('crazyLeaderboard');
+  ol.innerHTML = '';
+  lb.forEach(({name, score}) => {
+    let emoji = score >= 50 ? '🔥' : score >= 30 ? '💪' : '';
+    ol.innerHTML += `<li>${name}: <b>${score}</b> kliků ${emoji}</li>`;
+  });
+  if (lb.length === 0) ol.innerHTML = '<li>Zatím nikdo nezapsán!</li>';
+}
+function checkCrazyRecord(newScore) {
+  let lb = getCrazyLeaderboard();
+  let min = lb[lb.length - 1]?.score || 0;
+  if (lb.length < 5 || newScore > min) {
+    let name = prompt('Nový rekord! Zadej svou přezdívku:','Anonym');
+    if (!name) name = 'Anonym';
+    lb.push({name, score: newScore});
+    lb = lb.sort((a,b) => b.score - a.score).slice(0,5);
+    setCrazyLeaderboard(lb);
+    alert('Gratuluji, jsi v TOP 5!');
+  }
+}
+
+// =============== MODAL NA CV ===============
+const modal = document.querySelector('.CvModal');
+document.getElementById('showCvBtn').addEventListener('click', function() {
+    modal.style.display = 'flex';
+});
+document.getElementById('closeCvModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+});
+window.addEventListener('click', function(event) {
+    if (event.target === modal) modal.style.display = 'none';
+});
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === 'flex') modal.style.display = 'none';
+});
+
+// =============== HEADER SCROLL ===============
+window.addEventListener('scroll', function() {
+    const header = document.querySelector('header');
+    if(window.scrollY > 70) {
+        header.classList.add('shrink');
+    } else {
+        header.classList.remove('shrink');
+    }
+});
+
+// =============== AI PANEL A ZVUK ===============
+function shakeAiPanel() {
+  const panel = document.querySelector('.ai-panel');
+  if (!panel) return;
+  panel.classList.remove('shake');
+  void panel.offsetWidth;
+  panel.classList.add('shake');
+}
+const zvuk = new Audio('pop.mp3');
+function prehrajZvukJednou() {
+  zvuk.play();
+  window.removeEventListener('click', prehrajZvukJednou);
+  window.removeEventListener('touchstart', prehrajZvukJednou);
+}
+window.addEventListener('click', prehrajZvukJednou);
+window.addEventListener('touchstart', prehrajZvukJednou);
+
+function showBotOnFirstInteraction(e) {
+  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
+  const audio = document.getElementById('shake-sound');
+  if (audio) {
+    audio.pause();
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+  }
+  shakeAiPanel();
+  document.body.removeEventListener('click', showBotOnFirstInteraction);
+  document.body.removeEventListener('touchstart', showBotOnFirstInteraction);
+}
+document.body.addEventListener('click', showBotOnFirstInteraction);
+document.body.addEventListener('touchstart', showBotOnFirstInteraction);
+
+// =============== AI CHAT, PANEL, THEME ===============
+let aiWelcomeShown = false;
+let meetingFlow = { active: false, step: 0, data: {} };
+
+// ZAVŘÍT A OTEVŘÍT PANEL
 document.getElementById('ai-close').onclick = function(e) {
-    e.stopPropagation();
-    document.getElementById('ai-assistant').classList.add('ai-assistant-hidden');
-    document.getElementById('ai-open-btn').style.display = "flex";
-    document.getElementById('ai-panel').classList.remove('ai-expanded');
-    document.getElementById('ai-chat').style.display = "none";
+  e.stopPropagation();
+  document.getElementById('ai-assistant').classList.add('ai-assistant-hidden');
+  document.getElementById('ai-open-btn').style.display = "flex";
+  document.getElementById('ai-panel').classList.remove('ai-expanded');
+  document.getElementById('ai-chat').style.display = "none";
 };
 document.getElementById('ai-open-btn').onclick = function() {
-    document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
-    document.getElementById('ai-open-btn').style.display = "none";
+  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
+  document.getElementById('ai-open-btn').style.display = "none";
 };
 
 document.getElementById('ai-panel').addEventListener('click', function(e){
-    if(e.target.id === "ai-close") return;
-    this.classList.add('ai-expanded');
-    document.getElementById('ai-chat').style.display = "flex";
-    document.getElementById('ai-chat-input').focus();
-    
+  if(e.target.id === "ai-close") return;
+  this.classList.add('ai-expanded');
+  document.getElementById('ai-chat').style.display = "flex";
+  document.getElementById('ai-chat-input').focus();
+  // --- ÚVODNÍ ZPRÁVA ---
+  if (!aiWelcomeShown) {
+    appendAiMsg("👋 Vítejte!<br>Skrze mě si můžete snadno domluvit schůzku, zjistit více informací o mně, nebo získat životopis. Napište mi, s čím mohu pomoci!");
+    aiWelcomeShown = true;
+  }
 });
 
-// === CHATBOT ===
+// =============== CHATBOT FORM ===============
 document.getElementById('ai-chat-form').onsubmit = async function(e){
-    e.preventDefault();
-    const input = document.getElementById('ai-chat-input');
-    const history = document.getElementById('ai-chat-history');
-    const msg = input.value.trim();
-    if(!msg) return;
-    input.value = ""; // ← VYMAŽ POLE HNED TADY
+  e.preventDefault();
+  const input = document.getElementById('ai-chat-input');
+  const msg = input.value.trim();
+  if(!msg) return;
+   input.value = "";
 
-    // Uživatelská zpráva
-    const userMsg = document.createElement('div');
-    userMsg.className = "ai-chat-msg user";
-    userMsg.textContent = msg;
-    history.appendChild(userMsg);
+  // --- Odpověď na CV ---
+  if (/cv|životopis|curriculum/i.test(msg)) {
+    appendAiMsg(`Samozřejmě! Zde si můžete stáhnout můj životopis:<br>
+      <a href="Jarabek_CV.pdf" download target="_blank" style="color:#1976d2;font-weight:bold;">Stáhnout životopis (PDF)</a>
+      <br><small>Otevře se v nové záložce, případně se stáhne do vašeho počítače.</small>`);
+    return;
+  }
 
-    // === CV DETEKCE ===
-    if (/(cv|životopis|curriculum|pošli životopis|chci životopis|pdf)/i.test(msg)) {
-      appendAiMsg(`Tady je můj aktuální životopis:<br>
-        <a href="Jarabek_CV.pdf" download target="_blank" style="color:#1976d2;font-weight:bold;">Stáhnout životopis (PDF)</a>
-        <br><small>Otevře se v nové záložce, případně se stáhne do vašeho počítače.</small>`);
-      return;
-    }
-    
+  appendUserMsg(msg);
 
-    // ======= MEETING FLOW =======
-    if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
-      handleMeetingFlow(msg, history, input);
-      return;
-    }
-    // ======= /MEETING FLOW =======
+  // --- DOMLOUVÁNÍ SCHŮZKY ---
+  if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
+    handleMeetingFlow(msg);
+    return;
+  }
 
- const aiMsg = document.createElement('div');
-aiMsg.className = "ai-chat-msg ai";
-const loaderTexts = [
-  "Odpovídám",
-  "Vybírám ta správná slova",
-  "Chvilka napětí",
-  "Mozkové závity v pohybu"
-];
-const randomText = loaderTexts[Math.floor(Math.random() * loaderTexts.length)];
-aiMsg.innerHTML = `
-  <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-  <span class="loader-dots">
-    <span class="loader-text">${randomText}</span>
-    <span class="dot">.</span>
-    <span class="dot">.</span>
-    <span class="dot">.</span>
-  </span>
-`;
+  // --- Loader zpráva od bota ---
+  const history = document.getElementById('ai-chat-history');
+  const aiMsg = document.createElement('div');
+  aiMsg.className = "ai-chat-msg ai";
+  const loaderTexts = [
+    "Odpovídám", "Vybírám ta správná slova", "Chvilka napětí", "Mozkové závity v pohybu"
+  ];
+  const randomText = loaderTexts[Math.floor(Math.random() * loaderTexts.length)];
+  aiMsg.innerHTML = `
+    <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+    <span class="loader-dots">
+      <span class="loader-text">${randomText}</span>
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+      <span class="dot">.</span>
+    </span>
+  `;
+  history.appendChild(aiMsg);
+  history.scrollTop = history.scrollHeight;
+  saveChatHistoryArray();
 
-
-history.appendChild(aiMsg);
-history.scrollTop = history.scrollHeight;
-
-    try {
-        const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
-    method: 'POST',
-    headers: {
-        'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
+  try {
+    const response = await fetch('https://moj-chatbot.onrender.com/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
         messages: [
-            {
-                role: "system",
-                content: `
-Nejčastější otázky a odpovědi na pohovoru (Junior JavaScript Developer):
+          {
+            role: "system",
+            content: `Nejčastější otázky a odpovědi na pohovoru (Junior JavaScript Developer):
 Představ se nám. Proč chceš být programátor?
 Jmenuji se Dominik Jarábek, je mi 31 let a baví mě technologie. Dlouho jsem pracoval v jiných oborech, ale programování mě vždy lákalo, protože rád tvořím a řeším problémy. Mám za sebou několik vlastních projektů v JavaScriptu a věřím, že v IT najdu uplatnění, které mě bude naplňovat a dál rozvíjet.
 Jsem Dominik Jarábek, je mi 31 let. Bydlím v Lipové u Šluknova. V současnosti studuji Speciální pedagogiku na Univerzitě J. E. Purkyně v Ústí nad Labem (od roku 2024). Maturitu mám z oboru Informační a komunikační technologie na VOŠ a SŠ ve Varnsdorfu. Od roku 2022 pracuji jako učitel německého jazyka na Střední lesnické škole ve Šluknově. Předtím jsem byl několik let seřizovačem a vedoucím směny ve firmě Pulp-Tec GmbH v Německu, kde jsem měl pod sebou tým osmi lidí. Krátce jsem také pracoval jako dělník v Oppacher Mineralquellen v Německu a v BeA CS v Lobendavě, kde jsem využíval MS Excel. Mám zkušenost i jako instruktor dětské sportovní přípravky a vedoucí na letních táborech. Co se týče IT dovedností, jsem expert na Microsoft Office, pokročile ovládám Adobe Photoshop, Lightroom a Illustrator, stejně tak AutoCAD. Umím základy webového vývoje (HTML, CSS, JavaScript). Mezi mé silné stránky patří učenlivost, samostatnost, týmová práce, řešení konfliktů a flexibilita. Mám několik certifikátů, například Mezinárodní cenu vévody z Edinburghu, školení Nevypusť duši (duševní zdravověda pro učitele), správu TikTok a základy umělé inteligence. Mluvím plynule německy (úroveň B2, certifikát Goethe Institut), anglicky na úrovni začátečníka. Mezi mé zájmy patří sport, tvorba webových stránek a grafiky, četba, osobní rozvoj a cestování. narodil jsem se 30.5.1994. můj představovaný plat je 50-60 000 Kč. Jsem ochotný se přestěhovat kamkoli, pokud to bude potřeba. Preferuji přestěhování za prací, ale když bude možnost pracovat z domu a občas do firmy dojet, budu také spokojen.
-V JavaScriptuu se teprve učím, ale dokážu si vždy poradit. Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.
+V JavaScriptuu se teprve učím, ale dokážu si vždy poradit. Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. na otazku "kdo jsi", odpovím - "Dominik Jarábek". Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.
 
 Proč JavaScript?
 JavaScript mě zaujal tím, že je všestranný – mohu s ním tvořit weby, aplikace i backend. Je to nejpoužívanější jazyk na webu, má velkou komunitu a spoustu nástrojů. Líbí se mi, že mohu rychle vidět výsledky své práce.
@@ -254,64 +373,62 @@ Jak vypadá proces code review a práce s Gitem?
 
 Jak často je prostor pro další vzdělávání?
                   `
-            },
-            {
-                role: "user",
-                content: msg
-            }
+          },
+          {
+            role: "user",
+            content: msg
+          }
         ]
-    })
-        });
-
-       if (!response.ok) {
-    aiMsg.innerHTML = `
-      <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-      <span>Omlouvám se, něco se pokazilo na serveru 😕</span>
-    `;
-} else {
-    const data = await response.json();
-    let odpoved = "Odpověď nebyla nalezena.";
-    if (data.reply) {
+      })
+    });
+    if (!response.ok) {
+      aiMsg.innerHTML = `
+        <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+        <span>Omlouvám se, něco se pokazilo na serveru 😕</span>
+      `;
+    } else {
+      const data = await response.json();
+      let odpoved = "Odpověď nebyla nalezena.";
+      if (data.reply) {
         odpoved = data.reply;
-    } else if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
+      } else if (data.choices && data.choices[0] && data.choices[0].message && data.choices[0].message.content) {
         odpoved = data.choices[0].message.content;
+      }
+      aiMsg.innerHTML = `
+        <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
+        <span>${odpoved}</span>
+      `;
     }
+  } catch (error) {
     aiMsg.innerHTML = `
       <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
-      <span>${odpoved}</span>
+      <span>Nepodařilo se spojit se serverem. Zkontroluj, že máš spuštěný backend (openai-proxy.js).</span>
     `;
-}
-
-    } catch (error) {
-        aiMsg.textContent = "Nepodařilo se spojit se serverem. Zkontroluj, že máš spuštěný backend (openai-proxy.js).";
-    }
-    history.scrollTop = history.scrollHeight;
+  }
+  history.scrollTop = history.scrollHeight;
+  saveChatHistoryArray();
+  input.value = "";
 };
 
-// ====== DOMLOUVÁNÍ SCHŮZKY - FUNKCE ======
-async function handleMeetingFlow(msg, history, input) {
+// =============== MEETING FLOW FUNKCE ===============
+async function handleMeetingFlow(msg) {
   // Konec flow na "konec"
   if (msg.trim().toLowerCase() === "konec") {
     appendAiMsg("Schůzka zrušena. Kdykoliv napište 'schůzku', a začneme znovu.");
     meetingFlow.active = false; meetingFlow.step = 0; meetingFlow.data = {};
     return;
   }
-  // Začátek domlouvání
   if (!meetingFlow.active) {
-    meetingFlow.active = true;
-    meetingFlow.step = 0;
-    meetingFlow.data = {};
+    meetingFlow.active = true; meetingFlow.step = 0; meetingFlow.data = {};
     appendAiMsg("Skvěle! Rád domluvím schůzku. Jak se jmenujete?");
     return;
   }
-  // Kroky: jméno
   if (meetingFlow.step === 0) {
     meetingFlow.data.name = msg;
     appendAiMsg("Děkuji! Jaký je váš e-mail?");
     meetingFlow.step = 1;
     return;
   }
-  // Kroky: email
   if (meetingFlow.step === 1) {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(msg)) {
       appendAiMsg("Zadejte prosím platný e-mail:");
@@ -322,24 +439,21 @@ async function handleMeetingFlow(msg, history, input) {
     meetingFlow.step = 2;
     return;
   }
-  // Kroky: termín
   if (meetingFlow.step === 2) {
     meetingFlow.data.datetime = msg;
     appendAiMsg("Chcete něco vzkázat? (nebo napište jen '-')");
     meetingFlow.step = 3;
     return;
   }
-  // Kroky: vzkaz, odeslání
   if (meetingFlow.step === 3) {
     meetingFlow.data.message = msg;
     appendAiMsg("Odesílám žádost...");
-
     try {
-     const res = await fetch('https://moj-chatbot.onrender.com/api/meeting', {
-  method: 'POST',
-  headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify(meetingFlow.data)
-});
+      const res = await fetch('https://moj-chatbot.onrender.com/api/meeting', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(meetingFlow.data)
+      });
       const result = await res.json();
       if (result.success) {
         appendAiMsg("Schůzka byla úspěšně domluvena! Brzy vám přijde potvrzení na e-mail. Díky 🙂");
@@ -355,199 +469,177 @@ async function handleMeetingFlow(msg, history, input) {
     return;
   }
 }
-function appendAiMsg(text) {
+function speakMsg(text) {
+  // Odstraní HTML tagy, přečte česky, zruší staré mluvení
+  const plainText = text.replace(/<[^>]+>/g, '');
+  if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
+  const utter = new SpeechSynthesisUtterance(plainText);
+  utter.lang = 'cs-CZ';
+  utter.rate = 1.05;
+  const voices = speechSynthesis.getVoices().filter(v => v.lang.startsWith('cs'));
+  if (voices.length > 0) utter.voice = voices[0];
+  window.speechSynthesis.speak(utter);
+}
+
+// =============== HISTORIE CHATABOTA (uživatel + bot) ===============
+function appendAiMsg(text, save = true) {
   const history = document.getElementById('ai-chat-history');
   const aiMsg = document.createElement('div');
   aiMsg.className = "ai-chat-msg ai";
   aiMsg.innerHTML = `
     <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
     <span>${text}</span>
+    <button class="speak-btn" title="Přehrát zprávu">🔊</button>
   `;
   history.appendChild(aiMsg);
+  aiMsg.querySelector('.speak-btn').onclick = function(e) {
+    e.stopPropagation();
+    speakMsg(text);
+  };
   history.scrollTop = history.scrollHeight;
+  if (save !== false) saveChatHistoryArray();
+}
+function appendUserMsg(text, save = true) {
+  const history = document.getElementById('ai-chat-history');
+  const userMsg = document.createElement('div');
+  userMsg.className = "ai-chat-msg user";
+  userMsg.innerHTML = `
+    <span>${text}</span>
+    <button class="speak-btn" title="Přehrát zprávu">🔊</button>
+  `;
+  history.appendChild(userMsg);
+  userMsg.querySelector('.speak-btn').onclick = function(e) {
+    e.stopPropagation();
+    speakMsg(text);
+  };
+  history.scrollTop = history.scrollHeight;
+  if (save !== false) saveChatHistoryArray();
 }
 
-// === SCROLL header ===
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header');
-    if(window.scrollY > 70) {
-        header.classList.add('shrink');
-    } else {
-        header.classList.remove('shrink');
-    }
-});
-
-// === CV Modal ===
-document.getElementById('showCvBtn').addEventListener('click', function() {
-    document.querySelector('.CvModal').style.display = 'flex';
-});
-document.getElementById('closeCvModal').addEventListener('click', function() {
-    document.querySelector('.CvModal').style.display = 'none';
-});
-const modal = document.querySelector('.CvModal');
-document.getElementById('showCvBtn').addEventListener('click', function() {
-    modal.style.display = 'flex';
-});
-document.getElementById('closeCvModal').addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-window.addEventListener('click', function(event) {
-    if (event.target === modal) {
-        modal.style.display = 'none';
-    }
-});
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && modal.style.display === 'flex') {
-        modal.style.display = 'none';
-    }
-});
-// --- Minihra: Klikací šílenství --- //
-let crazyGameTimer = null;
-let crazyGameTime = 7;
-let crazyClicks = 0;
-
-function openCrazyClickGame() {
-  document.getElementById('crazyClickGame-modal').style.display = 'block';
-  document.getElementById('crazyStartBtn').style.display = '';
-  document.getElementById('crazyClickBtn').style.display = 'none';
-  document.getElementById('crazyScore').textContent = '';
-  document.getElementById('crazyTimer').textContent = '';
-  renderCrazyLeaderboard();
-}
-
-function closeCrazyClickGame() {
-  document.getElementById('crazyClickGame-modal').style.display = 'none';
-  if (crazyGameTimer) clearInterval(crazyGameTimer);
-}
-
-document.getElementById('crazyStartBtn').onclick = function() {
-  crazyClicks = 0;
-  let timeLeft = crazyGameTime;
-  document.getElementById('crazyScore').textContent = '';
-  document.getElementById('crazyStartBtn').style.display = 'none';
-  document.getElementById('crazyClickBtn').style.display = '';
-  document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
-  crazyGameTimer = setInterval(function() {
-    timeLeft--;
-    document.getElementById('crazyTimer').textContent = `⏰ Zbývá: ${timeLeft}s`;
-    if (timeLeft <= 0) {
-      clearInterval(crazyGameTimer);
-      endCrazyGame();
-    }
-  }, 1000);
-};
-
-document.getElementById('crazyClickBtn').onclick = function() {
-  crazyClicks++;
-  document.getElementById('crazyScore').textContent = `Skóre: ${crazyClicks}`;
-};
-
-function endCrazyGame() {
-  document.getElementById('crazyClickBtn').style.display = 'none';
-  document.getElementById('crazyScore').textContent = `Výsledek: ${crazyClicks} kliků!`;
-  checkCrazyRecord(crazyClicks);
-  document.getElementById('crazyStartBtn').style.display = '';
-  document.getElementById('crazyTimer').textContent = '';
-  renderCrazyLeaderboard();
-}
-
-// --- Leaderboard do localStorage --- 
-function getCrazyLeaderboard() {
-  return JSON.parse(localStorage.getItem('crazyLeaderboard') || '[]');
-}
-function setCrazyLeaderboard(lb) {
-  localStorage.setItem('crazyLeaderboard', JSON.stringify(lb));
-}
-function renderCrazyLeaderboard() {
-  const lb = getCrazyLeaderboard();
-  const ol = document.getElementById('crazyLeaderboard');
-  ol.innerHTML = '';
-  lb.forEach(({name, score}) => {
-    let emoji = score >= 50 ? '🔥' : score >= 30 ? '💪' : '';
-    ol.innerHTML += `<li>${name}: <b>${score}</b> kliků ${emoji}</li>`;
+function saveChatHistoryArray() {
+  const messages = [];
+  document.querySelectorAll('#ai-chat-history .ai-chat-msg').forEach(div => {
+    let role = div.classList.contains('ai') ? 'ai' : 'user';
+    let content = div.querySelector('span') ? div.querySelector('span').innerHTML : div.textContent;
+    messages.push({ role, content });
   });
-  if (lb.length === 0) ol.innerHTML = '<li>Zatím nikdo nezapsán!</li>';
+  localStorage.setItem('aiChatHistoryArr', JSON.stringify(messages));
 }
 
-function checkCrazyRecord(newScore) {
-  let lb = getCrazyLeaderboard();
-  // Najdi místo pro nový rekord
-  let min = lb[lb.length - 1]?.score || 0;
-  if (lb.length < 5 || newScore > min) {
-    let name = prompt('Nový rekord! Zadej svou přezdívku:','Anonym');
-    if (!name) name = 'Anonym';
-    lb.push({name, score: newScore});
-    lb = lb.sort((a,b) => b.score - a.score).slice(0,5);
-    setCrazyLeaderboard(lb);
-    alert('Gratuluji, jsi v TOP 5!');
+function loadChatHistoryArray() {
+  const saved = localStorage.getItem('aiChatHistoryArr');
+  if (saved) {
+    const messages = JSON.parse(saved);
+    const history = document.getElementById('ai-chat-history');
+    history.innerHTML = '';
+    messages.forEach(msg => {
+      if (msg.role === 'ai') {
+        appendAiMsg(msg.content, false);
+      } else {
+        appendUserMsg(msg.content, false);
+      }
+    });
   }
 }
-// === AI Asistent: zobrazí až po prvním kliknutí a přehraje zvuk ===
-
-function shakeAiPanel() {
-  const panel = document.querySelector('.ai-panel');
-  if (!panel) return;
-  panel.classList.remove('shake');
-  void panel.offsetWidth;
-  panel.classList.add('shake');
+function clearChatHistoryArray() {
+  localStorage.removeItem('aiChatHistoryArr');
+  document.getElementById('ai-chat-history').innerHTML = '';
 }
-const zvuk = new Audio('pop.mp3');
-
-function prehrajZvukJednou() {
-  zvuk.play();
-  window.removeEventListener('click', prehrajZvukJednou);
-  window.removeEventListener('touchstart', prehrajZvukJednou);
-}
-
-window.addEventListener('click', prehrajZvukJednou);
-window.addEventListener('touchstart', prehrajZvukJednou);
-
-function showBotOnFirstInteraction(e) {
-  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
-  const audio = document.getElementById('shake-sound');
-  if (audio) {
-    audio.pause();
-    audio.currentTime = 0; 
-    audio.play().catch(() => {});
+function loadChatHistoryArray() {
+  const saved = localStorage.getItem('aiChatHistoryArr');
+  if (saved) {
+    const messages = JSON.parse(saved);
+    const history = document.getElementById('ai-chat-history');
+    history.innerHTML = '';
+    messages.forEach(msg => {
+      if (msg.role === 'ai') {
+        appendAiMsg(msg.content, false);
+      } else {
+        appendUserMsg(msg.content, false);
+      }
+    });
   }
-  const panel = document.querySelector('.ai-panel');
-  if (panel) {
-    panel.classList.remove('shake');
-    void panel.offsetWidth;
-    panel.classList.add('shake');
-  }
-  document.body.removeEventListener('click', showBotOnFirstInteraction);
-  document.body.removeEventListener('touchstart', showBotOnFirstInteraction);
 }
-document.body.addEventListener('click', showBotOnFirstInteraction);
-document.body.addEventListener('touchstart', showBotOnFirstInteraction);
 
-// === OSTATNÍ KÓD BOTA (např. zavření, rozkliknutí atd.) ===
 
-document.getElementById('ai-close').onclick = function(e) {
-  e.stopPropagation();
-  document.getElementById('ai-assistant').classList.add('ai-assistant-hidden');
-  document.getElementById('ai-open-btn').style.display = "flex";
-  document.getElementById('ai-panel').classList.remove('ai-expanded');
-  document.getElementById('ai-chat').style.display = "none";
-};
-
-document.getElementById('ai-open-btn').onclick = function() {
-  document.getElementById('ai-assistant').classList.remove('ai-assistant-hidden');
-  document.getElementById('ai-open-btn').style.display = "none";
-};
-
-let aiWelcomeShown = false; // přidat do globálního scope
-
-document.getElementById('ai-panel').addEventListener('click', function(e){
-    if(e.target.id === "ai-close") return;
-    this.classList.add('ai-expanded');
-    document.getElementById('ai-chat').style.display = "flex";
-    document.getElementById('ai-chat-input').focus();
-
-    // --- ÚVODNÍ ZPRÁVA ---
-    if (!aiWelcomeShown) {
-      appendAiMsg("👋 Vítejte!<br>Skrze mě si můžete snadno domluvit schůzku, zjistit více informací o mně, nebo získat životopis. Napište mi, s čím mohu pomoci!");
-      aiWelcomeShown = true;
-    }
+// Načti historii při startu stránky
+window.addEventListener('DOMContentLoaded', function() {
+  loadChatHistoryArray();
 });
+// ====== DIKTOVÁNÍ ZPRÁVY PŘES MIKROFON ======
+// Před použitím: ve formuláři musí být <button type="button" id="mic-btn">🎤</button> a input s id="ai-chat-input"
+
+let recognizing = false;
+let recognition;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.lang = 'cs-CZ'; // čeština
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  const micBtn = document.getElementById('mic-btn');
+  const micIco = document.getElementById('mic-ico');
+  const input = document.getElementById('ai-chat-input');
+
+  if (micBtn && input) {
+    micBtn.onclick = function () {
+      if (recognizing) {
+        recognition.stop();
+        return;
+      }
+      recognition.start();
+    };
+
+    recognition.onstart = function () {
+      recognizing = true;
+      if (micIco) micIco.textContent = '🔴'; // Můžeš si změnit na animaci/ikonu
+      micBtn.classList.add('recording');
+    };
+    recognition.onend = function () {
+      recognizing = false;
+      if (micIco) micIco.textContent = '🎤';
+      micBtn.classList.remove('recording');
+    };
+    recognition.onresult = function (event) {
+      const text = event.results[0][0].transcript;
+      input.value = text;
+      input.focus();
+      document.getElementById('ai-chat-form').requestSubmit();
+    };
+    recognition.onerror = function (event) {
+      recognizing = false;
+      if (micIco) micIco.textContent = '🎤';
+      micBtn.classList.remove('recording');
+      // Můžeš přidat notifikaci o chybě
+    };
+  }
+}
+
+
+// =============== TÉMATICKÝ REŽIM ===============
+function applyThemeToChat() {
+  const chat = document.getElementById('ai-assistant');
+  if (!chat) return;
+  if(document.body.classList.contains('dark')){
+    chat.classList.add('dark');
+  } else {
+    chat.classList.remove('dark');
+  }
+}
+const themeToggle = document.getElementById('theme-toggle');
+if(themeToggle){
+  themeToggle.addEventListener('click', function() {
+    document.body.classList.toggle('dark');
+    localStorage.setItem('theme', document.body.classList.contains('dark') ? 'dark' : 'light');
+    applyThemeToChat();
+  });
+  if(localStorage.getItem('theme') === 'dark') {
+    document.body.classList.add('dark');
+    setTimeout(applyThemeToChat, 1);
+  }
+}
+
+// =============== MAZÁNÍ HISTORIE BUTTON (volitelně do HTML) ===============
+// <button onclick="clearChatHistoryArray()">Smazat historii chatu</button>

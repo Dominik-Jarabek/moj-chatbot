@@ -21,6 +21,12 @@
         <a href="#contact">Kontakt</a>
       </nav>
     </header>
+    
+    <div id="theme-toggle" title="Přepnout denní/noční režim">
+  <span class="icon-sun">🌞</span>
+  <span class="icon-moon">🌙</span>
+  <div class="toggle-slider"></div>
+</div>
 
     <main>
       <section id="about">
@@ -133,17 +139,18 @@
       <input type="email" name="email" placeholder="Váš e-mail" required><br><br>
       <input type="datetime-local" name="datetime" required><br><br>
       <textarea name="message" placeholder="Vzkaz, otázka, preferovaný čas..." rows="3"></textarea><br><br>
+
       <button type="submit">Odeslat</button>
     </form>
     <div id="meetingSuccess" style="color:green; margin-top:14px;"></div>
   </div>
 </div>
-<button onclick="openMeetingModal()">Domluvit schůzku</button>
+
 
           <li>
             <a href="https://www.linkedin.com/in/dominik-jarábek-64b239374" 
               target="_blank" rel="noopener" class="contact-linkedin">
-              <svg viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
+              <svg class="contact-icon" viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
                 <circle cx="16" cy="16" r="16" fill="#0A66C2"/>
                 <path d="M12.7 23V14.2H9.7V23h3zm-1.5-10.1a1.7 1.7 0 1 1 0-3.4 1.7 1.7 0 0 1 0 3.4zm12.1 10.1v-4.4c0-2.4-1.3-3.5-3-3.5-1.4 0-2.1.8-2.5 1.4V14.2h-3c.04.8 0 8.8 0 8.8h3v-4.9c0-.3 0-.7.1-.9.2-.7.7-1.4 1.5-1.4 1.1 0 1.6.9 1.6 2.1V23h3z" fill="#fff"/>
               </svg>
@@ -152,7 +159,7 @@
           </li>
           <li>
             <a href="mailto:tvoje@email.cz" class="contact-email">
-              <svg viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
+              <svg class="contact-icon" viewBox="0 0 32 32" width="22" height="22" style="vertical-align:middle;margin-right:6px;">
                 <circle cx="16" cy="16" r="16" fill="#2196f3"/>
                 <path d="M8 12.7l8 6.2 8-6.2V22a2 2 0 0 1-2 2H10a2 2 0 0 1-2-2z" fill="#fff"/>
                 <path d="M24 10a2 2 0 0 0-2-2H10a2 2 0 0 0-2 2l8 6 8-6z" fill="#fff"/>
@@ -160,6 +167,9 @@
               jarabek.do@gmail.com
             </a>
           </li>
+          <p style="color:#1976d2; font-size:0.97em; margin-top:8px; text-align: center;">
+  Ozvi se mi, rád odpovím na jakýkoliv dotaz!
+</p>
         </ul>
       </section>
     </main>
@@ -179,6 +189,7 @@
       
 
 
+
       <div class="ai-message" id="ai-message">
         <span>Jak vám mohu pomoci?</span>
         <button id="ai-close">×</button>
@@ -187,7 +198,8 @@
         <div class="ai-chat-history" id="ai-chat-history"></div>
         <form id="ai-chat-form" autocomplete="off">
           <input type="text" id="ai-chat-input" placeholder="Napište svůj dotaz..." required />
-          <button type="submit">Odeslat</button>
+          <button type="button" id="mic-btn" class="mic-btn" title="Diktovat"><span id="mic-ico">🎤</span></button>
+         <button type="submit" id="send-btn" title="Odeslat">➤</button>
         </form>
       </div>
     </div>
