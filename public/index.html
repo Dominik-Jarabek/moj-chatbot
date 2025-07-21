@@ -139,25 +139,56 @@
 </div>
 
       </section>
-      <section id="cv">
-        <h2 class="section-title">Životopis</h2>
-    
-        <div class="cv-buttons" style="margin-top: 10px;">
-            <button id="showCvBtn">Zobrazit životopis</button>
-          <a href="Jarabek_CV.pdf" download>
-            <button>Stáhnout životopis</button>
-          </a>
-        </div>
-      </section>
-      <div id="cvModal" class="CvModal" style="display:none;">
-        <div class="modal-content">
-          <span class="close" id="closeCvModal">&times;</span>
-          <embed src="Jarabek_CV.pdf" type="application/pdf" width="100%" height="600px" />
-        </div>
+     <section id="cv">
+  <h2 class="section-title">Životopis</h2>
+  <div class="cv-buttons">
+    <div class="cv-card">
+      <div class="cv-title">Životopis</div>
+      <div class="cv-actions">
+        <button id="showCvBtn">Zobrazit</button>
+        <a href="Jarabek_CV.pdf" download><button>Stáhnout</button></a>
       </div>
-      <section id="contact">
-        <h2 class="section-title">Kontakt</h2>
-        <ul class="contact-list">
+    </div>
+    <div class="cv-card">
+      <div class="cv-title">Dodatek k osvědčení</div>
+      <div class="cv-actions">
+        <button id="showCertBtn">Zobrazit</button>
+        <a href="dodatek_k_osvedceni.pdf" download><button>Stáhnout</button></a>
+      </div>
+    </div>
+    <div class="cv-card">
+      <div class="cv-title">Mezinárodní cena vévody z Edinburghu</div>
+      <div class="cv-actions">
+      <button id="showEdinBtn">Zobrazit</button>
+        <a href="Mezinárodní_cena_védody_z_Edinburghu.pdf" download><button>Stáhnout</button></a>
+      </div>
+    </div>
+     <div class="cv-card">
+      <div class="cv-title">TikTok - certifikát</div>
+      <div class="cv-actions">
+       <button id="showTiktokBtn">Zobrazit</button>
+        <a href="TikTok_certifikát.pdf" download><button>Stáhnout</button></a>
+      </div>
+    </div>
+     <div class="cv-card">
+      <div class="cv-title">Nevypusť duši - zdravověda</div>
+      <div class="cv-actions">
+   <button id="showNevypustBtn">Zobrazit</button>
+        <a href="Nevypust_dusi_dusevni_zdravoveda_pro_ucitele.pdf" download><button>Stáhnout</button></a>
+      </div>
+    </div>
+    <!-- Další certifikáty… -->
+  </div>
+</section>
+
+
+   <div id="cvModal" class="CvModal" style="display:none;">
+  <div class="modal-content">
+    <span class="close" id="closeCvModal">&times;</span>
+    <embed id="cvEmbed" src="" type="application/pdf" width="100%" height="600px" />
+  </div>
+</div>
+
           <!-- Modální formulář na schůzku -->
 <div id="meetingModal" class="CvModal" style="display:none;">
   <div class="modal-content">
@@ -175,7 +206,9 @@
   </div>
 </div>
 
-
+<section id="contact">
+  <h2 class="section-title">Kontakt</h2>
+  <ul class="contact-list" style="list-style:none;padding:0;">
           <li>
             <a href="https://www.linkedin.com/in/dominik-jarábek-64b239374" 
               target="_blank" rel="noopener" class="contact-linkedin">

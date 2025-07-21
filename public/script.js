@@ -111,20 +111,7 @@ function checkCrazyRecord(newScore) {
   }
 }
 
-// =============== MODAL NA CV ===============
-const modal = document.querySelector('.CvModal');
-document.getElementById('showCvBtn').addEventListener('click', function() {
-    modal.style.display = 'flex';
-});
-document.getElementById('closeCvModal').addEventListener('click', function() {
-    modal.style.display = 'none';
-});
-window.addEventListener('click', function(event) {
-    if (event.target === modal) modal.style.display = 'none';
-});
-window.addEventListener('keydown', function(event) {
-    if (event.key === 'Escape' && modal.style.display === 'flex') modal.style.display = 'none';
-});
+
 
 // =============== HEADER SCROLL ===============
 window.addEventListener('scroll', function() {
@@ -636,5 +623,47 @@ if(themeToggle){
   }
 }
 
-// =============== MAZÁNÍ HISTORIE BUTTON (volitelně do HTML) ===============
-// <button onclick="clearChatHistoryArray()">Smazat historii chatu</button>
+const modal = document.getElementById('cvModal');
+const cvEmbed = document.getElementById('cvEmbed');
+
+document.getElementById('showCvBtn').addEventListener('click', function() {
+    cvEmbed.src = 'Jarabek_CV.pdf';
+    modal.style.display = 'flex';
+});
+document.getElementById('showCertBtn').addEventListener('click', function() {
+    cvEmbed.src = 'dodatek_k_osvedceni.pdf';
+    modal.style.display = 'flex';
+});
+document.getElementById('showEdinBtn').addEventListener('click', function() {
+    cvEmbed.src = 'Mezinárodní_cena_védody_z_Edinburghu.pdf';
+    modal.style.display = 'flex';
+});
+document.getElementById('showTiktokBtn').addEventListener('click', function() {
+    cvEmbed.src = 'TikTok_certifikát.pdf';
+    modal.style.display = 'flex';
+});
+document.getElementById('showNevypustBtn').addEventListener('click', function() {
+    cvEmbed.src = 'Nevypust_dusi_dusevni_zdravoveda_pro_ucitele.pdf';
+    modal.style.display = 'flex';
+});
+
+// Zavírání modalu
+document.getElementById('closeCvModal').addEventListener('click', function() {
+    modal.style.display = 'none';
+    cvEmbed.src = '';
+});
+window.addEventListener('click', function(event) {
+    if (event.target === modal) {
+        modal.style.display = 'none';
+        cvEmbed.src = '';
+    }
+});
+window.addEventListener('keydown', function(event) {
+    if (event.key === 'Escape' && modal.style.display === 'flex') {
+        modal.style.display = 'none';
+        cvEmbed.src = '';
+    }
+});
+
+
+
