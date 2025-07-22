@@ -667,3 +667,59 @@ window.addEventListener('keydown', function(event) {
 
 
 
+
+const track = document.getElementById('carouselTrack');
+const slides = Array.from(track.children);
+const dotsContainer = document.getElementById('carouselDots');
+const slideCount = slides.length;
+let currentIdx = 0;
+let interval;
+
+// Vytvoření teček
+for (let i = 0; i < slideCount; i++) {
+  const dot = document.createElement('div');
+  dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+  dot.addEventListener('click', () => {
+    goToSlide(i);
+    resetInterval();
+  });
+  dotsContainer.appendChild(dot);
+}
+
+function goToSlide(idx) {
+  track.style.transform = `translateX(-${idx * 100}%)`;
+  dotsContainer.querySelectorAll('.carousel-dot').forEach((dot, i) => {
+    dot.classList.toggle('active', i === idx);
+  });
+  currentIdx = idx;
+}
+
+function nextSlide() {
+  let idx = (currentIdx + 1) % slideCount;
+  goToSlide(idx);
+}
+function resetInterval() {
+  clearInterval(interval);
+  interval = setInterval(nextSlide, 3800);
+}
+
+// Dotykové ovládání (volitelné)
+let startX = 0;
+track.addEventListener('touchstart', e => {
+  startX = e.touches[0].clientX;
+});
+track.addEventListener('touchend', e => {
+  let diff = e.changedTouches[0].clientX - startX;
+  if (diff > 70) {
+    // swipe right
+    goToSlide((currentIdx - 1 + slideCount) % slideCount);
+    resetInterval();
+  } else if (diff < -70) {
+    // swipe left
+    nextSlide();
+    resetInterval();
+  }
+});
+
+interval = setInterval(nextSlide, 3800);
+
