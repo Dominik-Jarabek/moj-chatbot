@@ -153,3 +153,52 @@ Dominik Jarábek
     res.status(500).json({ success: false, error: err.toString() });
   }
 });
+
+// Cestovatelský plánovač – Google Places
+app.post('/api/places', async (req, res) => {
+  const { city, lat, lng } = req.body;
+
+  let location;
+  if (lat && lng) {
+    location = { lat, lng };
+    console.log("📍 Používám aktuální polohu:", location);
+  } else if (city) {
+    console.log("🔎 Geokóduji město:", city);
+    const geoRes = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
+      params: { address: city, key: process.env.GOOGLE_API_KEY }
+    });
+    location = geoRes.data.results[0]?.geometry?.location;
+    if (!location) return res.status(404).json({ error: 'Město nebylo nalezeno.' });
+  } else {
+    return res.status(400).json({ error: 'Zadej město nebo polohu.' });
+  }
+
+  const placesRes = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
+    params: {
+      location: `${location.lat},${location.lng}`,
+      radius: 5000,
+      keyword: 'museum OR castle OR church OR monument OR park',
+      key: process.env.GOOGLE_API_KEY
+    }
+  });
+
+  const haversine = (lat1, lon1, lat2, lon2) => {
+    const R = 6371e3;
+    const toRad = deg => deg * Math.PI / 180;
+    const φ1 = toRad(lat1), φ2 = toRad(lat2);
+    const Δφ = toRad(lat2 - lat1), Δλ = toRad(lon2 - lon1);
+    const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    return R * c;
+  };
+
+  const results = placesRes.data.results.map(place => {
+    const placeLoc = place.geometry?.location;
+    if (placeLoc) {
+      place.distance = haversine(location.lat, location.lng, placeLoc.lat, placeLoc.lng);
+    }
+    return place;
+  });
+
+  res.json(results);
+});
