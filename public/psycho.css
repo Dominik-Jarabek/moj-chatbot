@@ -309,6 +309,9 @@ h2 {
   padding: 0 1rem;
   box-shadow: 0 1px 8px #B1E5D344;
 }
+.expand-section.open {
+  display: block;
+}
 .expand-section.active {
   max-height: 300px;
   opacity: 1;
@@ -413,19 +416,7 @@ h2 {
 
 
 /* --- Responzivita --- */
-@media (max-width: 700px) {
-  .psycho-panel {
-    max-width: 99vw;
-    padding: 1rem 0.3rem 1.1rem 0.3rem;
-    border-radius: 13px;
-  }
-  .panel-img-text { flex-direction: column; gap: 0.6rem; }
-  .hero-img { max-width: 44px !important; }
-  .contacts-list { padding: 0.38rem 0.2rem; }
-  .panel-nav { gap: 0.3rem; }
-  .contacts-dropdown { bottom: -14px; }
-  .panel-section-link { font-size: 1.02rem; padding: 0.46rem 0.7rem; }
-}
+
 @media (max-width: 900px) {
   .show-contacts-btn { display: inline-block; }
 }
@@ -882,4 +873,198 @@ h2 {
   box-shadow: 0 3px 14px #36b0fd33;
   background: #e7f4ff;
 }
+
+
+
+
+/* === VYLEPŠENÁ RESPONSIVITA A DYNAMICKÉ ROZBALENÍ === */
+.expand-section {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  margin-bottom: 0;
+  transition: all 0.5s ease;
+  background: #E2F0CBcc;
+  border-radius: 18px;
+  margin-top: 0.18rem;
+  padding: 0 1rem;
+  box-shadow: 0 1px 8px #B1E5D344;
+}
+
+.expand-section.open {
+  max-height: 1500px;  /* Pro delší obsah, zejména na mobilu */
+  opacity: 1;
+  margin-bottom: 1rem;
+  padding: 1rem;
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.5rem !important;
+  }
+
+  .panel-img-text .subtitle {
+    font-size: 1rem;
+    max-width: 90vw;
+    padding: 0 1rem;
+  }
+
+  .expand-btn {
+    font-size: 1rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .expand-section.open {
+    padding: 0.8rem 0.8rem;
+  }
+
+  .support-messages {
+    font-size: 0.97rem;
+    padding: 1rem;
+  }
+
+  .more-help {
+    padding: 1rem;
+  }
+
+  .panel-nav {
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+}
+
+
+/* === ÚPRAVY PRO MOBILNÍ PŘEHLEDNOST === */
+.panel-nav {
+  margin-bottom: 2rem;
+}
+
+/* Sekce – zajistit scroll do správného místa + vizuální oddělení */
+#feelings-section,
+#techniques-section,
+#support-section,
+#more-help-section {
+  scroll-margin-top: 80px;
+  margin-top: 2rem;
+}
+
+/* Posunutí pevných tlačítek a prostor ve spodním panelu */
+@media (max-width: 600px) {
+  .bubble-fab {
+    bottom: 160px;
+  }
+
+  .sos-floating {
+    bottom: 90px;
+  }
+
+  .lower-panel {
+    padding-bottom: 160px;
+  }
+}
+
+
+/* === HAMBURGER MENU === */
+.nav-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  z-index: 120;
+}
+
+.nav-toggle .bar {
+  display: block;
+  width: 26px;
+  height: 3px;
+  margin: 5px auto;
+  background-color: #444;
+  border-radius: 4px;
+  transition: all 0.3s ease-in-out;
+}
+
+
+.nav-toggle:focus {
+  outline: none;
+}
+
+@media (max-width: 700px) {
+  .psycho-panel {
+    max-height: 78vw;
+    max-width: 99vw;
+    padding: 1rem 0.3rem 1.1rem 0.3rem;
+    border-radius: 13px;
+  }
+  .panel-img-text { flex-direction: column; gap: 0.6rem;
+  margin-top: 15px; }
+  .hero-img { max-width: 44px !important; }
+  .contacts-list { padding: 0.38rem 0.2rem; }
+  .panel-nav { gap: 0.3rem; }
+  .contacts-dropdown { bottom: -45px; }
+  .panel-section-link { font-size: 1.02rem; padding: 0.46rem 0.7rem; }
+}
+  .panel-nav {
+    display: none;
+    flex-direction: column;
+    gap: 0.6rem;
+    background: #f9fcff;
+    padding: 1rem;
+    border-radius: 16px;
+    box-shadow: 0 3px 18px #aacbe655;
+    position: absolute;
+    top: 3.5rem;
+    right: 1rem;
+    width: calc(100vw - 2rem);
+    max-width: 340px;
+    z-index: 110;
+  }
+
+  .panel-nav.open {
+    display: flex;
+    margin-top: -15px;
+    margin-right: -16.38px;
+  }
+
+  
+ .nav-toggle {
+   background: #A7C7E7; /* stejné jako show-contacts-btn */
+    display: block;
+     box-shadow: 0 2px 8px #A7C7E744;
+    margin: 0.8rem auto;
+    margin-left: 8px;
+    margin-top: 20x;
+    border-radius: 17px;
+  }
+
+  /* ANIMACE na změnu křížku */
+  .nav-toggle.active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+
+  .nav-toggle.active .bar:nth-child(2) {
+    opacity: 0;
+  }
+
+  .nav-toggle.active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+
+
+
+  .contacts-dropdown {
+    display: none;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(-12px) scaleY(0.88);
+    transition: opacity 0.36s cubic-bezier(.7,.2,.24,1), transform 0.36s cubic-bezier(.7,.2,.24,1);
+  }
+
+  .contacts-dropdown.dropdown-visible {
+    display: flex;
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(20px) scaleY(1);
+  }
 

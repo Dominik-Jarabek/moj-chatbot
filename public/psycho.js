@@ -473,3 +473,50 @@ document.head.appendChild(style);
 function removeBubble() {
   bubbleGameOverlay.innerHTML = '';
 }
+document.querySelectorAll('.expand-btn').forEach(button => {
+  button.addEventListener('click', () => {
+    const targetId = button.dataset.expand;
+    const target = document.getElementById(targetId);
+
+    // Zavřít všechny ostatní sekce
+    document.querySelectorAll('.expand-section').forEach(section => {
+      if (section !== target) {
+        section.classList.remove('open');
+      }
+    });
+
+    // Přepnout kliknutou sekci
+    if (target) {
+      target.classList.toggle('open');
+    }
+  });
+});
+const navToggle = document.getElementById('nav-toggle');
+const navMenu = document.querySelector('.panel-nav');
+
+navToggle.addEventListener('click', () => {
+  navMenu.classList.toggle('open');
+  navToggle.classList.toggle('active');  // pro animaci ikonky
+});
+document.querySelectorAll('.nav-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    const targetEl = document.getElementById(targetId);
+    if (targetEl) {
+      targetEl.scrollIntoView({ behavior: 'smooth' });
+
+      // Pokud jsme na mobilu, skryj menu po kliknutí
+      if (window.innerWidth <= 700) {
+        document.querySelector('.panel-nav')?.classList.remove('open');
+      }
+    }
+  });
+});
+const showContactsBtn = document.querySelector('.show-contacts-btn');
+const contactsDropdown = document.querySelector('.contacts-dropdown');
+
+if (showContactsBtn && contactsDropdown) {
+  showContactsBtn.addEventListener('click', () => {
+    contactsDropdown.classList.toggle('dropdown-visible');
+  });
+}
