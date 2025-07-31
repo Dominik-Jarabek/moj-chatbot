@@ -105,3 +105,10 @@ document.getElementById('locationBtn').addEventListener('click', () => {
   
   });
 });
+document.getElementById('city').addEventListener('keydown', (event) => {
+  if (event.key === 'Enter') {
+    event.preventDefault(); // Zamezí odeslání formuláře (pokud by byl)
+    document.getElementById('searchBtn').click(); // Spustí kliknutí na Hledat
+    document.getElementById('city').value = '';   // Vymaže vstup
+  }
+});
