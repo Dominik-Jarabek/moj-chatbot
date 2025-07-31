@@ -1,5 +1,41 @@
+let map;
+let markers = [];
+
+function initMap(lat = 50.0755, lng = 14.4378, zoom = 13) {
+  if (map) {
+    map.remove();
+  }
+
+  map = L.map('map').setView([lat, lng], zoom);
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '&copy; OpenStreetMap přispěvatelé'
+  }).addTo(map);
+}
+
+function showMarkers(places) {
+  markers.forEach(marker => marker.remove());
+  markers = [];
+
+  places.forEach(place => {
+    const loc = place.geometry.location;
+    const marker = L.marker([loc.lat, loc.lng])
+      .addTo(map)
+      .bindPopup(`<strong>${place.name}</strong><br>${place.vicinity || 'adresa neznámá'}`);
+    markers.push(marker);
+  });
+
+  if (places.length) {
+    const first = places[0].geometry.location;
+    map.setView([first.lat, first.lng], 13);
+  }
+}
+
 document.getElementById('searchBtn').addEventListener('click', async () => {
-  const city = document.getElementById('city').value.trim();
+  const category = document.getElementById('category').value;
+  console.log("🔎 Zvolená kategorie:", category);
+
+  const cityInput = document.getElementById('city');
+  const city = cityInput.value.trim();
   const results = document.getElementById('results');
   results.innerHTML = '';
 
@@ -11,10 +47,8 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
   try {
     const response = await fetch('http://localhost:3333/api/places', {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ city })
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ city, category })
     });
 
     const data = await response.json();
@@ -25,7 +59,7 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     }
 
     if (data.length === 0) {
-      results.innerHTML = `<p>Žádná zajímavá místa pro "${city}" nebyla nalezena.</p>`;
+      results.innerHTML = `<p>Žádná místa v kategorii "${category}" nebyla nalezena pro "${city}".</p>`;
       return;
     }
 
@@ -40,6 +74,12 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
       results.appendChild(div);
     });
 
+    const first = data[0]?.geometry?.location;
+    if (first) initMap(first.lat, first.lng);
+    showMarkers(data);
+
+    cityInput.value = '';
+
   } catch (error) {
     console.error(error);
     results.innerHTML = `<p>Došlo k chybě při načítání.</p>`;
@@ -47,6 +87,9 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
 });
 
 document.getElementById('locationBtn').addEventListener('click', () => {
+  const category = document.getElementById('category').value;
+  console.log("📍 Hledání podle polohy, kategorie:", category);
+
   const results = document.getElementById('results');
   results.innerHTML = 'Načítám polohu...';
 
@@ -58,15 +101,12 @@ document.getElementById('locationBtn').addEventListener('click', () => {
   navigator.geolocation.getCurrentPosition(async (position) => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
-    console.log("Odesílám polohu:", lat, lng);
 
     try {
       const response = await fetch('http://localhost:3333/api/places', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ lat, lng })
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ lat, lng, category })
       });
 
       const data = await response.json();
@@ -78,7 +118,7 @@ document.getElementById('locationBtn').addEventListener('click', () => {
       }
 
       if (data.length === 0) {
-        results.innerHTML = `<p>Ve vašem okolí nebyla nalezena žádná zajímavá místa.</p>`;
+        results.innerHTML = `<p>Ve vašem okolí nebyla nalezena žádná místa v kategorii "${category}".</p>`;
         return;
       }
 
@@ -96,19 +136,22 @@ document.getElementById('locationBtn').addEventListener('click', () => {
         results.appendChild(div);
       });
 
+      initMap(lat, lng);
+      showMarkers(data);
+
     } catch (error) {
       console.error(error);
       results.innerHTML = `<p>Došlo k chybě při načítání.</p>`;
     }
   }, () => {
     results.innerHTML = '<p>Nepodařilo se získat polohu.</p>';
-  
   });
 });
-document.getElementById('city').addEventListener('keydown', (event) => {
+
+document.getElementById('city').addEventListener('keydown', function (event) {
   if (event.key === 'Enter') {
-    event.preventDefault(); // Zamezí odeslání formuláře (pokud by byl)
-    document.getElementById('searchBtn').click(); // Spustí kliknutí na Hledat
-    document.getElementById('city').value = '';   // Vymaže vstup
+    event.preventDefault();
+    document.getElementById('searchBtn').click();
+    document.getElementById('city').value = '';
   }
 });

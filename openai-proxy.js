@@ -130,7 +130,7 @@ Dominik Jarábek`
 
 app.post('/api/places', async (req, res) => {
   console.log("🔍 ZACHYCENO tělo požadavku:", req.body);
-  const { city, lat, lng } = req.body;
+  const { city, lat, lng, category } = req.body;
 
   let location;
   if (lat && lng) {
@@ -146,11 +146,17 @@ app.post('/api/places', async (req, res) => {
     return res.status(400).json({ error: 'Zadej město nebo polohu.' });
   }
 
+  // ✅ UPRAVENO: čistější způsob pro výběr typu
+  const allowedTypes = ['museum', 'park', 'tourist_attraction'];
+  const type = allowedTypes.includes(category) ? category : 'tourist_attraction';
+  console.log("📦 Přijatá kategorie:", category);
+  console.log("➡️ Používám typ:", type);
+
   const placesRes = await axios.get('https://maps.googleapis.com/maps/api/place/nearbysearch/json', {
     params: {
       location: `${location.lat},${location.lng}`,
       radius: 5000,
-      keyword: 'museum OR castle OR church OR monument OR park',
+      type: type,
       key: process.env.GOOGLE_API_KEY
     }
   });
@@ -160,7 +166,7 @@ app.post('/api/places', async (req, res) => {
     const toRad = deg => deg * Math.PI / 180;
     const φ1 = toRad(lat1), φ2 = toRad(lat2);
     const Δφ = toRad(lat2 - lat1), Δλ = toRad(lon2 - lon1);
-    const a = Math.sin(Δφ/2)**2 + Math.cos(φ1)*Math.cos(φ2)*Math.sin(Δλ/2)**2;
+    const a = Math.sin(Δφ / 2) ** 2 + Math.cos(φ1) * Math.cos(φ2) * Math.sin(Δλ / 2) ** 2;
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     return R * c;
   };

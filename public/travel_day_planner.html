@@ -1,22 +1,29 @@
-
 <!DOCTYPE html>
 <html lang="cs">
 <head>
   <meta charset="UTF-8">
   <title>Cestovatelský plánovač dne</title>
   <link rel="stylesheet" href="travel_day_planner.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
   <div class="container">
     <h1>Cestovatelský plánovač dne 🌍</h1>
 
     <input type="text" id="city" placeholder="Zadejte město">
+    <select id="category">
+      <option value="museum">Muzea</option>
+      <option value="park">Parky</option>
+      <option value="tourist_attraction">Památky</option> 
+    </select>
     <button id="searchBtn">Hledat</button>
     <button id="locationBtn">Použít moji polohu</button>
 
     <div id="results"></div>
+    <div id="map" style="height: 400px; margin-top: 20px;"></div>
   </div>
 
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="travel_day_planner.js"></script>
 </body>
 </html>
