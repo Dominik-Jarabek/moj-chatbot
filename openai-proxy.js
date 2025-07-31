@@ -1,18 +1,19 @@
-// openai-proxy.js
+console.log("✅ SPUŠTĚNA AKTUÁLNÍ VERZE SERVERU");
 
 const express = require('express');
 const cors = require('cors');
 const axios = require('axios');
+const nodemailer = require('nodemailer');
 require('dotenv').config();
 
 const app = express();
 app.use(cors());
-app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: '1mb', type: 'application/json' }));
 
-// Servíruj frontend (psycho.html apod.) ze složky "public"
+// Servíruj frontend ze složky "public"
 app.use(express.static('public'));
 
-// TEST endpoint pro ověření API klíče (volitelně smaž později)
 app.get('/test', async (req, res) => {
   try {
     const response = await axios.get('https://api.openai.com/v1/models', {
@@ -26,17 +27,14 @@ app.get('/test', async (req, res) => {
   }
 });
 
-// API endpoint pro OpenAI chat
 app.post('/api/chat', async (req, res) => {
   try {
     let { messages, systemPrompt, botType } = req.body;
 
-    // Kontrola API klíče
     if (!process.env.OPENAI_API_KEY) {
       return res.status(500).json({ error: "Chybí OPENAI_API_KEY v .env souboru!" });
     }
 
-    // Dynamický system prompt
     if (systemPrompt) {
       if (messages.length && messages[0].role === "system") {
         messages[0].content = systemPrompt;
@@ -46,9 +44,9 @@ app.post('/api/chat', async (req, res) => {
     } else if (botType) {
       let prompt = "Jsi nápomocný asistent.";
       if (botType === "therapist") {
-        prompt = "Jsi laskavý terapeutický asistent. Pomáháš uživateli zvládat úzkosti, panické ataky, špatné myšlenky nebo stres. Odpovídej česky, přívětivě, povzbudivě a krátce. Nikdy nekritizuj, nedáváš diagnózy, dáváš jednoduché tipy na uklidnění a nadhled.";
+        prompt = "Jsi laskavý terapeutický asistent. Pomáháš uživateli zvládat úzkosti, panické ataky, špatné myšlenky nebo stres.";
       } else if (botType === "motivator") {
-        prompt = "Jsi energický motivátor, dodáváš odvahu, naději a pozitivní náhled na věci.";
+        prompt = "Jsi energický motivátor.";
       }
       if (messages.length && messages[0].role === "system") {
         messages[0].content = prompt;
@@ -57,14 +55,8 @@ app.post('/api/chat', async (req, res) => {
       }
     }
 
-    // LOGUJ CO ODESÍLÁŠ
-    console.log("Posílám na OpenAI:", {
-      model: "gpt-3.5-turbo",
-      messages: messages,
-      temperature: 0.8
-    });
+    console.log("Posílám na OpenAI:", messages);
 
-    // volání OpenAI API
     const response = await axios.post(
       'https://api.openai.com/v1/chat/completions',
       {
@@ -86,52 +78,35 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-const PORT = process.env.PORT || 3333;
-app.listen(PORT, () => {
-  console.log(`Proxy běží na http://localhost:${PORT}`);
-});
-
-//Domluva schuzky
-
-const nodemailer = require('nodemailer');
-
-// ... existující kód (Express, axios atd.)
-
-// Endpoint pro domluvení schůzky
 app.post('/api/meeting', async (req, res) => {
   try {
     const { name, email, datetime, message } = req.body;
 
-    // Nodemailer transporter (Gmail, bezpečnější je použít heslo aplikace)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
         user: 'jarabek.do@gmail.com',
-        pass: process.env.GMAIL_APP_PASSWORD, // nastav do .env!
+        pass: process.env.GMAIL_APP_PASSWORD,
       },
     });
 
     const mailOptions = {
       from: 'jarabek.do@gmail.com',
-      to: 'jarabek.do@gmail.com', // přijde na tebe
+      to: 'jarabek.do@gmail.com',
       subject: `Nová žádost o schůzku od ${name}`,
-      text: `
-Jméno: ${name}
+      text: `Jméno: ${name}
 E-mail: ${email}
 Termín: ${datetime}
-Vzkaz: ${message}
-      `.trim()
+Vzkaz: ${message}`
     };
 
     await transporter.sendMail(mailOptions);
 
-     // Druhý e-mail přijde uživateli (potvrzení pro něj)
     const userMail = {
       from: 'jarabek.do@gmail.com',
-      to: email, // POZOR: jeho e-mail!
+      to: email,
       subject: 'Potvrzení odeslání žádosti o schůzku',
-      text: `
-Dobrý den ${name},
+      text: `Dobrý den ${name},
 
 potvrzuji, že jsme obdrželi vaši žádost o schůzku.
 
@@ -141,21 +116,20 @@ Vzkaz: ${message}
 Ozvu se vám co nejdříve.
 
 S pozdravem,
-Dominik Jarábek
-      `.trim()
+Dominik Jarábek`
     };
 
-    await transporter.sendMail(userMail); // ← TADY JE TO NAVÍC!
+    await transporter.sendMail(userMail);
 
-    res.json({ success: true, message: "Schůzka byla domluvena! Očekávej potvrzení v e-mailu." });
+    res.json({ success: true, message: "Schůzka byla domluvena!" });
   } catch (err) {
     console.error("Chyba při odesílání e-mailu:", err);
     res.status(500).json({ success: false, error: err.toString() });
   }
 });
 
-// Cestovatelský plánovač – Google Places
 app.post('/api/places', async (req, res) => {
+  console.log("🔍 ZACHYCENO tělo požadavku:", req.body);
   const { city, lat, lng } = req.body;
 
   let location;
@@ -163,7 +137,6 @@ app.post('/api/places', async (req, res) => {
     location = { lat, lng };
     console.log("📍 Používám aktuální polohu:", location);
   } else if (city) {
-    console.log("🔎 Geokóduji město:", city);
     const geoRes = await axios.get('https://maps.googleapis.com/maps/api/geocode/json', {
       params: { address: city, key: process.env.GOOGLE_API_KEY }
     });
@@ -201,4 +174,14 @@ app.post('/api/places', async (req, res) => {
   });
 
   res.json(results);
+});
+
+app.post('/debug-body', (req, res) => {
+  console.log("✅ TEST: Tělo požadavku je:", req.body);
+  res.json({ received: req.body });
+});
+
+const PORT = process.env.PORT || 3333;
+app.listen(PORT, () => {
+  console.log(`✅ Proxy běží na http://localhost:${PORT}`);
 });
