@@ -42,6 +42,160 @@ button:hover {
 }
 
 .place-item {
-  padding: 10px;
-  border-bottom: 1px solid #ccc;
+  background-color: #ffffff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 12px 16px;
+  margin: 10px 0;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s, transform 0.2s;
+  cursor: pointer;
 }
+.place-item:hover {
+  background-color: #f0f8ff;
+  transform: translateY(-2px);
+}
+
+.place-item strong {
+  font-size: 1.1em;
+  color: #1e3a8a;
+}
+
+.place-item .icon {
+  margin-right: 6px;
+}
+select#category {
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: white;
+  margin-bottom: 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+select#category:hover {
+  border-color: #4CAF50;
+}
+
+select#category:focus {
+  outline: none;
+  border-color: #4CAF50;
+  box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+}
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.controls input,
+.controls select,
+.controls button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  min-width: 150px;
+  height: 42px;
+  box-sizing: border-box;
+  flex: 1 1 auto;
+  text-align: center;
+}
+
+.controls button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.controls button:hover {
+  background-color: #45a049;
+}
+
+.controls input {
+  max-width: 200px;
+}
+
+.controls select {
+  max-width: 160px;
+  background-color: white;
+}
+
+.controls button {
+  max-width: 180px;
+}
+
+@media (max-width: 600px) {
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .controls input,
+  .controls select,
+  .controls button {
+    width: 100%;
+  }
+}
+
+/* Horní vstup */
+.search-bar {
+  text-align: center;
+  margin-bottom: 15px;
+}
+
+.search-bar input {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 70%;
+  max-width: 400px;
+  height: 42px;
+  box-sizing: border-box;
+}
+
+/* Spodní trojice */
+.filters-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.filters-row select,
+.filters-row button {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  height: 42px;
+  min-width: 150px;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+/* Styl pro tlačítka */
+.filters-row button {
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  transition: background-color 0.3s;
+}
+
+.filters-row button:hover {
+  background-color: #45a049;
+}
+
+.filters-row select {
+  background-color: white;
+}
+

@@ -10,14 +10,23 @@
   <div class="container">
     <h1>Cestovatelský plánovač dne 🌍</h1>
 
-    <input type="text" id="city" placeholder="Zadejte město">
-    <select id="category">
-      <option value="museum">Muzea</option>
-      <option value="park">Parky</option>
-      <option value="tourist_attraction">Památky</option> 
-    </select>
-    <button id="searchBtn">Hledat</button>
-    <button id="locationBtn">Použít moji polohu</button>
+   <!-- Horní vyhledávací pole -->
+<div class="search-bar">
+  <input type="text" id="city" placeholder="Zadejte město">
+</div>
+
+<!-- Spodní tři prvky vedle sebe -->
+<div class="filters-row">
+  <select id="category">
+    <option value="museum">Muzea</option>
+    <option value="park">Parky</option>
+    <option value="tourist_attraction">Památky</option>
+  </select>
+  <button id="searchBtn">Hledat</button>
+  <button id="locationBtn">📍 Použít moji polohu</button>
+</div>
+
+
 
     <div id="results"></div>
     <div id="map" style="height: 400px; margin-top: 20px;"></div>

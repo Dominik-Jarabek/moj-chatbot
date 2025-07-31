@@ -64,15 +64,16 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     }
 
     data.forEach(place => {
-      const div = document.createElement('div');
-      div.className = 'place-item';
-      div.innerHTML = `
-        <strong>${place.name}</strong><br>
-        📍 ${place.vicinity || 'Adresa neuvedena'}<br>
-        ⭐️ ${place.rating || 'Nehodnoceno'}
-      `;
-      results.appendChild(div);
-    });
+  const div = document.createElement('div');
+  div.className = 'place-item';
+  div.innerHTML = `
+    <strong>${place.name}</strong><br>
+    <span class="icon">📍</span> ${place.vicinity || 'Adresa neuvedena'}<br>
+    <span class="icon">⭐</span> ${place.rating || 'Nehodnoceno'}
+  `;
+  
+  results.appendChild(div); 
+});
 
     const first = data[0]?.geometry?.location;
     if (first) initMap(first.lat, first.lng);
