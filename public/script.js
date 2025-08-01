@@ -114,14 +114,49 @@ function checkCrazyRecord(newScore) {
 
 
 // =============== HEADER SCROLL ===============
-window.addEventListener('scroll', function() {
-    const header = document.querySelector('header');
-    if(window.scrollY > 70) {
-        header.classList.add('shrink');
-    } else {
-        header.classList.remove('shrink');
-    }
+let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
+const header = document.getElementById('main-header');
+let currentState = "full";
+
+window.addEventListener('scroll', () => {
+  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
+  const delta = currentScroll - lastScrollTop;
+
+  if (Math.abs(delta) < 10) return;
+
+  // 1. Úplně nahoře → zobraz celé (logo + jméno + nav)
+  if (currentScroll <= 10 && currentState !== "full") {
+    header.classList.remove('shrink', 'show-nav-only');
+    currentState = "full";
+  }
+
+else if (delta > 0 && currentScroll > 50 && currentState !== "hidden") {
+  // Okamžitě skryj logo/jméno před přidáním shrink
+  header.classList.remove('show-nav-only');
+  header.classList.add('hiding'); // nová pomocná třída
+
+  void header.offsetHeight; // force reflow – zajistí přepnutí mezi třídami
+
+  header.classList.add('shrink');
+  currentState = "hidden";
+
+  // Volitelně: po animaci hiding třídu odstraníme
+  setTimeout(() => {
+    header.classList.remove('hiding');
+  }, 500); // musí odpovídat délce přechodu v CSS
+}
+
+
+  // 3. Scroll nahoru (ale nejsi úplně nahoře) → zobraz jen navigaci
+  else if (delta < 0 && currentScroll > 10 && currentState !== "nav-only") {
+    header.classList.remove('shrink');
+    header.classList.add('show-nav-only');
+    currentState = "nav-only";
+  }
+
+  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
 });
+
 
 // =============== AI PANEL A ZVUK ===============
 function shakeAiPanel() {
