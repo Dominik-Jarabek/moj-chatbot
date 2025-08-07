@@ -1,6 +1,10 @@
 let map;
 let markers = [];
 
+const BASE_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:3333'
+  : 'https://moj-chatbot.onrender.com';
+
 function initMap(lat = 50.0755, lng = 14.4378, zoom = 13) {
   if (map) {
     map.remove();
@@ -43,9 +47,6 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     results.innerHTML = '<p>Zadejte město.</p>';
     return;
   }
-  const BASE_URL = window.location.hostname === 'localhost'
-  ? 'http://localhost:3333'
-  : 'https://moj-chatbot.onrender.com';
 
   try {
     const response = await fetch(`${BASE_URL}/api/places`, {
@@ -67,16 +68,15 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     }
 
     data.forEach(place => {
-  const div = document.createElement('div');
-  div.className = 'place-item';
-  div.innerHTML = `
-    <strong>${place.name}</strong><br>
-    <span class="icon">📍</span> ${place.vicinity || 'Adresa neuvedena'}<br>
-    <span class="icon">⭐</span> ${place.rating || 'Nehodnoceno'}
-  `;
-  
-  results.appendChild(div); 
-});
+      const div = document.createElement('div');
+      div.className = 'place-item';
+      div.innerHTML = `
+        <strong>${place.name}</strong><br>
+        <span class="icon">📍</span> ${place.vicinity || 'Adresa neuvedena'}<br>
+        <span class="icon">⭐</span> ${place.rating || 'Nehodnoceno'}
+      `;
+      results.appendChild(div); 
+    });
 
     const first = data[0]?.geometry?.location;
     if (first) initMap(first.lat, first.lng);
@@ -106,13 +106,14 @@ document.getElementById('locationBtn').addEventListener('click', () => {
     const lat = position.coords.latitude;
     const lng = position.coords.longitude;
 
+    console.log("📍 Získaná poloha:", lat, lng);
+
     try {
       const response = await fetch(`${BASE_URL}/api/places`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lat, lng, category })
       });
-
 
       const data = await response.json();
       results.innerHTML = '';
@@ -145,10 +146,11 @@ document.getElementById('locationBtn').addEventListener('click', () => {
       showMarkers(data);
 
     } catch (error) {
-      console.error(error);
+      console.error("❌ Chyba při volání backendu:", error);
       results.innerHTML = `<p>Došlo k chybě při načítání.</p>`;
     }
-  }, () => {
+  }, (err) => {
+    console.error("❌ Nepodařilo se získat polohu:", err);
     results.innerHTML = '<p>Nepodařilo se získat polohu.</p>';
   });
 });
