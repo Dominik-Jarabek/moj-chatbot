@@ -43,9 +43,12 @@ document.getElementById('searchBtn').addEventListener('click', async () => {
     results.innerHTML = '<p>Zadejte město.</p>';
     return;
   }
+  const BASE_URL = window.location.hostname === 'localhost'
+  ? 'http://localhost:3333'
+  : 'https://moj-chatbot.onrender.com';
 
   try {
-    const response = await fetch('http://localhost:3333/api/places', {
+    const response = await fetch(`${BASE_URL}/api/places`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ city, category })
@@ -104,11 +107,12 @@ document.getElementById('locationBtn').addEventListener('click', () => {
     const lng = position.coords.longitude;
 
     try {
-      const response = await fetch('http://localhost:3333/api/places', {
+      const response = await fetch(`${BASE_URL}/api/places`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ lat, lng, category })
       });
+
 
       const data = await response.json();
       results.innerHTML = '';
