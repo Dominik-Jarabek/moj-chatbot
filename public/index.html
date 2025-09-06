@@ -78,6 +78,35 @@
   <p>
     Tato webová stránka slouží jako moje osobní vizitka. Naleznete zde informace o mně a zároveň níže popsané projekty. Web lze přepnout do režimu den/noc.
   </p>
+
+<h4>LesoBot – AI chatbot pro Lesnickou školu</h4>
+<p>
+  Navrhl a vyvinul jsem školního asistenta <strong>LesoBot</strong> pro 
+  <a href="https://www.lesnicka-skola.cz/" target="_blank">Lesnickou školu a SOŠ Šluknov</a>. 
+  Chatbot běží jako odlehčený widget přímo na webu školy (plovoucí FAB tlačítko, panel s historií konverzace a avatar). 
+  Cílem je rychle a srozumitelně odpovídat uchazečům, rodičům i studentům na nejčastější otázky – od nabídky oborů přes kontakty na vedení až po praktické info o škole.  
+  Zároveň má chatbot i <i>podpůrnou roli pro studenty</i> – umí vést empatický rozhovor a nabídnout kontakty na odbornou pomoc v případě psychické zátěže.
+</p>
+
+<ul>
+  <li><b>Jedna dlouhá odpověď v jedné bublině:</b> dotazy jako „tým vyučujících“ vrací kompletní seznam vedení a všech učitelů v jediné zprávě – uživatel jen scrolluje.</li>
+  <li><b>Whitelist oborů:</b> chatbot odpovídá <i>pouze</i> z oficiální nabídky oborů školy (Lesnictví, Lesní mechanizátor, Lesnické práce, Dálkové studium, Bezpečnostně-právní činnost, Sociální činnost, Pečovatelské služby, Práce ve stravování). Na jiné obory korektně upozorní a odkáže na stránku s přehledem.</li>
+  <li><b>Chytré rozpoznání dotazů:</b> robustní normalizace textu (odstranění diakritiky), vyhledání učitele podle příjmení i části jména, detekce obecných dotazů typu „učitelé / tým vyučujících / vedení“.</li>
+  <li><b>TTS + STT:</b> text-to-speech (český hlas) pro přehrání odpovědi a speech-to-text pro diktování dotazu s auto-stopem při tichu.</li>
+  <li><b>UX detaily:</b> tmavý/světlý režim, animovaná „přemýšlím…“ bublina, plovoucí avatar zarovnaný k panelu, ukládání historie konverzace do <code>localStorage</code>.</li>
+  <li><b>Terapeutická funkce:</b> chatbot reaguje klidně a empaticky, nabízí bezpečný prostor k vypsání se a doporučuje krizové linky či odborníky – nikdy nenahrazuje terapii, ale může být prvním krokem k pomoci.</li>
+  <li><b>Bezpečnost a obsah:</b> systémová zpráva hlídá tón (stručný a věcný), zvýrazňuje jméno/dat. a místo narození bota pouze při relevantní otázce, a drží odkazy přímo na web školy.</li>
+  <li><b>Technologie:</b> čistý <code>HTML/CSS/JavaScript</code> bez frameworku, Web Speech API (TTS), MediaRecorder + AudioContext (STT kontrola ticha), jednoduché REST volání na školní endpoint.</li>
+</ul>
+
+<p>
+  <b>Výsledek:</b> rychlá navigace pro uchazeče (obory), okamžité kontakty na vedení a učitele, přístupnost přes hlas i čitelné rozhraní. 
+  Pro studenty navíc funguje jako podpůrný průvodce s možností okamžité psychické pomoci.  
+  Více o škole na <a href="https://www.lesnicka-skola.cz/" target="_blank">www.lesnicka-skola.cz</a>.
+</p>
+
+
+
   <h4>Cestovatelský plánovač dne</h4>
 <p>
   Cestovatelský plánovač dne
