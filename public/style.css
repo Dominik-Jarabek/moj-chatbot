@@ -65,8 +65,26 @@ header.hiding .subtitle {
   display: none !important;
 }
 
+header {
+  position: fixed !important;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  transition:
+    height 0.25s cubic-bezier(.4,0,.2,1),
+    padding 0.25s cubic-bezier(.4,0,.2,1),
+    background 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Kompenzace pro fixed header - obsah nezačíná pod headerem */
+.site-wrap {
+  padding-top: 240px;
+}
+
 header.show-nav-only {
-  height: 65px !important;
+  height: 60px !important;
   padding: 0 !important;
   background: rgba(255, 255, 255, 0.08);
   backdrop-filter: blur(20px) saturate(180%);

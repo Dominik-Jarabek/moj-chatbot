@@ -113,37 +113,20 @@ function checkCrazyRecord(newScore) {
 
 
 // =============== HEADER SCROLL ===============
-// Navigace je vždy viditelná — při scrollu dolů zůstane zmenšená lišta
-let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 const header = document.getElementById('main-header');
-let currentState = "full";
 
 window.addEventListener('scroll', () => {
-  const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
-  const delta = currentScroll - lastScrollTop;
+  const scrollY = window.pageYOffset || document.documentElement.scrollTop;
 
-  if (Math.abs(delta) < 5) return;
-
-  // 1. Úplně nahoře → zobraz celé (logo + jméno + nav)
-  if (currentScroll <= 10 && currentState !== "full") {
-    header.classList.remove('shrink', 'show-nav-only', 'hiding');
-    currentState = "full";
-  }
-  // 2. Scroll dolů (ale ne úplně nahoře) → zobraz jen navigaci (NIKDY neskrývat)
-  else if (delta > 0 && currentScroll > 50 && currentState === "full") {
+  if (scrollY < 10) {
+    // Plný header — jen úplně nahoře
+    header.classList.remove('show-nav-only', 'shrink', 'hiding');
+  } else {
+    // Ihned zmenšit na lištu
     header.classList.remove('shrink', 'hiding');
     header.classList.add('show-nav-only');
-    currentState = "nav-only";
   }
-  // 3. Scroll nahoru (ale nejsi úplně nahoře) → zobraz jen navigaci
-  else if (delta < 0 && currentScroll > 10 && currentState !== "nav-only" && currentState !== "full") {
-    header.classList.remove('shrink', 'hiding');
-    header.classList.add('show-nav-only');
-    currentState = "nav-only";
-  }
-
-  lastScrollTop = currentScroll <= 0 ? 0 : currentScroll;
-});
+}, { passive: true });
 
 
 // =============== AI PANEL A ZVUK ===============
