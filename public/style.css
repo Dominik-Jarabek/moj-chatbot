@@ -50,7 +50,6 @@ header .subtitle {
   margin-bottom: 0;
   transition: font-size 0.52s, opacity 0.52s;
 }
-/* Efekt po scrollnutí - vše zmenšit a pak zmizet */
 header.shrink {
   opacity: 0;
   pointer-events: none;
@@ -69,10 +68,13 @@ header.hiding .subtitle {
 header.show-nav-only {
   height: 65px !important;
   padding: 0 !important;
-  background: rgba(255, 255, 255, 0.85); /* světlejší pozadí */
-  backdrop-filter: blur(8px);            /* rozmazání pozadí */
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* jemný stín pod navigací */
-  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    0 4px 24px rgba(20, 60, 150, 0.12),
+    0 1px 0 rgba(255,255,255,0.15) inset;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.18);
   opacity: 1 !important;
   transform: none;
   pointer-events: auto;
@@ -87,9 +89,25 @@ header.show-nav-only .main-nav {
   opacity: 1;
   margin-top: 8px;
   pointer-events: auto;
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.20);
 }
 
-/* Hlavní panel */
+header.show-nav-only .main-nav a {
+  color: rgba(10, 40, 100, 0.90);
+  text-shadow: none;
+  font-weight: 700;
+}
+
+header.show-nav-only .main-nav a:hover {
+  color: #0d47a1;
+  background: rgba(255, 255, 255, 0.22);
+}
+
+header.show-nav-only .main-nav a::after {
+  background: linear-gradient(90deg, #fff 60%, #bae1ff 100%);
+}
+
 .main-nav {
   display: flex; 
   flex-wrap: wrap; 
@@ -150,7 +168,6 @@ nav a::after {
 nav a:hover::after, nav a:focus::after { width: 80%; }
 nav a:hover { color: #0a284e; }
 
-/* Ostatní sekce */
 main { 
   max-width: 740px; 
   margin: 32px auto; 
@@ -175,6 +192,18 @@ p {
   font-weight: 400; 
   margin-bottom: 18px;
 }
+
+/* === Seznamy: kontejner centrovaný, text doleva === */
+ul, ol {
+  text-align: left;
+  display: inline-block;   /* centruje blok na stránce */
+  margin-left: auto;
+  margin-right: auto;
+}
+li {
+  text-align: left;
+}
+
 .skills-list { margin: 28px 0; }
 .skill-bar {
   display: flex; 
@@ -191,52 +220,122 @@ p {
   transition: width 1s cubic-bezier(.7,.5,.3,1);
 }
 .project-card {
-  background: rgba(33, 150, 243, 0.25);
-  border-radius: 16px;
-  box-shadow: 0 3px 16px #bdbdbd33;
-  padding: 22px;
-  margin-bottom: 22px;
+  background: linear-gradient(135deg,
+    rgba(33, 150, 243, 0.18) 0%,
+    rgba(255, 255, 255, 0.45) 100%);
+  border-radius: 20px;
+  box-shadow:
+    0 4px 24px rgba(30, 80, 180, 0.10),
+    0 1.5px 0 0 rgba(255,255,255,0.55) inset;
+  padding: 24px 26px;
+  margin-bottom: 24px;
+  border: 1.5px solid rgba(100, 170, 255, 0.28);
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.25s, transform 0.22s, border-color 0.22s;
+  backdrop-filter: blur(4px);
 }
-.project-card p b{
+
+/* Barevný horní proužek u každé karty */
+.project-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #2196f3 0%, #4fc3f7 60%, #81d4fa 100%);
+  border-radius: 20px 20px 0 0;
+}
+
+.project-card:hover {
+  box-shadow:
+    0 8px 32px rgba(30, 80, 180, 0.18),
+    0 2px 0 0 rgba(255,255,255,0.55) inset;
+  transform: translateY(-3px);
+  border-color: rgba(33, 150, 243, 0.55);
+}
+
+.project-card p b {
   color: #1565c0;
-  display: block; 
+  display: block;
   text-align: center;
 }
 .project-card p {
   display: block;
-  text-align: center;
   text-align: justify;
 }
-.project-card h3 { margin: 0;
-text-align: center;
- }
- .project-card button{
-  background: #1976d2;
+.project-card h2 {
+  font-size: 1.22em;
+  color: #1565c0;
+  margin-bottom: 8px;
+  text-align: center;
+}
+.project-card h3 {
+  margin: 0;
+  text-align: center;
+}
+.project-card button {
+  background: linear-gradient(135deg, #1976d2, #1e88e5);
   color: #fff;
   border: none;
-  border-radius: 9px;
-  padding: 6px 18px;
-  margin: 16px auto 0 auto !important;   /* tlačítko uprostřed s horní mezerou */
+  border-radius: 10px;
+  padding: 8px 20px;
+  margin: 16px auto 0 auto !important;
   cursor: pointer;
   text-decoration: none;
-  transition: background .2s;
-  display: block;              /* zajistí blokové zobrazení a centrování */
-  text-align: center;          /* text uvnitř tlačítka zarovnat na střed */
- }
-.project-card button, .project-card a {
-  background: #1976d2;
+  transition: background .2s, box-shadow .2s, transform .15s;
+  display: block;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(25, 118, 210, 0.3);
+}
+.project-card button, .project-card a.contact-btn {
+  background: linear-gradient(135deg, #1976d2, #1e88e5);
   color: #fff;
   border: none;
-  border-radius: 9px;
-  padding: 6px 18px;
-  margin-top: 8px;
+  border-radius: 10px;
+  padding: 8px 20px;
+  margin-top: 10px;
   margin-right: 5px;
   cursor: pointer;
   text-decoration: none;
-  transition: background .2s;
-  
+  transition: background .2s, box-shadow .2s, transform .15s;
+  font-weight: 600;
+  display: inline-block;
+  box-shadow: 0 2px 10px rgba(25, 118, 210, 0.25);
 }
-.project-card a:hover, .project-card button:hover { background: #388ee7; }
+.project-card a:hover,
+.project-card button:hover,
+.project-card a.contact-btn:hover {
+  background: linear-gradient(135deg, #1565c0, #2196f3);
+  box-shadow: 0 5px 18px rgba(25, 118, 210, 0.40);
+  transform: translateY(-2px);
+}
+
+/* === PROJECT CARD — odrážky doleva === */
+.project-card ul,
+.project-card ol {
+  text-align: left;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+  display: block;
+}
+.project-card li {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
+/* === PROJECT CARD — odrážky doleva === */
+.project-card ul,
+.project-card ol {
+  text-align: left;
+  padding-left: 1.5em;
+  margin: 0.5em 0;
+}
+.project-card li {
+  text-align: left;
+  margin-bottom: 5px;
+}
+
 footer {
   background: #1565c0;
   color: #fff;
@@ -250,11 +349,10 @@ footer {
   max-width: 720px;
   margin: 0 auto 34px auto;
   padding: 22px 18px;
-  background:  rgba(33, 150, 243, 0.25);
+  background: rgba(33, 150, 243, 0.25);
   border-radius: 18px;
   box-shadow: none;
 }
-
 
 .project-description h4 {
   font-size: 1.1em;
@@ -263,6 +361,7 @@ footer {
   margin-bottom: 0.5em;
   font-weight: 700;
   letter-spacing: 0.5px;
+  text-align: center;
 }
 
 .project-description p {
@@ -270,6 +369,23 @@ footer {
   margin-bottom: 1.2em;
   font-size: 1em;
   color: #222;
+}
+
+/* === OPRAVA: odrážky v project-description vždy doleva === */
+.project-description ul,
+.project-description ol {
+  text-align: left;
+  padding-left: 1.6em;
+  margin: 0.4em auto 1em auto;
+  display: inline-block;
+  width: fit-content;
+  max-width: 100%;
+}
+.project-description ul li,
+.project-description ol li {
+  text-align: left;
+  margin-bottom: 6px;
+  line-height: 1.55;
 }
 
 .centered-img {
@@ -347,6 +463,7 @@ header.shrink #main-title { font-size: 1.1em; }
   font-size: 1.08em;
   box-shadow: 0 2px 6px #4fc3f711;
   transition: background .2s;
+  text-align: left;
 }
 .skills-list li:hover {
   background: rgba(33, 150, 243, 0.17);
@@ -357,7 +474,6 @@ header.shrink #main-title { font-size: 1.1em; }
   gap: 28px;
   justify-content: center;
   margin-top: 22px;
-  /* max-width na 860px zarovná 3 karty, víc se zalomí dolů */
   max-width: 860px;
   margin-left: auto;
   margin-right: auto;
@@ -426,11 +542,11 @@ header.shrink #main-title { font-size: 1.1em; }
 @media (max-width: 800px) {
   .cv-buttons {
     flex-direction: column;
-     max-width: 99vw;
+    max-width: 99vw;
     gap: 18px;
     align-items: center;
   }
-    .cv-card {
+  .cv-card {
     flex-basis: 45%;
     max-width: 95vw;
     min-width: 210px;
@@ -603,8 +719,7 @@ header.shrink #main-title { font-size: 1.1em; }
   to   { opacity:1; transform:translateY(0);}
 }
 .ai-chat-history {
- background: #e3f0ff !important;  /* nebo si zvol pastelovou, která se ti líbí */
-
+  background: #e3f0ff !important;
   min-height: 250px;
   max-height: 100px;
   overflow-y: auto;
@@ -681,12 +796,19 @@ body.dark #theme-toggle .toggle-slider {
 
 /* === DARK MODE === */
 body.dark header.show-nav-only {
-    background: rgba(0, 0, 0, 0.85);
-    box-shadow: 0 4px 12px rgba(255, 255, 255, 0.06);
-  }
-  body.dark .show-nav-only .main-nav a {
-    color: white !important;
-  }
+  background: rgba(10, 20, 40, 0.35);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.30);
+  border-bottom: 1px solid rgba(100, 200, 200, 0.12);
+}
+body.dark header.show-nav-only .main-nav a {
+  color: #a8e0ff !important;
+}
+body.dark header.show-nav-only .main-nav a:hover {
+  color: #baf3e3 !important;
+  background: rgba(38, 126, 120, 0.18);
+}
 
 body.dark .project-description {
   background:rgba(38, 65, 80, 0.35);
@@ -696,6 +818,9 @@ body.dark .project-description h4 {
   color: #baf3e3;
 }
 body.dark .project-description p {
+  color: #e0f5f7;
+}
+body.dark .project-description li {
   color: #e0f5f7;
 }
 body.dark .cv-title {
@@ -709,12 +834,24 @@ body.dark {
   background: linear-gradient(135deg, #161b2e 0%, #1b3441 100%);
   color: #f3f8fd;
 }
-body.dark header .avatar
-{
+body.dark header .avatar {
   background-color: #334f6a;
   box-shadow: 0 4px 20px #2196f355, 0 0px 0 #fff7;
 }
-body.dark .project-card,
+body.dark .project-card {
+  background: linear-gradient(135deg,
+    rgba(38, 85, 120, 0.45) 0%,
+    rgba(22, 44, 66, 0.55) 100%);
+  border-color: rgba(100, 180, 255, 0.18);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+  color: #e0f5f7;
+}
+body.dark .project-card::before {
+  background: linear-gradient(90deg, #267e78 0%, #4fc3f7 60%, #81d4fa 100%);
+}
+body.dark .project-card h2 {
+  color: #a8e0ff;
+}
 body.dark .skills-list li {
   background: rgba(38, 65, 80, 0.35);
   color: #e0f5f7;
@@ -746,7 +883,7 @@ body.dark .ai-panel {
   box-shadow: 0 4px 34px #0a273d44;
 }
 body.dark .ai-chat-history {
-   background: linear-gradient(120deg, #232744 0%, #1d2331 100%) !important;
+  background: linear-gradient(120deg, #232744 0%, #1d2331 100%) !important;
   color: #f3f8fd;
   box-shadow: 0 2px 10px #16294222;
 }
@@ -774,7 +911,6 @@ body.dark #ai-chat-form button:hover {
   border: 1.5px solid #267e78;
 }
 
-/* Styl scrollbarU v dark režimu */
 body.dark #ai-chat-history::-webkit-scrollbar {
   background: #232744;
 }
@@ -784,7 +920,6 @@ body.dark #ai-chat-history::-webkit-scrollbar-thumb {
   border: 2px solid #232744;
 }
 
-/* Firefox */
 #ai-chat-history {
   scrollbar-color: #a4caff #e3f0ff;
   scrollbar-width: thin;
@@ -836,7 +971,6 @@ body.dark #ai-chat-history {
   background-color: rgba(255,255,255,0.35);
 }
 
-/* --- SUBMIT BUTTON (odeslat) --- */
 #ai-chat-form button {
   width: 33px;
   min-width: 33px;
@@ -892,7 +1026,6 @@ body.dark #ai-chat-history {
   width: 18px;
   height: 18px;
   display: block;
-  
 }
 
 #ai-chat-form button:hover {
@@ -901,7 +1034,6 @@ body.dark #ai-chat-history {
   border-color: #baf3e3;
 }
 
-/* --- AI ASISTENT REOPEN BUTTON --- */
 .ai-assistant-reopen {
   position: fixed; 
   right: 36px; 
@@ -921,13 +1053,11 @@ body.dark #ai-chat-history {
   align-items: center; 
   justify-content: center;
 }
-
 .ai-assistant-reopen:hover { 
   background: #fed502; 
   color: #0a67c2; 
 }
 
-/* --- MIC BUTTON --- */
 #ai-chat-form button#mic-btn {
   width: 33px;
   min-width: 33px;
@@ -960,9 +1090,7 @@ body.dark #ai-chat-history {
   padding: 0;
 }
 
-
-
-/* === CV Modal (PDF modal) === */
+/* === CV Modal === */
 .CvModal {
   position: fixed;
   top: 0; 
@@ -1008,7 +1136,7 @@ body.dark #ai-chat-history {
 }
 .CvModal .close:hover { color: #007bff; }
 
-/* --- MINI GAME MODAL + LEADERBOARD --- */
+/* --- MINI GAME MODAL --- */
 #crazyClickGame-modal .modal-content {
   min-width: 300px;
   max-width: 380px;
@@ -1084,7 +1212,7 @@ body.dark #ai-chat-history {
   line-height: 1.2;
 }
 
-/* --- Responzivita pro mobilní zařízení --- */
+/* --- Responzivita --- */
 @media (max-width: 520px) {
   .cv-card {
     flex-basis: 97vw;
@@ -1179,7 +1307,6 @@ body.dark #ai-chat-history {
     padding: 18px 2vw;
   }
 }
-/* Styl scrollbarU ve světlém režimu (pastelová modrá) */
 #ai-chat-history::-webkit-scrollbar {
   width: 10px;
   background: #e3f0ff;
@@ -1190,7 +1317,6 @@ body.dark #ai-chat-history {
   border-radius: 8px;
   border: 2px solid #e3f0ff;
 }
-/* Pro opravdu malé obrazovky (malé telefony) */
 @media (max-width: 400px) {
   body { font-size: 14px;}
   .skills-list li, .project-card p { font-size: 0.95em;}
@@ -1205,7 +1331,6 @@ body.dark #ai-chat-history {
   #crazyClickGame-modal .modal-content { padding: 7px 1vw; }
 }
 
-/* === Animace AI asistenta === */
 @keyframes shake {
   0% { transform: translateX(0);}
   15% { transform: translateX(-8px);}
@@ -1220,7 +1345,6 @@ body.dark #ai-chat-history {
   animation: shake 0.45s cubic-bezier(.36,.07,.19,.97) both;
 }
 
-/* === Animace v chatbotovi === */
 .loader-dots {
   display: inline-flex;
   align-items: center;
@@ -1238,7 +1362,6 @@ body.dark #ai-chat-history {
   100% { opacity: 1; }
 }
 
-/* === Button na přečtení zprávy === */
 .speak-btn {
   background: none;
   border: none;
@@ -1296,7 +1419,6 @@ body.dark #ai-chat-history {
   100% { filter: drop-shadow(0 0 0 #ff1744); }
 }
 
-
 .carousel {
   position: relative;
   width: 100%;
@@ -1306,8 +1428,7 @@ body.dark #ai-chat-history {
   margin-top: 120px;
   overflow: hidden;
   border-radius: 18px;
-  border: 2px solid #c1eddf;   /* jemný rámeček kolem celého banneru */
-  border-radius: 16px;  
+  border: 2px solid #c1eddf;
   box-shadow: 0 4px 24px 0 #0001;
 }
 .carousel-track {
@@ -1366,9 +1487,7 @@ body.dark #ai-chat-history {
   user-select: none;
   display: inline-block;
   max-width: 94vw;
- 
 }
-
 .carousel-text h2 {
   margin: 0 0 9px 0;
   font-size: 2.1em;
@@ -1381,4 +1500,38 @@ body.dark #ai-chat-history {
   font-size: 1.11em;
   font-weight: 400;
   text-shadow: 0 1px 6px #1d2a3b33;
+}
+
+/* === HIGHLIGHT CARD — zvýrazněná karta (DOJA atd.) === */
+.highlight-card {
+  border: 2px solid rgba(33, 150, 243, 0.5);
+  background: linear-gradient(135deg,
+    rgba(33, 150, 243, 0.22) 0%,
+    rgba(255, 255, 255, 0.50) 100%);
+}
+.highlight-card::before {
+  background: linear-gradient(90deg, #1565c0 0%, #2196f3 50%, #4fc3f7 100%);
+  height: 5px;
+}
+body.dark .highlight-card {
+  background: linear-gradient(135deg,
+    rgba(38, 100, 160, 0.45) 0%,
+    rgba(22, 44, 80, 0.55) 100%);
+  border-color: rgba(100, 180, 255, 0.40);
+}
+
+.contact-btn {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 8px 20px;
+  background: #1976d2;
+  color: #fff;
+  border-radius: 9px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background 0.2s;
+}
+.contact-btn:hover {
+  background: #388ee7;
+  color: #fff;
 }

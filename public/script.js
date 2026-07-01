@@ -112,8 +112,8 @@ function checkCrazyRecord(newScore) {
 }
 
 
-
 // =============== HEADER SCROLL ===============
+// Navigace je vždy viditelná — při scrollu dolů zůstane zmenšená lišta
 let lastScrollTop = window.pageYOffset || document.documentElement.scrollTop;
 const header = document.getElementById('main-header');
 let currentState = "full";
@@ -122,34 +122,22 @@ window.addEventListener('scroll', () => {
   const currentScroll = window.pageYOffset || document.documentElement.scrollTop;
   const delta = currentScroll - lastScrollTop;
 
-  if (Math.abs(delta) < 10) return;
+  if (Math.abs(delta) < 5) return;
 
   // 1. Úplně nahoře → zobraz celé (logo + jméno + nav)
   if (currentScroll <= 10 && currentState !== "full") {
-    header.classList.remove('shrink', 'show-nav-only');
+    header.classList.remove('shrink', 'show-nav-only', 'hiding');
     currentState = "full";
   }
-
-else if (delta > 0 && currentScroll > 50 && currentState !== "hidden") {
-  // Okamžitě skryj logo/jméno před přidáním shrink
-  header.classList.remove('show-nav-only');
-  header.classList.add('hiding'); // nová pomocná třída
-
-  void header.offsetHeight; // force reflow – zajistí přepnutí mezi třídami
-
-  header.classList.add('shrink');
-  currentState = "hidden";
-
-  // Volitelně: po animaci hiding třídu odstraníme
-  setTimeout(() => {
-    header.classList.remove('hiding');
-  }, 500); // musí odpovídat délce přechodu v CSS
-}
-
-
+  // 2. Scroll dolů (ale ne úplně nahoře) → zobraz jen navigaci (NIKDY neskrývat)
+  else if (delta > 0 && currentScroll > 50 && currentState === "full") {
+    header.classList.remove('shrink', 'hiding');
+    header.classList.add('show-nav-only');
+    currentState = "nav-only";
+  }
   // 3. Scroll nahoru (ale nejsi úplně nahoře) → zobraz jen navigaci
-  else if (delta < 0 && currentScroll > 10 && currentState !== "nav-only") {
-    header.classList.remove('shrink');
+  else if (delta < 0 && currentScroll > 10 && currentState !== "nav-only" && currentState !== "full") {
+    header.classList.remove('shrink', 'hiding');
     header.classList.add('show-nav-only');
     currentState = "nav-only";
   }
@@ -194,7 +182,6 @@ document.body.addEventListener('touchstart', showBotOnFirstInteraction);
 let aiWelcomeShown = false;
 let meetingFlow = { active: false, step: 0, data: {} };
 
-// ZAVŘÍT A OTEVŘÍT PANEL
 document.getElementById('ai-close').onclick = function(e) {
   e.stopPropagation();
   document.getElementById('ai-assistant').classList.add('ai-assistant-hidden');
@@ -212,7 +199,6 @@ document.getElementById('ai-panel').addEventListener('click', function(e){
   this.classList.add('ai-expanded');
   document.getElementById('ai-chat').style.display = "flex";
   document.getElementById('ai-chat-input').focus();
-  // --- ÚVODNÍ ZPRÁVA ---
   if (!aiWelcomeShown) {
     appendAiMsg("👋 Vítejte!<br>Skrze mě si můžete snadno domluvit schůzku, zjistit více informací o mně, nebo získat životopis. Napište mi, s čím mohu pomoci!");
     aiWelcomeShown = true;
@@ -227,7 +213,6 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
   if(!msg) return;
   input.value = "";
 
-  // --- Odpověď na CV ---
   if (/cv|životopis|curriculum/i.test(msg)) {
     appendUserMsg(msg);
     appendAiMsg(`Samozřejmě! Zde si můžete stáhnout můj životopis:<br>
@@ -236,17 +221,14 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
     return;
   }
 
-  // --- DOMLOUVÁNÍ SCHŮZKY ---
   if (meetingFlow.active || /schůzku|schuzku|pohovor|setkání|domluvit/i.test(msg)) {
     appendUserMsg(msg);
     handleMeetingFlow(msg);
     return;
   }
 
-  // --- Bublina uživatele ---
   appendUserMsg(msg);
 
-  // --- Loader zpráva od bota ---
   const history = document.getElementById('ai-chat-history');
   const aiMsg = document.createElement('div');
   aiMsg.className = "ai-chat-msg ai";
@@ -279,125 +261,7 @@ document.getElementById('ai-chat-form').onsubmit = async function(e){
 Představ se nám. Proč chceš být programátor?
 Jmenuji se Dominik Jarábek, je mi 31 let a baví mě technologie. Dlouho jsem pracoval v jiných oborech, ale programování mě vždy lákalo, protože rád tvořím a řeším problémy. Mám za sebou několik vlastních projektů v JavaScriptu a věřím, že v IT najdu uplatnění, které mě bude naplňovat a dál rozvíjet.
 Jsem Dominik Jarábek, je mi 31 let. Bydlím v Lipové u Šluknova. V současnosti studuji Speciální pedagogiku na Univerzitě J. E. Purkyně v Ústí nad Labem (od roku 2024). Maturitu mám z oboru Informační a komunikační technologie na VOŠ a SŠ ve Varnsdorfu. Od roku 2022 pracuji jako učitel německého jazyka na Střední lesnické škole ve Šluknově. Předtím jsem byl několik let seřizovačem a vedoucím směny ve firmě Pulp-Tec GmbH v Německu, kde jsem měl pod sebou tým osmi lidí. Krátce jsem také pracoval jako dělník v Oppacher Mineralquellen v Německu a v BeA CS v Lobendavě, kde jsem využíval MS Excel. Mám zkušenost i jako instruktor dětské sportovní přípravky a vedoucí na letních táborech. Co se týče IT dovedností, jsem expert na Microsoft Office, pokročile ovládám Adobe Photoshop, Lightroom a Illustrator, stejně tak AutoCAD. Umím základy webového vývoje (HTML, CSS, JavaScript). Mezi mé silné stránky patří učenlivost, samostatnost, týmová práce, řešení konfliktů a flexibilita. Mám několik certifikátů, například Mezinárodní cenu vévody z Edinburghu, školení Nevypusť duši (duševní zdravověda pro učitele), správu TikTok a základy umělé inteligence. Mluvím plynule německy (úroveň B2, certifikát Goethe Institut), anglicky na úrovni začátečníka. Mezi mé zájmy patří sport, tvorba webových stránek a grafiky, četba, osobní rozvoj a cestování. narodil jsem se 30.5.1994. můj představovaný plat je 50-60 000 Kč. Jsem ochotný se přestěhovat kamkoli, pokud to bude potřeba. Preferuji přestěhování za prací, ale když bude možnost pracovat z domu a občas do firmy dojet, budu také spokojen.
-V JavaScriptuu se teprve učím, ale dokážu si vždy poradit. Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. na otazku "kdo jsi", odpovím - "Dominik Jarábek". Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.
-
-Proč JavaScript?
-JavaScript mě zaujal tím, že je všestranný – mohu s ním tvořit weby, aplikace i backend. Je to nejpoužívanější jazyk na webu, má velkou komunitu a spoustu nástrojů. Líbí se mi, že mohu rychle vidět výsledky své práce.
-
-Na čem jsi naposledy pracoval?
-Můj poslední projekt byla osobní stránka s interaktivním chatbotem, kterou jsem tvořil v JavaScriptu, HTML a CSS. Vyzkoušel jsem si komunikaci s API a práci s DOM. Díky tomu jsem se naučil lépe pracovat s asynchronními operacemi a rozšířil jsem si znalosti o tom, jak funguje web.
-
-Jak se učíš nové technologie?
-Nejraději se učím na konkrétních projektech. Používám online kurzy, YouTube, oficiální dokumentaci, Stack Overflow. Když narazím na problém, zkouším ho nejprve vyřešit sám, a když to nejde, hledám řešení na fórech nebo se ptám zkušenějších.
-
-Jaký je rozdíl mezi let, const a var?
-let a const mají blokový scope, kdežto var je funkční (function scope). const navíc nejde přepsat (hodnotu nelze změnit), ale pokud je to objekt, tak jeho vlastnosti měnit můžu.
-
-Co je to hoisting?
-Hoisting znamená, že deklarace proměnných a funkcí se „zvednou“ na začátek jejich scope. U var se proměnná vytvoří, ale není inicializovaná (má hodnotu undefined). Funkce deklarované pomocí function lze volat i před jejich definicí.
-
-Vysvětli rozdíl mezi == a ===.
-== porovnává hodnoty s převodem typu (například "1" == 1 je true). === porovnává hodnotu i typ (tedy "1" === 1 je false).
-
-Co je closure?
-Closure je funkce, která si „pamatuje“ proměnné ze scope, ve kterém byla vytvořena, i když se později spustí jinde. Díky tomu můžu například vytvářet soukromé proměnné nebo funkce s vnitřním stavem.
-Příklad:
-
-function counter() {
-  let count = 0;
-  return function() {
-    count++;
-    return count;
-  }
-}
-let c = counter();
-c(); // 1
-c(); // 2
-Co je to callback funkce?
-Je to funkce předaná jiné funkci jako argument, která je zavolána až po dokončení určité akce.
-
-function greeting(name, callback) {
-  callback(Ahoj, ${name}!);
-}
-greeting("Dominik", console.log);
-K čemu slouží this?
-this odkazuje na objekt, ke kterému aktuálně patříme – záleží na tom, jak je funkce volaná (objekt, třída, window atd.). U arrow funkcí se hodnota this nepřepisuje a zůstává z okolí.
-
-Jaký je rozdíl mezi arrow function a běžnou funkcí?
-Arrow funkce mají kratší zápis, ale hlavně nemají vlastní this, arguments ani super. Jsou vhodné pro krátké funkce nebo jako callbacky.
-Příklad:
-
-const plus = (a, b) => a + b;
-Vysvětli rozdíl mezi null a undefined.
-undefined znamená, že proměnná nebyla inicializovaná, nebo funkce nic nevrací. null znamená, že proměnná má záměrně prázdnou hodnotu.
-
-Co je event loop?
-Event loop je mechanismus v JavaScriptu, který umožňuje spouštět asynchronní kód (např. timeouty, Promise). Díky tomu může JS reagovat na události a současně nezablokovat hlavní vlákno.
-
-Jak fungují Promise?
-Promise reprezentuje hodnotu, která může být dostupná teď, později, nebo nikdy. Má tři stavy: pending, fulfilled, rejected.
-
-let p = new Promise((resolve, reject) => {
-  setTimeout(() => resolve("Hotovo!"), 1000);
-});
-p.then(console.log);
-Rozdíl mezi synchronním a asynchronním kódem?
-Synchronní kód se vykonává řádek po řádku, asynchronní může „čekat“ na výsledek, mezitím se dělá něco jiného (např. načítání dat z internetu).
-
-Jak načteš data z API v JavaScriptu?
-Nejčastěji pomocí fetch:
-
-fetch('https://api.example.com/data')
-  .then(res => res.json())
-  .then(data => console.log(data));
-Nebo pomocí knihovny axios.
-
-Co je destrukturalizace?
-Rychlý způsob, jak „rozbalit“ hodnoty z pole nebo objektu do proměnných.
-
-const user = {name: "Dominik", age: 31};
-const {name, age} = user; // name = "Dominik", age = 31
-Co je DOM?
-DOM je Document Object Model – stromová struktura HTML stránky, kterou můžeme měnit pomocí JavaScriptu.
-
-Jak změníš obsah elementu přes JS?
-Například:
-
-document.getElementById('id').textContent = "Nový text";
-Co uděláš, když si nevíš rady s úkolem?
-Nejdřív zkusím problém rozdělit na menší části. Pokud si stále nevím rady, hledám na internetu nebo se zeptám kolegů. Jsem zvyklý rychle se učit nové věci.
-
-Jaký je tvůj největší úspěch/projekt?
-Moje osobní stránka s chatbotem, kde jsem si poprvé zkusil kompletní web – od návrhu až po napojení na OpenAI API.
-
-Jak bys popsal svůj styl práce v týmu?
-Jsem komunikativní, nemám problém se zeptat nebo poradit. Respektuji domluvy a rád přispívám nápady, ale umím i naslouchat ostatním.
-
-Jak si představuješ ideální pracovní prostředí?
-Preferuji prostředí, kde je otevřená komunikace, kde se kolegové vzájemně podporují a je prostor pro učení a rozvoj.
-
-Jaké máš očekávání ohledně mzdy?
-Rád bych měl nástupní mzdu odpovídající juniorní pozici, tedy podle lokality a typu firmy. Často se pohybuje okolo XY tisíc Kč hrubého, ale záleží mi hlavně na možnostech růstu a rozvoje v týmu.
-
-Jaké benefity jsou pro tebe důležité?
-Možnost práce z domova, podpora vzdělávání, příspěvky na stravování nebo multisport, přátelské prostředí a otevřená komunikace.
-
-Kdy můžeš nastoupit?
-Můžu nastoupit prakticky ihned / podle dohody (uprav podle situace).
-
-Máš nějaké otázky na nás?
-Doporučené otázky:
-
-Jak vypadá typický den v týmu?
-
-Na jakých projektech bych mohl pracovat?
-
-Jak vypadá zaškolení/junior support ve vašem týmu?
-
-Jak vypadá proces code review a práce s Gitem?
-
-Jak často je prostor pro další vzdělávání?
-                  `
+V JavaScriptuu se teprve učím, ale dokážu si vždy poradit. Odpovídám vždy za sebe v první osobě, ne jako AI, ale jako člověk Dominik. na otazku "kdo jsi", odpovím - "Dominik Jarábek". Pokud dostanu otázku na zkušenosti, znalosti nebo dovednosti, odpovídám osobně na základě výše uvedených informací. Odpovídám stručně, lidsky a česky.`
           },
           {
             role: "user",
@@ -430,9 +294,8 @@ Jak často je prostor pro další vzdělávání?
   saveChatHistoryArray();
 };
 
-// =============== MEETING FLOW FUNKCE ===============
+// =============== MEETING FLOW ===============
 async function handleMeetingFlow(msg) {
-  // Konec flow na "konec"
   if (msg.trim().toLowerCase() === "konec") {
     appendAiMsg("Schůzka zrušena. Kdykoliv napište 'schůzku', a začneme znovu.");
     meetingFlow.active = false; meetingFlow.step = 0; meetingFlow.data = {};
@@ -489,8 +352,8 @@ async function handleMeetingFlow(msg) {
     return;
   }
 }
+
 function speakMsg(text) {
-  // Odstraní HTML tagy, přečte česky, zruší staré mluvení
   const plainText = text.replace(/<[^>]+>/g, '');
   if (window.speechSynthesis.speaking) window.speechSynthesis.cancel();
   const utter = new SpeechSynthesisUtterance(plainText);
@@ -501,7 +364,7 @@ function speakMsg(text) {
   window.speechSynthesis.speak(utter);
 }
 
-// =============== HISTORIE CHATABOTA (uživatel + bot) ===============
+// =============== CHAT ZPRÁVY ===============
 function appendAiMsg(text, save = true) {
   const history = document.getElementById('ai-chat-history');
   const aiMsg = document.createElement('div');
@@ -509,13 +372,13 @@ function appendAiMsg(text, save = true) {
   aiMsg.innerHTML = `
     <img src="Profilovka.jpg" alt="AI Avatar" class="ai-message-avatar" />
     <span>${text}</span>
-   <button class="speak-btn" title="Přehrát zprávu">
-  <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
+    <button class="speak-btn" title="Přehrát zprávu">
+      <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
   `;
   history.appendChild(aiMsg);
   aiMsg.querySelector('.speak-btn').onclick = function(e) {
@@ -532,13 +395,13 @@ function appendUserMsg(text, save = true) {
   userMsg.className = "ai-chat-msg user";
   userMsg.innerHTML = `
     <span>${text}</span>
- <button class="speak-btn" title="Přehrát zprávu">
-  <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-    <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-  </svg>
-</button>
+    <button class="speak-btn" title="Přehrát zprávu">
+      <svg width="22" height="22" viewBox="0 0 20 20" class="icon-speaker" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M3 8.5V11.5C3 12.0523 3.44772 12.5 4 12.5H7L11 16V4L7 7.5H4C3.44772 7.5 3 7.94772 3 8.5Z" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 8C14.5523 8.66667 14.5523 11.3333 14 12" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M16 6C17.3333 7.66667 17.3333 12.3333 16 14" stroke="#1976d2" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
   `;
   history.appendChild(userMsg);
   userMsg.querySelector('.speak-btn').onclick = function(e) {
@@ -579,20 +442,18 @@ function clearChatHistoryArray() {
   document.getElementById('ai-chat-history').innerHTML = '';
 }
 
-// Načti historii při startu stránky
 window.addEventListener('DOMContentLoaded', function() {
   loadChatHistoryArray();
 });
-// ====== DIKTOVÁNÍ ZPRÁVY PŘES MIKROFON ======
-// Před použitím: ve formuláři musí být <button type="button" id="mic-btn">🎤</button> a input s id="ai-chat-input"
 
+// =============== MIKROFON ===============
 let recognizing = false;
 let recognition;
 
 if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
   const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
   recognition = new SpeechRecognition();
-  recognition.lang = 'cs-CZ'; // čeština
+  recognition.lang = 'cs-CZ';
   recognition.continuous = false;
   recognition.interimResults = false;
 
@@ -611,7 +472,7 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
 
     recognition.onstart = function () {
       recognizing = true;
-      if (micIco) micIco.textContent = '🔴'; // Můžeš si změnit na animaci/ikonu
+      if (micIco) micIco.textContent = '🔴';
       micBtn.classList.add('recording');
     };
     recognition.onend = function () {
@@ -629,11 +490,9 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
       recognizing = false;
       if (micIco) micIco.textContent = '🎤';
       micBtn.classList.remove('recording');
-      // Můžeš přidat notifikaci o chybě
     };
   }
 }
-
 
 // =============== TÉMATICKÝ REŽIM ===============
 function applyThemeToChat() {
@@ -658,6 +517,7 @@ if(themeToggle){
   }
 }
 
+// =============== CV MODAL ===============
 const modal = document.getElementById('cvModal');
 const cvEmbed = document.getElementById('cvEmbed');
 
@@ -682,7 +542,6 @@ document.getElementById('showNevypustBtn').addEventListener('click', function() 
     modal.style.display = 'flex';
 });
 
-// Zavírání modalu
 document.getElementById('closeCvModal').addEventListener('click', function() {
     modal.style.display = 'none';
     cvEmbed.src = '';
@@ -700,9 +559,7 @@ window.addEventListener('keydown', function(event) {
     }
 });
 
-
-
-
+// =============== CAROUSEL ===============
 const track = document.getElementById('carouselTrack');
 const slides = Array.from(track.children);
 const dotsContainer = document.getElementById('carouselDots');
@@ -710,7 +567,6 @@ const slideCount = slides.length;
 let currentIdx = 0;
 let interval;
 
-// Vytvoření teček
 for (let i = 0; i < slideCount; i++) {
   const dot = document.createElement('div');
   dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
@@ -738,7 +594,6 @@ function resetInterval() {
   interval = setInterval(nextSlide, 3800);
 }
 
-// Dotykové ovládání (volitelné)
 let startX = 0;
 track.addEventListener('touchstart', e => {
   startX = e.touches[0].clientX;
@@ -746,15 +601,12 @@ track.addEventListener('touchstart', e => {
 track.addEventListener('touchend', e => {
   let diff = e.changedTouches[0].clientX - startX;
   if (diff > 70) {
-    // swipe right
     goToSlide((currentIdx - 1 + slideCount) % slideCount);
     resetInterval();
   } else if (diff < -70) {
-    // swipe left
     nextSlide();
     resetInterval();
   }
 });
 
 interval = setInterval(nextSlide, 3800);
-

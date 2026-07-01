@@ -12,7 +12,7 @@
     <header id="main-header">
       <img src="Logo_DJ.png" alt="Dominik - profilová fotka" class="avatar" id="avatar-img">
       <h1 id="main-title">Dominik Jarábek</h1>
-      <p class="subtitle">„Budu váš nový JavaScript programátor!“</p>
+      <p class="subtitle">„Budu váš nový JavaScript programátor!"</p>
       <nav class="main-nav">
         <a href="#about">O mně</a>
         <a href="#skills">Dovednosti</a>
@@ -56,12 +56,13 @@
       
       <section id="skills">
         <h2 class="section-title">Dovednosti</h2>
-        <p>Dovednosti stále rozšiřuji – aktuálně se nejvíce zaměřuji na JavaScript a tvorbu moderních webových stránek. Všechny technologie, které zde uvádím, jsem si prakticky vyzkoušel(a) a rád(a) se učím další nové věci.</p>
+        <p>Dovednosti stále rozšiřuji – aktuálně se nejvíce zaměřuji na JavaScript a tvorbu moderních webových stránek. Všechny technologie, které zde uvádím, jsem si prakticky vyzkoušel(a) a rád(a) se učím další nové věci.</p>
         <ul class="skills-list">
           <li><b>SAP Development (Junior/Trainee)</b> &mdash; Základní orientace v prostředí a tvorba jednodušších formulářů přes <b>Adobe LiveCycle Designer</b> </li>
           <li><b>SAP Public Cloud</b> &mdash; Teoretické i praktické základy nastavení výstupních dokumentů (Output Management)</li>
           <li><b>HTML5 &amp; CSS3</b> &mdash; tvorba moderních a responzivních webových stránek</li>
           <li><b>JavaScript (ES6+)</b> &mdash; základní interaktivita, jednoduché animace</li>
+          <li><b>Flutter &amp; Dart</b> &mdash; tvorba cross-platform mobilních aplikací (iOS &amp; Android), vlastní animace, CustomPainter, gamifikace</li>
           <li><b>Git</b> &mdash; správa verzí projektů</li>
           <li><b>Adobe Photoshop &amp; Illustrator</b> &mdash; úprava obrázků, jednoduchá grafika</li>
           <li>Navrhuji, kóduji a testuji menší webové aplikace (včetně tohoto portfolia)</li>
@@ -91,11 +92,11 @@
 </p>
 
 <ul>
-  <li><b>Jedna dlouhá odpověď v jedné bublině:</b> dotazy jako „tým vyučujících“ vrací kompletní seznam vedení a všech učitelů v jediné zprávě – uživatel jen scrolluje.</li>
+  <li><b>Jedna dlouhá odpověď v jedné bublině:</b> dotazy jako „tým vyučujících" vrací kompletní seznam vedení a všech učitelů v jediné zprávě – uživatel jen scrolluje.</li>
   <li><b>Whitelist oborů:</b> chatbot odpovídá <i>pouze</i> z oficiální nabídky oborů školy (Lesnictví, Lesní mechanizátor, Lesnické práce, Dálkové studium, Bezpečnostně-právní činnost, Sociální činnost, Pečovatelské služby, Práce ve stravování). Na jiné obory korektně upozorní a odkáže na stránku s přehledem.</li>
-  <li><b>Chytré rozpoznání dotazů:</b> robustní normalizace textu (odstranění diakritiky), vyhledání učitele podle příjmení i části jména, detekce obecných dotazů typu „učitelé / tým vyučujících / vedení“.</li>
+  <li><b>Chytré rozpoznání dotazů:</b> robustní normalizace textu (odstranění diakritiky), vyhledání učitele podle příjmení i části jména, detekce obecných dotazů typu „učitelé / tým vyučujících / vedení".</li>
   <li><b>TTS + STT:</b> text-to-speech (český hlas) pro přehrání odpovědi a speech-to-text pro diktování dotazu s auto-stopem při tichu.</li>
-  <li><b>UX detaily:</b> tmavý/světlý režim, animovaná „přemýšlím…“ bublina, plovoucí avatar zarovnaný k panelu, ukládání historie konverzace do <code>localStorage</code>.</li>
+  <li><b>UX detaily:</b> tmavý/světlý režim, animovaná „přemýšlím…" bublina, plovoucí avatar zarovnaný k panelu, ukládání historie konverzace do <code>localStorage</code>.</li>
   <li><b>Terapeutická funkce:</b> chatbot reaguje klidně a empaticky, nabízí bezpečný prostor k vypsání se a doporučuje krizové linky či odborníky – nikdy nenahrazuje terapii, ale může být prvním krokem k pomoci.</li>
   <li><b>Bezpečnost a obsah:</b> systémová zpráva hlídá tón (stručný a věcný), zvýrazňuje jméno/dat. a místo narození bota pouze při relevantní otázce, a drží odkazy přímo na web školy.</li>
   <li><b>Technologie:</b> čistý <code>HTML/CSS/JavaScript</code> bez frameworku, Web Speech API (TTS), MediaRecorder + AudioContext (STT kontrola ticha), jednoduché REST volání na školní endpoint.</li>
@@ -107,7 +108,23 @@
   Více o škole na <a href="https://www.lesnicka-skola.cz/" target="_blank">www.lesnicka-skola.cz</a>.
 </p>
 
-
+  <!-- ═══ DOJA – Sport RPG ═══ -->
+  <h4>DOJA – Sport RPG mobilní aplikace (Flutter)</h4>
+  <p>
+    Gamifikovaná fitness aplikace pro iOS &amp; Android, která propojuje fyzický trénink s RPG herními mechanikami.
+    Cílem je motivovat uživatele ke sportování skrze herní prvky – sbírání coinů, vylepšování postavy, soutěžení s přáteli a budování aliance.
+    Celá aplikace je napsána v <strong>Dart / Flutter</strong> v jediném souboru (~4 100 řádků).
+  </p>
+  <ul>
+    <li><b>Avatar &amp; Postava</b> – 3D postava s vizualizací 10 svalových skupin, animovaný zlatý záblesk při upgradu svalu, nasazování virtuálního oblečení přímo na postavu</li>
+    <li><b>Dvojí progression systém</b> – Lvl postavy (roste trénováním svalů) a XP úroveň (roste ze všech herních aktivit); tituly Začátečník → Mistr</li>
+    <li><b>Loot systém – Truhličky</b> – Bronzová (zdarma / 8h), Stříbrná (100 coinů), Zlatá (250 coinů); náhodné odměny: coiny, XP, předměty z obchodu</li>
+    <li><b>Obchod &amp; Oblečení</b> – 20 virtuálních předmětů ve 4 vzácnostních stupních (Základní / Vzácné / Epické / Legendární), dobití coinů přes QR platbu</li>
+    <li><b>Výzvy s kamarádem</b> – vyber soupeře, nastav cíl (km / tréninky / level svalu / XP) a délku výzvy; progress bary obou hráčů v reálném čase; odměna za výhru +200 coinů +300 XP</li>
+    <li><b>Aliance</b> – vytvoř nebo se připoj ke skupině (od Lvl 3), sdílený fond coinů, Sportovní centrum s 5 budovami (Fitness, Nemocnice, Wellness, Běžecký okruh, Bazén) – každá má 5 stupňů vylepšení s vlastními obrázky</li>
+    <li><b>Statistiky &amp; Žebříček</b> – osobní přehled, žebříček hráčů seřazený podle levelu</li>
+    <li><b>Technologie</b> – Flutter/Dart, CustomPainter (hexagony, vlny, rohové ozdoby), AnimationController (glow, shimmer, scale animace), single-file architektura</li>
+  </ul>
 
   <h4>Cestovatelský plánovač dne</h4>
 <p>
@@ -120,7 +137,7 @@ Výsledky jsou navíc zobrazeny přímo na interaktivní mapě s přehlednými z
     <h4>Webová stránka pro psychickou podporu</h4>
     <p>
       Vytvořil jsem webovou stránku, která nabízí pomoc lidem s psychickými obtížemi. Najdete zde důležité kontakty na odborníky, cvičení pro první pomoc, hru a také chatbota, který se chová jako terapeut a podporuje uživatele v náročných situacích. Součástí je možnost přehrát si uklidňující hudbu na pozadí stránky; při spuštění hry se automaticky spustí jiná hudba pro lepší zážitek.<br>
-      Hra funguje tak, že si uživatel vybere ze 5 smajlíků toho, který nejlépe vystihuje jeho aktuální náladu. Během časového limitu pak kliká na objevující se smajlíky s cílem postupně „dostat se“ až k nejveselejšímu smajlíkovi. Tato aktivita může pomoci zmírnit nebo zcela zastavit například panickou ataku.
+      Hra funguje tak, že si uživatel vybere ze 5 smajlíků toho, který nejlépe vystihuje jeho aktuální náladu. Během časového limitu pak kliká na objevující se smajlíky s cílem postupně „dostat se" až k nejveselejšímu smajlíkovi. Tato aktivita může pomoci zmírnit nebo zcela zastavit například panickou ataku.
     </p>
 
     <h4>Klikací minihra</h4>
@@ -142,14 +159,21 @@ Výsledky jsou navíc zobrazeny přímo na interaktivní mapě s přehlednými z
   </div>
 
   <div class="projects-list">
+
+    <!-- DOJA – Sport RPG karta -->
+    <div class="project-card highlight-card">
+      <h2>DOJA – Sport RPG 📱</h2>
+      <p>Gamifikovaná fitness aplikace v Flutter/Dart. Avatar, truhličky, výzvy s kamarádem, aliance se sportovním centrem a 5 budovami. Cross-platform iOS &amp; Android.</p>
+    </div>
+
     <!-- NOVÁ KARTA: Cestovatelský plánovač dne -->
-<div class="project-card highlight-card">
-  <h2>Cestovatelský plánovač dne 🌍</h2>
-  <p>Vyhledej zajímavá místa v okolí podle města nebo aktuální polohy. Používá Google Maps API a automaticky seřadí výsledky podle vzdálenosti.</p>
-  <a href="travel_day_planner.html" target="_blank" class="contact-btn">
-    Spustit plánovač
-  </a>
-</div>
+    <div class="project-card highlight-card">
+      <h2>Cestovatelský plánovač dne 🌍</h2>
+      <p>Vyhledej zajímavá místa v okolí podle města nebo aktuální polohy. Používá Google Maps API a automaticky seřadí výsledky podle vzdálenosti.</p>
+      <a href="travel_day_planner.html" target="_blank" class="contact-btn">
+        Spustit plánovač
+      </a>
+    </div>
     
     <!-- NOVÁ KARTA -->
     <div class="project-card highlight-card">
@@ -238,7 +262,6 @@ Výsledky jsou navíc zobrazeny přímo na interaktivní mapě s přehlednými z
         <a href="Nevypust_dusi_dusevni_zdravoveda_pro_ucitele.pdf" download><button>Stáhnout</button></a>
       </div>
     </div>
-    <!-- Další certifikáty… -->
   </div>
 </section>
 
@@ -260,7 +283,6 @@ Výsledky jsou navíc zobrazeny přímo na interaktivní mapě s přehlednými z
       <input type="email" name="email" placeholder="Váš e-mail" required><br><br>
       <input type="datetime-local" name="datetime" required><br><br>
       <textarea name="message" placeholder="Vzkaz, otázka, preferovaný čas..." rows="3"></textarea><br><br>
-
       <button type="submit">Odeslat</button>
     </form>
     <div id="meetingSuccess" style="color:green; margin-top:14px;"></div>
@@ -301,18 +323,11 @@ Výsledky jsou navíc zobrazeny přímo na interaktivní mapě s přehlednými z
     </footer>
   </div>
 
-  <!-- Ornamenty na pozadí, nemusíš je řešit, jen zkráceno kvůli přehlednosti -->
-
-  <!-- AI asistent a tlačítko -->
   <div id="ai-assistant" class="ai-assistant-hidden">
     <div class="ai-avatar">
       <img src="Profilovka.jpg" alt="AI Avatar" />
     </div>
     <div class="ai-panel" id="ai-panel">
-      
-
-
-
       <div class="ai-message" id="ai-message">
         <span>Jak vám mohu pomoci?</span>
         <button id="ai-close">×</button>
